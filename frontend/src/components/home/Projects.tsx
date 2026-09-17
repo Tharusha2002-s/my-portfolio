@@ -6,8 +6,8 @@ const projects = [
       "A community-driven geospatial platform for reporting, tracking, and resolving road hazards across Sri Lanka.",
     technologies: ["Next.js", "React", "Node.js", "MySQL", "Leaflet"],
     category: "Full-Stack",
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Tharusha20-s",
+    demo: "https://github.com/Tharusha20-s",
   },
   {
     number: "02",
@@ -16,8 +16,8 @@ const projects = [
       "A modern construction management platform for managing projects, workers, materials, budgets, tasks, and progress.",
     technologies: ["Next.js", "Node.js", "MySQL", "Cloudinary", "Docker"],
     category: "Web Application",
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Tharusha20-s",
+    demo: "https://github.com/Tharusha20-s",
   },
   {
     number: "03",
@@ -26,8 +26,8 @@ const projects = [
       "A community and event platform designed to connect people through sports, music, university, and other events.",
     technologies: ["Next.js", "React", "PostgreSQL", "JWT"],
     category: "Full-Stack",
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Tharusha20-s",
+    demo: "https://github.com/Tharusha20-s",
   },
 ];
 

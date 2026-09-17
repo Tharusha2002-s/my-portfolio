@@ -29,7 +29,7 @@ export default function About() {
           {/* Left Side */}
           <div>
             <p className="text-xl leading-8 text-[#c9d1d9]">
-              Im a Software Engineering undergraduate passionate about
+              I&#39;m a Software Engineering undergraduate passionate about
               building modern web applications and solving real-world
               problems through technology.
             </p>

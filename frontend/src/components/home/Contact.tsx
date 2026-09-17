@@ -1,4 +1,63 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setFeedbackMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setStatus("error");
+        setFeedbackMessage(data.error || "Failed to send message. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      setFeedbackMessage(data.message || "Message sent successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch {
+      setStatus("error");
+      setFeedbackMessage("Network error. Please check your connection and try again.");
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -13,7 +72,7 @@ export default function Contact() {
           </p>
 
           <h2 className="text-4xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
-            Let s Work Together
+            Let&#39;s Work Together
           </h2>
 
           <p className="mt-5 max-w-2xl text-base leading-7 text-[#8899a6]">
@@ -72,7 +131,9 @@ export default function Contact() {
 
             {/* LinkedIn */}
             <a
-              href="#"
+              href="https://www.linkedin.com/in/tharusha-sangeeth"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group block border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
             >
               <div className="mb-4 flex items-center justify-between">
@@ -86,7 +147,7 @@ export default function Contact() {
               </div>
 
               <p className="text-sm text-[#e6edf3]">
-                LinkedIn Profile
+                linkedin.com/in/tharusha-sangeeth
               </p>
             </a>
 
@@ -118,7 +179,20 @@ export default function Contact() {
               </span>
             </div>
 
-            <form className="space-y-6">
+            {/* Feedback notification banner */}
+            {status === "success" && (
+              <div className="mb-6 border border-[#00c8ff]/40 bg-[#00c8ff]/10 p-4 font-mono text-xs text-[#00c8ff]">
+                ✓ {feedbackMessage}
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="mb-6 border border-red-500/40 bg-red-500/10 p-4 font-mono text-xs text-red-400">
+                ✕ {feedbackMessage}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
 
               {/* Name */}
               <div>
@@ -126,13 +200,16 @@ export default function Contact() {
                   htmlFor="name"
                   className="mb-2 block font-mono text-xs text-[#8899a6]"
                 >
-                  Name
+                  Name <span className="text-[#00c8ff]">*</span>
                 </label>
 
                 <input
                   id="name"
                   name="name"
                   type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Your name"
                   className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
                 />
@@ -144,13 +221,16 @@ export default function Contact() {
                   htmlFor="email"
                   className="mb-2 block font-mono text-xs text-[#8899a6]"
                 >
-                  Email
+                  Email <span className="text-[#00c8ff]">*</span>
                 </label>
 
                 <input
                   id="email"
                   name="email"
                   type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="you@example.com"
                   className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
                 />
@@ -162,13 +242,16 @@ export default function Contact() {
                   htmlFor="subject"
                   className="mb-2 block font-mono text-xs text-[#8899a6]"
                 >
-                  Subject
+                  Subject <span className="text-[#00c8ff]">*</span>
                 </label>
 
                 <input
                   id="subject"
                   name="subject"
                   type="text"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
                   placeholder="Project / Opportunity"
                   className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
                 />
@@ -180,14 +263,18 @@ export default function Contact() {
                   htmlFor="message"
                   className="mb-2 block font-mono text-xs text-[#8899a6]"
                 >
-                  Message
+                  Message <span className="text-[#00c8ff]">*</span>
                 </label>
 
                 <textarea
                   id="message"
                   name="message"
                   rows={6}
-                  placeholder="Tell me about your project..."
+                  required
+                  minLength={10}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell me about your project or inquiry..."
                   className="w-full resize-none border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
                 />
               </div>
@@ -195,13 +282,22 @@ export default function Contact() {
               {/* Submit */}
               <button
                 type="submit"
-                className="group inline-flex items-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
+                disabled={status === "submitting"}
+                className="group inline-flex items-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
-
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
+                {status === "submitting" ? (
+                  <>
+                    <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#080c10] border-t-transparent group-hover:border-[#00c8ff] group-hover:border-t-transparent" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">
+                      →
+                    </span>
+                  </>
+                )}
               </button>
 
             </form>

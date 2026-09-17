@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
+  { label: "About", href: "/#about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Skills", href: "/#skills" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Resume", href: "/resume" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -48,20 +49,20 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-[#8899a6] hover:text-[#e6edf3] transition-colors duration-200"
+              className="text-sm font-medium text-[#8899a6] hover:text-[#00c8ff] transition-colors duration-200"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         {/* Mobile Menu Button */}
         <button
           type="button"
-          className="md:hidden text-[#8899a6] p-2"
+          className="md:hidden text-[#8899a6] hover:text-[#00c8ff] p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle navigation menu"
         >
@@ -99,14 +100,14 @@ export default function Navbar() {
         <div className="md:hidden bg-[#0d1117] border-t border-[#1e2d3d] px-6 py-4">
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-[#8899a6] hover:text-[#e6edf3] transition-colors"
+                className="text-sm text-[#8899a6] hover:text-[#00c8ff] transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

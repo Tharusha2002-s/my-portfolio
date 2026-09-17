@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 const footerLinks = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Blog", href: "/blog" },
+  { label: "Resume", href: "/resume" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
@@ -31,13 +33,13 @@ export default function Footer() {
           {/* Navigation */}
           <nav className="flex flex-wrap gap-x-6 gap-y-3">
             {footerLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -53,7 +55,9 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.linkedin.com/in/tharusha-sangeeth"
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
             >
               LinkedIn ↗
