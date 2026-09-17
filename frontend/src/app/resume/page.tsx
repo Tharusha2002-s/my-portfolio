@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function ResumePage() {
   return (
-    <main className="min-h-screen bg-[#080c10] py-28 px-6">
+    <main className="min-h-screen bg-[#080c10] py-24 sm:py-28 px-4 sm:px-6">
       <div className="mx-auto max-w-4xl">
 
         {/* Back and Action Buttons */}
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-8 sm:mb-10 flex flex-wrap items-center justify-between gap-4">
           <Link
             href="/"
             className="inline-flex items-center gap-2 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
@@ -33,7 +33,7 @@ export default function ResumePage() {
         </div>
 
         {/* Resume Sheet Container */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-8 sm:p-12 shadow-2xl">
+        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-12 shadow-2xl">
 
           {/* Header */}
           <div className="border-b border-[#1e2d3d] pb-8">

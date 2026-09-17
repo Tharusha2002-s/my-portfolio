@@ -41,7 +41,7 @@ const articles = [
 
 export default function BlogPage() {
   return (
-    <main className="min-h-screen bg-[#080c10] py-28 px-6">
+    <main className="min-h-screen bg-[#080c10] py-24 sm:py-28 px-4 sm:px-6">
       <div className="mx-auto max-w-4xl">
 
         {/* Back Link */}

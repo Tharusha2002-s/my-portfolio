@@ -1,6 +1,39 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Typewriter from "@/components/ui/Typewriter";
 
 export default function Hero() {
+  const [copied, setCopied] = useState(false);
+  const [colomboTime, setColomboTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        const timeStr = new Intl.DateTimeFormat("en-US", {
+          timeZone: "Asia/Colombo",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }).format(new Date());
+        setColomboTime(timeStr);
+      } catch {
+        setColomboTime("");
+      }
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000 * 30);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("tharushasangeeth034@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#080c10]">
       {/* Background Grid */}
@@ -16,52 +49,66 @@ export default function Hero() {
       </div>
 
       {/* Glow */}
-      <div className="absolute top-1/4 right-0 h-72 w-72 rounded-full bg-[#00c8ff]/10 blur-[120px]" />
+      <div className="absolute top-1/4 right-0 h-72 w-72 rounded-full bg-[#00c8ff]/10 blur-[120px] pointer-events-none animate-subtle-glow" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-6 pt-20">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-4 sm:px-6 pt-24 pb-16">
         <div className="w-full">
 
-          {/* Availability */}
-          <div className="mb-8 flex items-center gap-3">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00c8ff] opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#00c8ff]" />
-            </span>
+          {/* Availability & Local Time Pill */}
+          <div className="mb-6 sm:mb-8 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2.5 border border-[#1e2d3d] bg-[#0d1117] px-3 py-1.5 rounded-full">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00c8ff] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00c8ff]" />
+              </span>
 
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#8899a6]">
-              Available for opportunities
-            </span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-[#8899a6]">
+                Available for opportunities
+              </span>
+            </div>
+
+            {colomboTime && (
+              <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-xs text-[#5c6f7f]">
+                <span>🇱🇰 Colombo</span>
+                <span>•</span>
+                <span>{colomboTime} (GMT+5:30)</span>
+              </span>
+            )}
           </div>
 
-          {/* Main Heading */}
-          <h1 className="max-w-4xl text-5xl font-bold leading-[0.95] tracking-tight text-[#e6edf3] sm:text-6xl md:text-7xl lg:text-8xl">
+          {/* Main Heading with responsive font sizes */}
+          <h1 className="max-w-4xl text-4xl font-bold leading-[1] tracking-tight text-[#e6edf3] sm:text-6xl md:text-7xl lg:text-8xl">
             THARUSHA
             <br />
             <span className="text-[#00c8ff]">SANGEETH</span>
           </h1>
 
-          {/* Role */}
-          <div className="mt-8 flex flex-wrap items-center gap-2 font-mono text-sm text-[#8899a6] sm:text-base">
+          {/* Animated Role Typewriter */}
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-2 font-mono text-sm text-[#8899a6] sm:text-base">
             <span className="text-[#3d5166]">&gt;</span>
-            <span>Software Engineer</span>
-            <span className="text-[#3d5166]">/</span>
-            <span>Full-Stack Developer</span>
-            <span className="animate-pulse text-[#00c8ff]">▌</span>
+            <Typewriter
+              words={[
+                "Software Engineer",
+                "Full-Stack Developer",
+                "Cloud & DevOps Enthusiast",
+                "Problem Solver",
+              ]}
+              className="text-[#e6edf3] font-semibold"
+            />
           </div>
 
           {/* Description */}
-          <p className="mt-8 max-w-2xl text-base leading-7 text-[#8899a6] sm:text-lg">
-            I build modern, scalable web applications with a focus on
-            clean architecture, great user experiences, and reliable
-            engineering.
+          <p className="mt-6 sm:mt-8 max-w-2xl text-sm sm:text-base leading-7 text-[#8899a6]">
+            I engineer modern, scalable web applications with a focus on
+            clean architecture, high performance, and reliable software engineering.
           </p>
 
-          {/* Buttons */}
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          {/* Action Buttons & Quick Copy */}
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
 
             <a
               href="#projects"
-              className="group inline-flex items-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
+              className="group inline-flex min-h-[44px] items-center justify-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
             >
               View Projects
               <span className="transition-transform duration-200 group-hover:translate-x-1">
@@ -71,27 +118,56 @@ export default function Hero() {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-3 border border-[#2a3a49] px-6 py-3 font-mono text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-[#2a3a49] px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
             >
               Get in Touch
             </a>
 
+            {/* Quick Copy Email Button with Animated Tooltip */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="inline-flex min-h-[44px] items-center gap-2 border border-[#1e2d3d] bg-[#0d1117] px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#e6edf3]"
+                aria-label="Copy email address"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span>{copied ? "Copied!" : "Copy Email"}</span>
+              </button>
+
+              {copied && (
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 border border-[#00c8ff]/40 bg-[#080c10] px-2 py-0.5 font-mono text-[10px] text-[#00c8ff] shadow-md">
+                  ✓ Copied to clipboard!
+                </span>
+              )}
+            </div>
+
             <Link
               href="/resume"
-              className="font-mono text-sm text-[#8899a6] underline-offset-4 transition-colors hover:text-[#00c8ff] hover:underline"
+              className="font-mono text-xs sm:text-sm text-[#8899a6] underline-offset-4 transition-colors hover:text-[#00c8ff] hover:underline"
             >
               Resume ↗
             </Link>
           </div>
 
-          {/* Statistics */}
-          <div className="mt-20 grid max-w-2xl grid-cols-2 gap-y-8 border-t border-[#1e2d3d] pt-8 sm:grid-cols-4 sm:gap-0">
+          {/* Responsive Statistics Grid */}
+          <div className="mt-14 sm:mt-20 grid grid-cols-2 gap-6 border-t border-[#1e2d3d] pt-8 sm:grid-cols-4 sm:gap-0">
 
             <div>
               <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                 05+
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-[#5c6f7f]">
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                 Projects
               </div>
             </div>
@@ -100,7 +176,7 @@ export default function Hero() {
               <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                 10+
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-[#5c6f7f]">
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                 Technologies
               </div>
             </div>
@@ -109,7 +185,7 @@ export default function Hero() {
               <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                 03+
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-[#5c6f7f]">
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                 Years Learning
               </div>
             </div>
@@ -118,7 +194,7 @@ export default function Hero() {
               <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                 ∞
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-[#5c6f7f]">
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                 Curiosity
               </div>
             </div>
@@ -128,12 +204,11 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
+      <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
         <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#5c6f7f]">
           Scroll
         </span>
-
-        <div className="h-10 w-px bg-gradient-to-b from-[#00c8ff] to-transparent" />
+        <div className="h-8 w-px bg-gradient-to-b from-[#00c8ff] to-transparent" />
       </div>
     </section>
   );

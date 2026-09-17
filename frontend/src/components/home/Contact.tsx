@@ -12,6 +12,7 @@ export default function Contact() {
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
+  const [copied, setCopied] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -20,6 +21,13 @@ export default function Contact() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("tharushasangeeth034@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,60 +69,64 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative border-t border-[#1e2d3d] bg-[#0a0f14] py-24 sm:py-32"
+      className="relative border-t border-[#1e2d3d] bg-[#0a0f14] py-20 sm:py-32"
     >
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
 
         {/* Section Header */}
-        <div className="mb-14">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+        <div className="mb-10 sm:mb-14">
+          <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
             04 / Contact
           </p>
 
-          <h2 className="text-4xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
             Let&#39;s Work Together
           </h2>
 
-          <p className="mt-5 max-w-2xl text-base leading-7 text-[#8899a6]">
+          <p className="mt-4 sm:mt-5 max-w-2xl text-sm sm:text-base leading-7 text-[#8899a6]">
             Have a project idea, internship opportunity, or just want to
             connect? Feel free to send me a message.
           </p>
         </div>
 
         {/* Contact Grid */}
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[0.8fr_1.2fr]">
 
-          {/* Contact Information */}
+          {/* Contact Information Cards */}
           <div className="space-y-4">
 
-            {/* Email */}
-            <a
-              href="mailto:tharushasangeeth034@gmail.com"
-              className="group block border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
-            >
-              <div className="mb-4 flex items-center justify-between">
+            {/* Email Card with Copy Trigger */}
+            <div className="group border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50">
+              <div className="mb-3 flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  Email
+                  Direct Email
                 </span>
 
-                <span className="text-[#00c8ff] transition-transform duration-200 group-hover:translate-x-1">
-                  ↗
-                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="font-mono text-xs text-[#00c8ff] hover:underline"
+                >
+                  {copied ? "✓ Copied" : "Copy"}
+                </button>
               </div>
 
-              <p className="break-all text-sm text-[#e6edf3]">
+              <a
+                href="mailto:tharushasangeeth034@gmail.com"
+                className="break-all text-sm text-[#e6edf3] hover:text-[#00c8ff] transition-colors"
+              >
                 tharushasangeeth034@gmail.com
-              </p>
-            </a>
+              </a>
+            </div>
 
-            {/* GitHub */}
+            {/* GitHub Card */}
             <a
               href="https://github.com/Tharusha20-s"
               target="_blank"
               rel="noopener noreferrer"
-              className="group block border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
+              className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
             >
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-3 flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
                   GitHub
                 </span>
@@ -129,14 +141,14 @@ export default function Contact() {
               </p>
             </a>
 
-            {/* LinkedIn */}
+            {/* LinkedIn Card */}
             <a
               href="https://www.linkedin.com/in/tharusha-sangeeth"
               target="_blank"
               rel="noopener noreferrer"
-              className="group block border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
+              className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
             >
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-3 flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
                   LinkedIn
                 </span>
@@ -151,25 +163,25 @@ export default function Contact() {
               </p>
             </a>
 
-            {/* Location */}
-            <div className="border border-[#1e2d3d] bg-[#0d1117] p-6">
-              <div className="mb-4">
+            {/* Location Card */}
+            <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6">
+              <div className="mb-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
                   Location
                 </span>
               </div>
 
               <p className="text-sm text-[#e6edf3]">
-                Sri Lanka
+                🇱🇰 Sri Lanka (Open to Remote Worldwide)
               </p>
             </div>
 
           </div>
 
           {/* Contact Form */}
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-6 sm:p-8">
+          <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-8 shadow-xl">
 
-            <div className="mb-8 flex items-center justify-between border-b border-[#1e2d3d] pb-5">
+            <div className="mb-6 sm:mb-8 flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] pb-4 sm:pb-5">
               <span className="font-mono text-xs text-[#5c6f7f]">
                 contact-form.ts
               </span>
@@ -192,7 +204,7 @@ export default function Contact() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
 
               {/* Name */}
               <div>
@@ -259,22 +271,27 @@ export default function Contact() {
 
               {/* Message */}
               <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block font-mono text-xs text-[#8899a6]"
-                >
-                  Message <span className="text-[#00c8ff]">*</span>
-                </label>
+                <div className="mb-2 flex items-center justify-between">
+                  <label
+                    htmlFor="message"
+                    className="font-mono text-xs text-[#8899a6]"
+                  >
+                    Message <span className="text-[#00c8ff]">*</span>
+                  </label>
+                  <span className="font-mono text-[10px] text-[#5c6f7f]">
+                    {formData.message.length} chars (min 10)
+                  </span>
+                </div>
 
                 <textarea
                   id="message"
                   name="message"
-                  rows={6}
+                  rows={5}
                   required
                   minLength={10}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Tell me about your project or inquiry..."
+                  placeholder="Tell me about your project, idea, or inquiry..."
                   className="w-full resize-none border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
                 />
               </div>
@@ -283,12 +300,12 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="group inline-flex items-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === "submitting" ? (
                   <>
                     <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#080c10] border-t-transparent group-hover:border-[#00c8ff] group-hover:border-t-transparent" />
-                    Sending...
+                    Sending Message...
                   </>
                 ) : (
                   <>
