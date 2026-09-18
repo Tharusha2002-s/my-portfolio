@@ -24,8 +24,8 @@ const terminalFiles = {
 
   "connect.ts": `const contactDetails = {
   email: "tharushasangeeth034@gmail.com",
-  github: "https://github.com/Tharusha20-s",
-  linkedin: "https://linkedin.com/in/tharusha-sangeeth",
+  github: "https://github.com/Tharusha2002-s",
+  linkedin: "https://www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa/",
   availability: "Open to discussions, collaboration & projects"
 };`
 };
@@ -92,7 +92,7 @@ export default function About() {
 
             {/* Interactive Terminal Card */}
             <div className="mt-8 sm:mt-10 overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#0d1117] shadow-xl">
-              
+
               {/* Terminal Header with Tabs & Copy Button */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] px-4 py-2.5 bg-[#080c10]">
                 <div className="flex items-center gap-1 sm:gap-2">
@@ -109,11 +109,10 @@ export default function About() {
                         key={fileName}
                         type="button"
                         onClick={() => setActiveTab(fileName)}
-                        className={`px-2.5 py-1 font-mono text-xs transition-colors rounded ${
-                          activeTab === fileName
-                            ? "bg-[#1e2d3d] text-[#00c8ff] font-medium"
-                            : "text-[#5c6f7f] hover:text-[#e6edf3]"
-                        }`}
+                        className={`px-2.5 py-1 font-mono text-xs transition-colors rounded ${activeTab === fileName
+                          ? "bg-[#1e2d3d] text-[#00c8ff] font-medium"
+                          : "text-[#5c6f7f] hover:text-[#e6edf3]"
+                          }`}
                       >
                         {fileName}
                       </button>

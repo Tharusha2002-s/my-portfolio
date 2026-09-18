@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 
 interface CommandItem {
   id: string;
@@ -52,7 +53,11 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       subtitle: "Background, education, and terminal info",
       icon: "👤",
       action: () => {
-        router.push("/#about");
+        if (window.location.pathname === "/") {
+          smoothScrollTo("about", 70);
+        } else {
+          router.push("/#about");
+        }
         onClose();
       },
     },
@@ -63,7 +68,11 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       subtitle: "RoadAware, TitanCore, UnityHub",
       icon: "💼",
       action: () => {
-        router.push("/#projects");
+        if (window.location.pathname === "/") {
+          smoothScrollTo("projects", 70);
+        } else {
+          router.push("/#projects");
+        }
         onClose();
       },
     },
@@ -74,7 +83,11 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       subtitle: "Frontend, Backend, Database, Cloud",
       icon: "⚡",
       action: () => {
-        router.push("/#skills");
+        if (window.location.pathname === "/") {
+          smoothScrollTo("skills", 70);
+        } else {
+          router.push("/#skills");
+        }
         onClose();
       },
     },
@@ -85,7 +98,11 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       subtitle: "Send a message or inquiry",
       icon: "✉️",
       action: () => {
-        router.push("/#contact");
+        if (window.location.pathname === "/") {
+          smoothScrollTo("contact", 70);
+        } else {
+          router.push("/#contact");
+        }
         onClose();
       },
     },

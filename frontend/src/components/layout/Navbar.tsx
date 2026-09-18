@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 
 const navLinks = [
   { label: "About", href: "/#about", sectionId: "about" },
@@ -15,32 +16,53 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 30);
 
-      // Scrollspy active section detection on homepage
+      // Scroll progress calculation
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress((scrollY / totalHeight) * 100);
+      }
+
+      // Smooth scrollspy active section detection on homepage
       if (pathname === "/") {
         const sections = ["about", "projects", "skills", "contact"];
-        const scrollPosition = window.scrollY + 200;
+        const isBottom =
+          window.innerHeight + scrollY >=
+          document.documentElement.scrollHeight - 70;
 
+        if (isBottom) {
+          setActiveSection("contact");
+          return;
+        }
+
+        if (scrollY < 180) {
+          setActiveSection("");
+          return;
+        }
+
+        let current = "";
         for (const section of sections) {
           const el = document.getElementById(section);
           if (el) {
-            const top = el.offsetTop;
-            const height = el.offsetHeight;
-            if (scrollPosition >= top && scrollPosition < top + height) {
-              setActiveSection(section);
-              return;
+            const rect = el.getBoundingClientRect();
+            // Active if section is in upper-mid viewport
+            if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= 120) {
+              current = section;
             }
           }
         }
-        if (window.scrollY < 200) {
-          setActiveSection("");
+        if (current) {
+          setActiveSection(current);
         }
       }
     };
@@ -48,6 +70,23 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    link: (typeof navLinks)[0]
+  ) => {
+    if (!link.isRoute && link.sectionId) {
+      if (pathname === "/") {
+        e.preventDefault();
+        smoothScrollTo(link.sectionId, 70);
+        setMenuOpen(false);
+      } else {
+        setMenuOpen(false);
+      }
+    } else {
+      setMenuOpen(false);
+    }
+  };
 
   const openCommandPalette = () => {
     window.dispatchEvent(new CustomEvent("open-command-palette"));
@@ -58,8 +97,8 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#080c10]/95 backdrop-blur-md border-b border-[#1e2d3d] shadow-lg"
-          : "bg-transparent"
+          ? "bg-[#080c10]/95 backdrop-blur-md border-b border-[#1e2d3d] shadow-lg shadow-black/20"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -67,6 +106,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
           className="group flex items-center gap-2 font-mono text-sm tracking-widest font-medium"
         >
           <span className="text-[#00c8ff] transition-transform duration-200 group-hover:scale-105">
@@ -88,7 +133,8 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`relative text-sm font-medium transition-colors duration-200 py-1 ${
+                onClick={(e) => handleLinkClick(e, link)}
+                className={`relative text-sm font-medium transition-all duration-200 py-1.5 ${
                   isActive
                     ? "text-[#00c8ff]"
                     : "text-[#8899a6] hover:text-[#e6edf3]"
@@ -96,7 +142,7 @@ export default function Navbar() {
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00c8ff] rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00c8ff] rounded-full transition-all duration-300" />
                 )}
               </Link>
             );
@@ -186,7 +232,15 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer with Backdrop Blur */}
+      {/* Dynamic Scroll Reading Progress Indicator */}
+      {scrolled && (
+        <div
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#00c8ff] via-[#38bdf8] to-[#00c8ff] transition-all duration-150 ease-out shadow-[0_0_8px_rgba(0,200,255,0.6)]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      )}
+
+      {/* Mobile Navigation Drawer */}
       {menuOpen && (
         <div className="md:hidden border-b border-[#1e2d3d] bg-[#080c10]/98 backdrop-blur-xl px-6 py-6 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col gap-3">
@@ -199,7 +253,7 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => handleLinkClick(e, link)}
                   className={`flex items-center justify-between py-2 text-base font-medium transition-colors ${
                     isActive
                       ? "text-[#00c8ff] font-semibold"

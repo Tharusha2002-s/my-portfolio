@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CommandPalette from "@/components/ui/CommandPalette";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import SmoothScrollHandler from "@/components/ui/SmoothScrollHandler";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,6 +72,7 @@ export default function RootLayout({
 
         <CommandPalette />
         <ScrollToTop />
+        <SmoothScrollHandler />
       </body>
     </html>
   );

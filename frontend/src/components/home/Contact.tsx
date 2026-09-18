@@ -121,7 +121,7 @@ export default function Contact() {
 
             {/* GitHub Card */}
             <a
-              href="https://github.com/Tharusha20-s"
+              href="https://github.com/Tharusha2002-s"
               target="_blank"
               rel="noopener noreferrer"
               className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
@@ -143,7 +143,7 @@ export default function Contact() {
 
             {/* LinkedIn Card */}
             <a
-              href="https://www.linkedin.com/in/tharusha-sangeeth"
+              href="https://www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa/"
               target="_blank"
               rel="noopener noreferrer"
               className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"

@@ -8,10 +8,10 @@ const projects = [
     title: "RoadAware",
     description:
       "A community-driven geospatial platform for reporting, tracking, and resolving road hazards across Sri Lanka.",
-    technologies: ["Next.js", "React", "Node.js", "MySQL", "Leaflet"],
+    technologies: ["React", "Node.js", "MySQL", "Leaflet"],
     category: "Full-Stack",
-    github: "https://github.com/Tharusha20-s",
-    demo: "https://github.com/Tharusha20-s",
+    github: "https://github.com/Pathum-Piyumal/RoadAware",
+    demo: "https://road-aware.vercel.app/",
   },
   {
     number: "02",
@@ -20,18 +20,17 @@ const projects = [
       "A modern construction management platform for managing projects, workers, materials, budgets, tasks, and progress.",
     technologies: ["Next.js", "Node.js", "MySQL", "Cloudinary", "Docker"],
     category: "Web Application",
-    github: "https://github.com/Tharusha20-s",
-    demo: "https://github.com/Tharusha20-s",
+    github: "https://github.com/Tharusha2002-s/TitanCore",
+    demo: "https://titancoreconstruct.netlify.app/",
   },
   {
     number: "03",
-    title: "UnityHub",
+    title: "Mern",
     description:
       "A community and event platform designed to connect people through sports, music, university, and other events.",
-    technologies: ["Next.js", "React", "PostgreSQL", "JWT"],
+    technologies: ["Mongodb", "React", "Next js", "Express js"],
     category: "Full-Stack",
-    github: "https://github.com/Tharusha20-s",
-    demo: "https://github.com/Tharusha20-s",
+    github: "https://github.com/Tharusha2002-s/Mern-Project",
   },
 ];
 
@@ -83,11 +82,10 @@ export default function Projects() {
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`border px-3.5 py-1.5 font-mono text-xs transition-all ${
-                  selectedCategory === category
-                    ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                    : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
-                }`}
+                className={`border px-3.5 py-1.5 font-mono text-xs transition-all ${selectedCategory === category
+                  ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
+                  : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
+                  }`}
               >
                 {category}
               </button>
@@ -183,11 +181,10 @@ export default function Projects() {
                             )
                           }
                           title={`Click to filter by ${technology}`}
-                          className={`border px-2.5 py-1 font-mono text-xs transition-all ${
-                            selectedTech === technology
-                              ? "border-[#00c8ff] bg-[#00c8ff]/20 text-[#00c8ff]"
-                              : "border-[#2a3a49] bg-[#080c10] text-[#6f8291] hover:border-[#00c8ff]/50 hover:text-[#e6edf3]"
-                          }`}
+                          className={`border px-2.5 py-1 font-mono text-xs transition-all ${selectedTech === technology
+                            ? "border-[#00c8ff] bg-[#00c8ff]/20 text-[#00c8ff]"
+                            : "border-[#2a3a49] bg-[#080c10] text-[#6f8291] hover:border-[#00c8ff]/50 hover:text-[#e6edf3]"
+                            }`}
                         >
                           #{technology}
                         </button>
@@ -228,7 +225,7 @@ export default function Projects() {
         {/* View More on GitHub CTA */}
         <div className="mt-10 sm:mt-12 text-center">
           <a
-            href="https://github.com/Tharusha20-s"
+            href="https://github.com/repos"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[44px] items-center gap-3 border border-[#2a3a49] bg-[#0d1117] px-6 py-3 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 
 const footerLinks = [
   { label: "About", href: "/#about" },
@@ -14,6 +16,7 @@ const footerLinks = [
 
 export default function Footer() {
   const [colomboTime, setColomboTime] = useState<string>("");
+  const pathname = usePathname();
 
   useEffect(() => {
     const updateTime = () => {
@@ -42,6 +45,17 @@ export default function Footer() {
     });
   };
 
+  const handleFooterClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (href.startsWith("/#") && pathname === "/") {
+      e.preventDefault();
+      const sectionId = href.replace("/#", "");
+      smoothScrollTo(sectionId, 70);
+    }
+  };
+
   return (
     <footer className="border-t border-[#1e2d3d] bg-[#080c10]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-12">
@@ -52,6 +66,12 @@ export default function Footer() {
           <div>
             <Link
               href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               className="font-mono text-sm tracking-widest text-[#00c8ff]"
             >
               TS<span className="text-[#3d5166]">.dev</span>
@@ -75,6 +95,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 href={link.href}
+                onClick={(e) => handleFooterClick(e, link.href)}
                 className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
               >
                 {link.label}
