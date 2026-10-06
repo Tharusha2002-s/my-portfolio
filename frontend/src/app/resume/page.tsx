@@ -1,13 +1,33 @@
-import Link from "next/link";
-import type { Metadata } from "next";
-import PrintButton from "@/components/ui/PrintButton";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Resume | Tharusha Sangeeth",
-  description: "Curriculum Vitae and background of Tharusha Sangeeth, Software Engineering undergraduate.",
-};
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import PrintButton from "@/components/ui/PrintButton";
+import { fetchPublicProjects, fetchSkillsList, Project, Skill } from "@/utils/api";
 
 export default function ResumePage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      fetchPublicProjects().catch(() => []),
+      fetchSkillsList().catch(() => []),
+    ]).then(([projData, skillData]) => {
+      setProjects(projData || []);
+      setSkills(skillData || []);
+      setLoading(false);
+    });
+  }, []);
+
+  const skillsByCategory: Record<string, string[]> = {};
+  skills.forEach((s) => {
+    const cat = s.category || "General";
+    if (!skillsByCategory[cat]) skillsByCategory[cat] = [];
+    skillsByCategory[cat].push(s.name);
+  });
+
   return (
     <main className="min-h-screen bg-[#080c10] py-24 sm:py-28 px-4 sm:px-6">
       <div className="mx-auto max-w-4xl">
@@ -58,12 +78,12 @@ export default function ResumePage() {
               </a>
               <span>•</span>
               <a
-                href="https://github.com/Tharusha20-s"
+                href="https://github.com/Tharusha2002-s"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#8899a6] hover:text-[#00c8ff]"
               >
-                github.com/Tharusha20-s
+                github.com/Tharusha2002-s
               </a>
             </div>
           </div>
@@ -109,32 +129,26 @@ export default function ResumePage() {
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
               03 // Technical Skills
             </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div>
-                <span className="font-mono text-xs text-[#e6edf3]">Frontend:</span>
-                <p className="mt-1 text-xs text-[#8899a6]">
-                  React, Next.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS.
-                </p>
+            {loading ? (
+              <p className="mt-4 font-mono text-xs text-[#5c6f7f] animate-pulse">
+                Loading live skills from database...
+              </p>
+            ) : Object.keys(skillsByCategory).length > 0 ? (
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {Object.entries(skillsByCategory).map(([category, items]) => (
+                  <div key={category}>
+                    <span className="font-mono text-xs text-[#e6edf3]">{category}:</span>
+                    <p className="mt-1 text-xs text-[#8899a6]">
+                      {items.join(", ")}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div>
-                <span className="font-mono text-xs text-[#e6edf3]">Backend & APIs:</span>
-                <p className="mt-1 text-xs text-[#8899a6]">
-                  Node.js, Express.js, Next.js API Routes, RESTful APIs, JWT Authentication, Prisma.
-                </p>
-              </div>
-              <div>
-                <span className="font-mono text-xs text-[#e6edf3]">Databases:</span>
-                <p className="mt-1 text-xs text-[#8899a6]">
-                  PostgreSQL, MySQL, Database Schema Design, Query Optimization.
-                </p>
-              </div>
-              <div>
-                <span className="font-mono text-xs text-[#e6edf3]">Tools & DevOps:</span>
-                <p className="mt-1 text-xs text-[#8899a6]">
-                  Git, GitHub, Docker, Postman, Linux, Vercel, AWS Basics.
-                </p>
-              </div>
-            </div>
+            ) : (
+              <p className="mt-3 font-mono text-xs text-[#5c6f7f]">
+                No skills configured yet. Add skills in Admin Dashboard to display here.
+              </p>
+            )}
           </section>
 
           {/* Projects */}
@@ -142,45 +156,35 @@ export default function ResumePage() {
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
               04 // Featured Projects
             </h2>
-            <div className="mt-4 space-y-6">
-
-              <div>
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-sm font-semibold text-[#e6edf3]">
-                    RoadAware — Geospatial Hazard Reporting Platform
-                  </h3>
-                  <span className="font-mono text-xs text-[#00c8ff]">Next.js / Leaflet</span>
-                </div>
-                <p className="mt-1 text-xs leading-6 text-[#8899a6]">
-                  Developed a community-driven geospatial platform enabling users to report, categorize, and track road hazards with interactive maps and real-time alerts.
-                </p>
+            {loading ? (
+              <p className="mt-4 font-mono text-xs text-[#5c6f7f] animate-pulse">
+                Loading live projects from database...
+              </p>
+            ) : projects.length > 0 ? (
+              <div className="mt-4 space-y-6">
+                {projects.map((p) => (
+                  <div key={p.id}>
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <h3 className="text-sm font-semibold text-[#e6edf3]">
+                        {p.title} — {p.category}
+                      </h3>
+                      {p.technologies && p.technologies.length > 0 && (
+                        <span className="font-mono text-xs text-[#00c8ff]">
+                          {p.technologies.join(" / ")}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs leading-6 text-[#8899a6]">
+                      {p.description}
+                    </p>
+                  </div>
+                ))}
               </div>
-
-              <div>
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-sm font-semibold text-[#e6edf3]">
-                    TitanCore — Construction Management System
-                  </h3>
-                  <span className="font-mono text-xs text-[#00c8ff]">Next.js / MySQL / Docker</span>
-                </div>
-                <p className="mt-1 text-xs leading-6 text-[#8899a6]">
-                  Architected a full management suite for construction contractors covering project workflows, material allocations, budgeting, and worker logs.
-                </p>
-              </div>
-
-              <div>
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-sm font-semibold text-[#e6edf3]">
-                    UnityHub — Event & Community Network
-                  </h3>
-                  <span className="font-mono text-xs text-[#00c8ff]">React / Node.js / PostgreSQL</span>
-                </div>
-                <p className="mt-1 text-xs leading-6 text-[#8899a6]">
-                  Engineered a collaborative community hub for university clubs, sports, and cultural events with secured authentication and RSVP management.
-                </p>
-              </div>
-
-            </div>
+            ) : (
+              <p className="mt-3 font-mono text-xs text-[#5c6f7f]">
+                No projects published yet. Add projects in Admin Dashboard to display here.
+              </p>
+            )}
           </section>
 
         </div>

@@ -1,21 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CommandPalette from "@/components/ui/CommandPalette";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import SmoothScrollHandler from "@/components/ui/SmoothScrollHandler";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -62,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" data-scroll-behavior="smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-[#080c10] text-[#e6edf3] font-sans antialiased min-h-screen selection:bg-[#00c8ff]/20 selection:text-[#00c8ff]`}
+        className="bg-[#080c10] text-[#e6edf3] font-sans antialiased min-h-screen selection:bg-[#00c8ff]/20 selection:text-[#00c8ff]"
       >
         <Navbar />
 

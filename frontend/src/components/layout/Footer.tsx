@@ -12,11 +12,16 @@ const footerLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/#contact" },
+  { label: "Admin", href: "/admin" },
 ];
 
 export default function Footer() {
   const [colomboTime, setColomboTime] = useState<string>("");
   const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   useEffect(() => {
     const updateTime = () => {

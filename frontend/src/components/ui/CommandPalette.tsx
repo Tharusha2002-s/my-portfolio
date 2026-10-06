@@ -65,7 +65,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       id: "nav-projects",
       category: "Navigation",
       title: "Selected Projects",
-      subtitle: "RoadAware, TitanCore, UnityHub",
+      subtitle: "Explore portfolio works and case studies",
       icon: "💼",
       action: () => {
         if (window.location.pathname === "/") {
@@ -125,6 +125,17 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       icon: "📝",
       action: () => {
         router.push("/blog");
+        onClose();
+      },
+    },
+    {
+      id: "nav-admin",
+      category: "Navigation",
+      title: "Admin Dashboard",
+      subtitle: "Manage projects, inquiries, and site metrics",
+      icon: "⚙️",
+      action: () => {
+        router.push("/admin");
         onClose();
       },
     },

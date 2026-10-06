@@ -1,82 +1,88 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { fetchSkillsList, Skill } from "@/utils/api";
 
-const skillGroups = [
-  {
-    number: "01",
-    title: "Frontend",
-    description: "Building responsive, accessible, and interactive user interfaces.",
-    skills: [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-    ],
-  },
-  {
-    number: "02",
-    title: "Backend",
-    description: "Developing robust APIs and server-side business logic.",
-    skills: [
-      "Node.js",
-      "Express.js",
-      "Next.js API",
-      "REST APIs",
-      "JWT",
-      "Prisma",
-    ],
-  },
-  {
-    number: "03",
-    title: "Database",
-    description: "Designing schemas and managing relational database engines.",
-    skills: [
-      "PostgreSQL",
-      "MySQL",
-      "SQL",
-      "Database Design",
-    ],
-  },
-  {
-    number: "04",
-    title: "DevOps & Cloud",
-    description: "Containerization, automated pipelines, and cloud hosting.",
-    skills: [
-      "Git",
-      "GitHub",
-      "Docker",
-      "CI/CD",
-      "AWS",
-      "Linux",
-    ],
-  },
-];
+const categoryDescriptions: Record<string, string> = {
+  Frontend: "Building responsive, accessible, and interactive user interfaces.",
+  Backend: "Developing robust APIs and server-side business logic.",
+  Databases: "Designing schemas and managing relational database engines.",
+  Database: "Designing schemas and managing relational database engines.",
+  "DevOps & Tools": "Containerization, automated pipelines, and cloud hosting.",
+  "DevOps & Cloud": "Containerization, automated pipelines, and cloud hosting.",
+};
 
 export default function Skills() {
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const filteredGroups = useMemo(() => {
-    return skillGroups
-      .filter(
-        (group) => activeCategory === "All" || group.title === activeCategory
-      )
-      .map((group) => {
-        if (!searchQuery.trim()) return group;
-        const matchingSkills = group.skills.filter((s) =>
-          s.toLowerCase().includes(searchQuery.toLowerCase().trim())
-        );
-        return {
-          ...group,
-          skills: matchingSkills,
-        };
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    fetchSkillsList()
+      .then((data) => {
+        if (isMounted) {
+          setSkills(data || []);
+        }
       })
-      .filter((group) => group.skills.length > 0);
-  }, [activeCategory, searchQuery]);
+      .catch((err) => {
+        console.error("Could not fetch skills from API:", err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(skills.map((s) => s.category || "General")));
+    return ["All", ...cats];
+  }, [skills]);
+
+  const filteredGroups = useMemo(() => {
+    const distinctCategories = Array.from(
+      new Set(skills.map((s) => s.category || "General"))
+    );
+
+    const groups: {
+      number: string;
+      title: string;
+      description: string;
+      skills: Skill[];
+    }[] = [];
+
+    distinctCategories.forEach((cat, index) => {
+      if (activeCategory !== "All" && activeCategory !== cat) return;
+
+      const groupSkills = skills
+        .filter((s) => (s.category || "General") === cat)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+      const matchingSkills = !searchQuery.trim()
+        ? groupSkills
+        : groupSkills.filter((s) =>
+            s.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+          );
+
+      if (matchingSkills.length > 0) {
+        groups.push({
+          number: String(index + 1).padStart(2, "0"),
+          title: cat,
+          description:
+            categoryDescriptions[cat] || "Technologies, tools, and libraries in this stack.",
+          skills: matchingSkills,
+        });
+      }
+    });
+
+    return groups;
+  }, [skills, activeCategory, searchQuery]);
 
   const totalVisibleSkills = useMemo(() => {
     return filteredGroups.reduce((acc, g) => acc + g.skills.length, 0);
@@ -101,67 +107,88 @@ export default function Skills() {
             </h2>
           </div>
 
-          <span className="font-mono text-xs text-[#5c6f7f]">
-            {totalVisibleSkills} technologies displayed
-          </span>
+          <div className="flex items-center gap-3">
+            {isLoading && (
+              <span className="font-mono text-xs text-[#00c8ff] animate-pulse">
+                Syncing with live API...
+              </span>
+            )}
+            <span className="font-mono text-xs text-[#5c6f7f]">
+              {totalVisibleSkills} technologies displayed
+            </span>
+          </div>
         </div>
 
         {/* Interactive Controls: Search & Category Tabs */}
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {skills.length > 0 && (
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2">
-            {["All", "Frontend", "Backend", "Database", "DevOps & Cloud"].map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveCategory(tab)}
-                className={`border px-3 py-1.5 font-mono text-xs transition-all ${
-                  activeCategory === tab
-                    ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                    : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
-                }`}
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveCategory(tab)}
+                  className={`border px-3 py-1.5 font-mono text-xs transition-all ${
+                    activeCategory === tab
+                      ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
+                      : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Search Box */}
+            <div className="relative w-full sm:w-64">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search skill (e.g. Docker)..."
+                className="w-full border border-[#2a3a49] bg-[#0d1117] pl-8 pr-3 py-1.5 font-mono text-xs text-[#e6edf3] placeholder:text-[#5c6f7f] outline-none focus:border-[#00c8ff] transition-colors"
+              />
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#5c6f7f]"
               >
-                {tab}
-              </button>
-            ))}
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#5c6f7f] hover:text-[#e6edf3]"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           </div>
+        )}
 
-          {/* Search Box */}
-          <div className="relative w-full sm:w-64">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search skill (e.g. Docker)..."
-              className="w-full border border-[#2a3a49] bg-[#0d1117] pl-8 pr-3 py-1.5 font-mono text-xs text-[#e6edf3] placeholder:text-[#5c6f7f] outline-none focus:border-[#00c8ff] transition-colors"
-            />
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#5c6f7f]"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" />
-            </svg>
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#5c6f7f] hover:text-[#e6edf3]"
-              >
-                ✕
-              </button>
-            )}
+        {/* Empty State when no skills exist in DB */}
+        {!isLoading && skills.length === 0 ? (
+          <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#2a3a49] bg-[#080c10] text-[#00c8ff]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-[#e6edf3]">No skills added yet</p>
+            <p className="mt-1 text-xs text-[#5c6f7f]">
+              Add technical skills in the Admin Dashboard to have them displayed here.
+            </p>
           </div>
-        </div>
-
-        {/* Skills Grid */}
-        {filteredGroups.length === 0 ? (
+        ) : filteredGroups.length === 0 ? (
           <div className="border border-[#1e2d3d] bg-[#0d1117] p-10 text-center font-mono text-xs text-[#8899a6]">
             No skills found matching &quot;{searchQuery}&quot;.
             <div className="mt-3">
@@ -210,10 +237,15 @@ export default function Skills() {
                 <div className="flex flex-wrap gap-2">
                   {group.skills.map((skill) => (
                     <span
-                      key={skill}
-                      className="border border-[#2a3a49] bg-[#080c10] px-3 py-1.5 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#00c8ff] hover:text-[#00c8ff] hover:shadow-[0_0_12px_rgba(0,200,255,0.2)]"
+                      key={skill.id || skill.name}
+                      className="group/badge inline-flex items-center gap-1.5 border border-[#2a3a49] bg-[#080c10] px-3 py-1.5 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#00c8ff] hover:text-[#00c8ff] hover:shadow-[0_0_12px_rgba(0,200,255,0.2)]"
                     >
-                      {skill}
+                      <span>{skill.name}</span>
+                      {skill.proficiency && skill.proficiency > 0 && (
+                        <span className="text-[10px] text-[#5c6f7f] group-hover/badge:text-[#00c8ff]/80">
+                          {skill.proficiency}%
+                        </span>
+                      )}
                     </span>
                   ))}
                 </div>

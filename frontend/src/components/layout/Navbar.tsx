@@ -21,6 +21,10 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState<string>("");
   const pathname = usePathname();
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;

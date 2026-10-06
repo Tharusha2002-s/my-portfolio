@@ -1,54 +1,53 @@
 "use client";
 
-import { useState, useMemo } from "react";
-
-const projects = [
-  {
-    number: "01",
-    title: "RoadAware",
-    description:
-      "A community-driven geospatial platform for reporting, tracking, and resolving road hazards across Sri Lanka.",
-    technologies: ["React", "Node.js", "MySQL", "Leaflet"],
-    category: "Full-Stack",
-    github: "https://github.com/Pathum-Piyumal/RoadAware",
-    demo: "https://road-aware.vercel.app/",
-  },
-  {
-    number: "02",
-    title: "TitanCore",
-    description:
-      "A modern construction management platform for managing projects, workers, materials, budgets, tasks, and progress.",
-    technologies: ["Next.js", "Node.js", "MySQL", "Cloudinary", "Docker"],
-    category: "Web Application",
-    github: "https://github.com/Tharusha2002-s/TitanCore",
-    demo: "https://titancoreconstruct.netlify.app/",
-  },
-  {
-    number: "03",
-    title: "Mern",
-    description:
-      "A community and event platform designed to connect people through sports, music, university, and other events.",
-    technologies: ["Mongodb", "React", "Next js", "Express js"],
-    category: "Full-Stack",
-    github: "https://github.com/Tharusha2002-s/Mern-Project",
-  },
-];
-
-const categories = ["All", "Full-Stack", "Web Application"];
+import { useState, useMemo, useEffect } from "react";
+import { fetchPublicProjects, Project } from "@/utils/api";
 
 export default function Projects() {
+  const [projectList, setProjectList] = useState<Project[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    fetchPublicProjects()
+      .then((data) => {
+        if (isMounted) {
+          setProjectList(data || []);
+        }
+      })
+      .catch((err) => {
+        console.warn("Could not fetch remote projects:", err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const categories = useMemo(() => {
+    const set = new Set<string>(["All"]);
+    projectList.forEach((p) => {
+      if (p.category) set.add(p.category);
+    });
+    return Array.from(set);
+  }, [projectList]);
 
   const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
+    return projectList.filter((project) => {
       const matchCategory =
         selectedCategory === "All" || project.category === selectedCategory;
       const matchTech =
-        !selectedTech || project.technologies.includes(selectedTech);
+        !selectedTech || project.technologies?.includes(selectedTech);
       return matchCategory && matchTech;
     });
-  }, [selectedCategory, selectedTech]);
+  }, [projectList, selectedCategory, selectedTech]);
 
   return (
     <section
@@ -69,9 +68,16 @@ export default function Projects() {
             </h2>
           </div>
 
-          <span className="font-mono text-xs text-[#5c6f7f]">
-            Showing {filteredProjects.length} of {projects.length} projects
-          </span>
+          <div className="flex items-center gap-3">
+            {isLoading && (
+              <span className="font-mono text-xs text-[#00c8ff] animate-pulse">
+                Syncing with live API...
+              </span>
+            )}
+            <span className="font-mono text-xs text-[#5c6f7f]">
+              Showing {filteredProjects.length} of {projectList.length} projects
+            </span>
+          </div>
         </div>
 
         {/* Interactive Filter Pills */}
@@ -82,10 +88,11 @@ export default function Projects() {
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`border px-3.5 py-1.5 font-mono text-xs transition-all ${selectedCategory === category
-                  ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                  : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
-                  }`}
+                className={`border px-3.5 py-1.5 font-mono text-xs transition-all ${
+                  selectedCategory === category
+                    ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
+                    : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
+                }`}
               >
                 {category}
               </button>
@@ -111,7 +118,21 @@ export default function Projects() {
         </div>
 
         {/* Projects List */}
-        {filteredProjects.length === 0 ? (
+        {!isLoading && projectList.length === 0 ? (
+          <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#2a3a49] bg-[#080c10] text-[#00c8ff]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-[#e6edf3]">No projects added yet</p>
+            <p className="mt-1 text-xs text-[#5c6f7f]">
+              Projects added in the Admin Dashboard will appear here dynamically.
+            </p>
+          </div>
+        ) : filteredProjects.length === 0 ? (
           <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
             <p className="text-[#8899a6] text-sm">
               No projects match the selected filter criteria.
@@ -131,7 +152,7 @@ export default function Projects() {
           <div className="space-y-6">
             {filteredProjects.map((project) => (
               <article
-                key={project.number}
+                key={project.id || project.number}
                 className="group relative overflow-hidden border border-[#1e2d3d] bg-[#0d1117] transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_30px_rgba(0,200,255,0.06)]"
               >
                 {/* Hover Glow */}
@@ -159,6 +180,12 @@ export default function Projects() {
                       <span className="font-mono text-[11px] text-[#5c6f7f]">
                         PROJ-{project.number}
                       </span>
+
+                      {project.featured && (
+                        <span className="border border-[#00c8ff]/40 bg-[#00c8ff]/10 px-2 py-0.5 font-mono text-[10px] text-[#00c8ff]">
+                          FEATURED
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="text-xl sm:text-2xl font-semibold text-[#e6edf3] transition-colors duration-200 group-hover:text-[#00c8ff]">
@@ -171,7 +198,7 @@ export default function Projects() {
 
                     {/* Interactive Technologies Chips */}
                     <div className="mt-6 flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
+                      {project.technologies?.map((technology) => (
                         <button
                           key={technology}
                           type="button"
@@ -181,10 +208,11 @@ export default function Projects() {
                             )
                           }
                           title={`Click to filter by ${technology}`}
-                          className={`border px-2.5 py-1 font-mono text-xs transition-all ${selectedTech === technology
-                            ? "border-[#00c8ff] bg-[#00c8ff]/20 text-[#00c8ff]"
-                            : "border-[#2a3a49] bg-[#080c10] text-[#6f8291] hover:border-[#00c8ff]/50 hover:text-[#e6edf3]"
-                            }`}
+                          className={`border px-2.5 py-1 font-mono text-xs transition-all ${
+                            selectedTech === technology
+                              ? "border-[#00c8ff] bg-[#00c8ff]/20 text-[#00c8ff]"
+                              : "border-[#2a3a49] bg-[#080c10] text-[#6f8291] hover:border-[#00c8ff]/50 hover:text-[#e6edf3]"
+                          }`}
                         >
                           #{technology}
                         </button>
@@ -195,25 +223,29 @@ export default function Projects() {
                   {/* Links */}
                   <div className="flex items-center gap-4 sm:gap-6 border-t border-[#1e2d3d] p-6 lg:flex-col lg:items-end lg:justify-center lg:border-l lg:border-t-0 lg:p-8 bg-[#0a0f14]/50">
 
-                    <a
-                      href={project.github}
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>GitHub</span>
-                      <span>↗</span>
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>GitHub</span>
+                        <span>↗</span>
+                      </a>
+                    )}
 
-                    <a
-                      href={project.demo}
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>Live Demo</span>
-                      <span>↗</span>
-                    </a>
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>Live Demo</span>
+                        <span>↗</span>
+                      </a>
+                    )}
 
                   </div>
                 </div>
@@ -225,7 +257,7 @@ export default function Projects() {
         {/* View More on GitHub CTA */}
         <div className="mt-10 sm:mt-12 text-center">
           <a
-            href="https://github.com/repos"
+            href="https://github.com/Tharusha2002-s"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[44px] items-center gap-3 border border-[#2a3a49] bg-[#0d1117] px-6 py-3 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"

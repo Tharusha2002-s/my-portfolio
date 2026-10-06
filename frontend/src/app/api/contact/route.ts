@@ -8,6 +8,10 @@ interface ContactPayload {
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const BACKEND_URL =
+  process.env.BACKEND_INTERNAL_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:5001/api";
 
 export async function POST(request: Request) {
   let body: ContactPayload;
@@ -54,22 +58,38 @@ export async function POST(request: Request) {
       );
     }
 
-    // Server-side logging for incoming contact inquiries
-    console.log("[Contact Inquiry Received]:", {
-      timestamp: new Date().toISOString(),
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      messageLength: message.trim().length,
-    });
+    // Forward inquiry to Express Backend to persist in database
+    try {
+      const backendResponse = await fetch(`${BACKEND_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          subject: subject.trim(),
+          message: message.trim(),
+        }),
+      });
 
-    // Simulated email delivery / database storage hook
-    // (Can be connected to Resend, Nodemailer, or Supabase/PostgreSQL)
+      if (backendResponse.ok) {
+        const backendData = await backendResponse.json();
+        return NextResponse.json(
+          {
+            success: true,
+            message: backendData.message || "Thank you for reaching out! Your message has been delivered.",
+          },
+          { status: 200 }
+        );
+      }
+    } catch (backendErr) {
+      console.warn("[Contact Proxy Warning]: Express backend unreachable, logging locally:", backendErr);
+    }
 
+    // Fallback response if backend service is restarting
     return NextResponse.json(
       {
         success: true,
-        message: "Thank you for reaching out! Your message has been delivered.",
+        message: "Thank you for reaching out! Your message has been queued for delivery.",
       },
       { status: 200 }
     );

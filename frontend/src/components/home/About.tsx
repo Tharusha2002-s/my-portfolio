@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { fetchSkillsList, Skill } from "@/utils/api";
 
-const terminalFiles = {
+const staticTerminalFiles = {
   "about.ts": `const developer = {
   name: "Tharusha Sangeeth",
   role: "Software Engineer",
@@ -14,14 +15,6 @@ const terminalFiles = {
 
 // Always learning. Always building.`,
 
-  "stack.ts": `const techStack = {
-  frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-  backend: ["Node.js", "Express.js", "REST APIs", "Prisma"],
-  database: ["PostgreSQL", "MySQL", "Prisma ORM"],
-  devops: ["Docker", "Git", "GitHub Actions", "AWS Basics"],
-  architecture: ["Clean Architecture", "Modular Design"]
-};`,
-
   "connect.ts": `const contactDetails = {
   email: "tharushasangeeth034@gmail.com",
   github: "https://github.com/Tharusha2002-s",
@@ -30,11 +23,44 @@ const terminalFiles = {
 };`
 };
 
-type TerminalFileName = keyof typeof terminalFiles;
+type TerminalFileName = "about.ts" | "stack.ts" | "connect.ts";
 
 export default function About() {
   const [activeTab, setActiveTab] = useState<TerminalFileName>("about.ts");
   const [copied, setCopied] = useState(false);
+  const [skills, setSkills] = useState<Skill[]>([]);
+
+  useEffect(() => {
+    fetchSkillsList()
+      .then((data) => setSkills(data || []))
+      .catch(() => {});
+  }, []);
+
+  const terminalFiles: Record<TerminalFileName, string> = useMemo(() => {
+    let stackCode = "";
+    if (skills.length === 0) {
+      stackCode = `// Live technical skills synced via database
+const techStack = {
+  status: "Configure skills in Admin Dashboard to display here...",
+  technologies: []
+};`;
+    } else {
+      const grouped: Record<string, string[]> = {};
+      skills.forEach((s) => {
+        const cat = s.category || "General";
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(s.name);
+      });
+      stackCode = `// Live technical skills from PostgreSQL database
+const techStack = ${JSON.stringify(grouped, null, 2)};`;
+    }
+
+    return {
+      "about.ts": staticTerminalFiles["about.ts"],
+      "stack.ts": stackCode,
+      "connect.ts": staticTerminalFiles["connect.ts"],
+    };
+  }, [skills]);
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(terminalFiles[activeTab]);
@@ -95,15 +121,15 @@ export default function About() {
 
               {/* Terminal Header with Tabs & Copy Button */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] px-4 py-2.5 bg-[#080c10]">
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <div className="flex items-center gap-1.5 mr-2">
+                <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-full">
+                  <div className="flex items-center gap-1.5 mr-2 shrink-0">
                     <span className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
                     <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
                     <span className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
                   </div>
 
                   {/* Tabs */}
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 shrink-0">
                     {(Object.keys(terminalFiles) as TerminalFileName[]).map((fileName) => (
                       <button
                         key={fileName}

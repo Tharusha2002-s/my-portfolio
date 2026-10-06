@@ -5,12 +5,27 @@ import Link from "next/link";
 import Image from "next/image";
 import Typewriter from "@/components/ui/Typewriter";
 import { smoothScrollTo } from "@/utils/smoothScroll";
+import { fetchPublicProjects, fetchSkillsList } from "@/utils/api";
 
 export default function Hero() {
   const [copied, setCopied] = useState(false);
   const [colomboTime, setColomboTime] = useState<string>("");
+  const [projectCount, setProjectCount] = useState<number | null>(null);
+  const [skillCount, setSkillCount] = useState<number | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
+    Promise.all([
+      fetchPublicProjects().catch(() => []),
+      fetchSkillsList().catch(() => []),
+    ]).then(([projects, skills]) => {
+      if (isMounted) {
+        setProjectCount(projects.length);
+        setSkillCount(skills.length);
+      }
+    });
+
     const updateTime = () => {
       try {
         const timeStr = new Intl.DateTimeFormat("en-US", {
@@ -172,12 +187,16 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Responsive Statistics Grid */}
+            {/* Responsive Statistics Grid (Live Real-Time Database Counts) */}
             <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-6 border-t border-[#1e2d3d] pt-6 sm:grid-cols-4 sm:gap-0">
 
               <div>
                 <div className="font-mono text-2xl font-bold text-[#e6edf3]">
-                  05+
+                  {projectCount === null ? (
+                    <span className="text-[#5c6f7f] animate-pulse">--</span>
+                  ) : (
+                    `${String(projectCount).padStart(2, "0")}${projectCount > 0 ? "+" : ""}`
+                  )}
                 </div>
                 <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                   Projects
@@ -186,7 +205,11 @@ export default function Hero() {
 
               <div>
                 <div className="font-mono text-2xl font-bold text-[#e6edf3]">
-                  10+
+                  {skillCount === null ? (
+                    <span className="text-[#5c6f7f] animate-pulse">--</span>
+                  ) : (
+                    `${String(skillCount).padStart(2, "0")}${skillCount > 0 ? "+" : ""}`
+                  )}
                 </div>
                 <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
                   Technologies
@@ -203,7 +226,7 @@ export default function Hero() {
               </div>
 
               <div>
-                <div className="font-mono text-2xl font-bold text-[#e6edf3]">
+                <div className="font-mono text-2xl font-bold text-[#00c8ff]">
                   ∞
                 </div>
                 <div className="mt-1 text-[11px] uppercase tracking-wider text-[#5c6f7f]">
