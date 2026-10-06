@@ -104,7 +104,7 @@ export default function AdminSettingsPage() {
           <div className="border border-[#1e2d3d] bg-[#080c10] p-4">
             <span className="font-mono text-[11px] text-[#5c6f7f]">Email Address</span>
             <p className="mt-1 font-bold text-sm text-[#e6edf3]">
-              {user?.email || "admin@tharusha.dev"}
+              {user?.email || "—"}
             </p>
           </div>
 

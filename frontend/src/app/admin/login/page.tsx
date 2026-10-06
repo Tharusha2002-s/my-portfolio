@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAdminAuth } from "../AdminAuthContext";
 
 export default function AdminLoginPage() {
-  const { login } = useAdminAuth();
+  const { login, user, isAuthenticated, logout } = useAdminAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,17 +28,11 @@ export default function AdminLoginPage() {
       if (err instanceof Error) {
         setError(err.message || "Failed to authenticate.");
       } else {
-        setError("Invalid credentials. Please verify and try again.");
+        setError("Invalid credentials. Please verify your credentials and try again.");
       }
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleDemoFill = () => {
-    setIdentifier("admin@tharusha.dev");
-    setPassword("Admin@2026!");
-    setError(null);
   };
 
   return (
@@ -63,23 +57,37 @@ export default function AdminLoginPage() {
             Admin Control Center
           </h1>
           <p className="mt-2 text-xs text-[#8899a6]">
-            Secure authentication for portfolio management & inquiries
+            Secure database authentication for portfolio management
           </p>
         </div>
 
-        {/* Demo Credentials Quick Fill Chip */}
-        <div className="mb-6 border border-[#1e2d3d] bg-[#0a0f14] p-3 text-center">
-          <p className="font-mono text-[11px] text-[#8899a6]">
-            Default credentials configured:
-          </p>
-          <button
-            type="button"
-            onClick={handleDemoFill}
-            className="mt-1.5 inline-flex items-center gap-1.5 border border-[#00c8ff]/40 bg-[#00c8ff]/10 px-2.5 py-1 font-mono text-xs text-[#00c8ff] hover:bg-[#00c8ff]/20 transition-all cursor-pointer"
-          >
-            <span>👉 Auto-fill Demo Credentials</span>
-          </button>
-        </div>
+        {/* Active Session Status Notification (if already authenticated) */}
+        {isAuthenticated && user && (
+          <div className="mb-6 border border-[#00c8ff]/40 bg-[#00c8ff]/10 p-4 font-mono text-xs text-[#e6edf3]">
+            <div className="flex items-center gap-2 text-[#00c8ff] font-semibold">
+              <span className="h-2 w-2 rounded-full bg-[#00c8ff] animate-pulse" />
+              <span>Active Session: {user.name || user.username}</span>
+            </div>
+            <p className="mt-1.5 text-[#8899a6] text-[11px]">
+              Logged in as <span className="text-[#e6edf3] font-medium">{user.email}</span>
+            </p>
+            <div className="mt-3 flex items-center gap-2">
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 border border-[#00c8ff] bg-[#00c8ff] px-3 py-1.5 text-xs font-bold text-[#080c10] hover:bg-[#00b5e6] transition-colors"
+              >
+                Go to Dashboard →
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                className="border border-[#2a3a49] bg-[#080c10] px-3 py-1.5 text-xs text-rose-400 hover:border-rose-500/50 hover:bg-rose-950/20 transition-colors cursor-pointer"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Error Notification */}
         {error && (
@@ -99,7 +107,7 @@ export default function AdminLoginPage() {
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="admin@tharusha.dev"
+              placeholder="Enter username or email"
               required
               className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 font-mono text-sm text-[#e6edf3] placeholder-[#485b6a] focus:border-[#00c8ff] focus:outline-none transition-colors"
             />
@@ -122,7 +130,7 @@ export default function AdminLoginPage() {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
+              placeholder="Enter your password"
               required
               className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 font-mono text-sm text-[#e6edf3] placeholder-[#485b6a] focus:border-[#00c8ff] focus:outline-none transition-colors"
             />

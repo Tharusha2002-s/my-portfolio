@@ -48,10 +48,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
     const isLoginPage = pathname === "/admin/login";
 
+    // Only redirect to login if trying to access protected admin pages without token
     if (!token && !isLoginPage && pathname.startsWith("/admin")) {
       router.replace("/admin/login");
-    } else if (token && isLoginPage) {
-      router.replace("/admin");
     }
   }, [isLoading, token, pathname, router]);
 
