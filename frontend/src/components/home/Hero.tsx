@@ -237,68 +237,23 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Display Picture (DP) Frame */}
+          {/* Right Column: Clean Circular Profile Picture */}
           <div className="relative flex justify-center lg:justify-end mt-4 lg:mt-0">
-            {/* Ambient background glow behind portrait */}
-            <div className="absolute -inset-4 rounded-2xl bg-gradient-to-tr from-[#00c8ff]/20 via-[#00c8ff]/5 to-transparent blur-2xl -z-10 animate-subtle-glow pointer-events-none" />
+            {/* Ambient background glow behind circular portrait */}
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#00c8ff]/25 via-[#00c8ff]/10 to-transparent blur-3xl -z-10 animate-subtle-glow pointer-events-none" />
 
-            {/* DP Frame Card */}
-            <div className="group relative w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[380px] border border-[#1e2d3d] bg-[#0d1117]/90 p-3 sm:p-4 backdrop-blur-md transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_35px_rgba(0,200,255,0.15)]">
-
-              {/* Tech Corner Crosshairs */}
-              <span className="absolute -top-1.5 -left-1.5 font-mono text-xs text-[#00c8ff] select-none">
-                +
-              </span>
-              <span className="absolute -top-1.5 -right-1.5 font-mono text-xs text-[#00c8ff] select-none">
-                +
-              </span>
-              <span className="absolute -bottom-1.5 -left-1.5 font-mono text-xs text-[#00c8ff] select-none">
-                +
-              </span>
-              <span className="absolute -bottom-1.5 -right-1.5 font-mono text-xs text-[#00c8ff] select-none">
-                +
-              </span>
-
-              {/* Top bar with file name & live status */}
-              <div className="mb-3 flex items-center justify-between border-b border-[#1e2d3d] pb-2 font-mono text-[11px] text-[#5c6f7f]">
-                <span className="text-[#8899a6]">tharusha_dp.jpg</span>
-                <span className="flex items-center gap-1.5 text-[#00c8ff]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#00c8ff] animate-ping" />
-                  ONLINE
-                </span>
-              </div>
-
-              {/* Image Container with subtle hover zoom */}
-              <div className="relative overflow-hidden rounded border border-[#1e2d3d] aspect-square bg-[#080c10]">
+            {/* Circular Profile Image Container */}
+            <div className="group relative h-64 w-64 sm:h-72 sm:w-72 md:h-80 md:h-80 lg:h-[340px] lg:w-[340px] aspect-square rounded-full p-2 border-2 border-[#1e2d3d] bg-[#0d1117]/80 backdrop-blur-md transition-all duration-500 hover:border-[#00c8ff] hover:shadow-[0_0_40px_rgba(0,200,255,0.25)]">
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-[#1e2d3d] bg-[#080c10]">
                 <Image
                   src="/profile.png"
                   alt="Tharusha Sangeeth - Software Engineer Profile Picture"
-                  width={380}
-                  height={380}
+                  fill
+                  sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 340px"
                   priority
-                  className="h-full w-full object-cover object-center grayscale-[12%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                  className="object-cover object-center transition-all duration-500 group-hover:scale-105"
                 />
-
-                {/* Subtle gradient vignette overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080c10]/80 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
-
-                {/* Floating badge inside photo */}
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between border border-[#1e2d3d]/80 bg-[#080c10]/80 px-3 py-1.5 backdrop-blur-md">
-                  <span className="font-mono text-[10px] text-[#e6edf3]">
-                    Software Engineering
-                  </span>
-                  <span className="font-mono text-[10px] text-[#00c8ff]">
-                    SUSL
-                  </span>
-                </div>
               </div>
-
-              {/* Bottom details line */}
-              <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-[#5c6f7f]">
-                <span>Full-Stack Engineer</span>
-                <span className="text-[#3d5166]">ID: TS-2026</span>
-              </div>
-
             </div>
           </div>
 
