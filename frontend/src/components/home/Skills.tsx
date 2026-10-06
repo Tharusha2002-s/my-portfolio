@@ -96,7 +96,7 @@ export default function Skills() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
 
         {/* Section Header */}
-        <div className="mb-10 sm:mb-12 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
           <div>
             <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
               03 / Skills

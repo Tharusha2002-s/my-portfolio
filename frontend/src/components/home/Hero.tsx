@@ -123,7 +123,7 @@ export default function Hero() {
             </p>
 
             {/* Action Buttons & Quick Copy */}
-            <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 w-full sm:w-auto sm:flex sm:flex-wrap sm:items-center sm:gap-3">
 
               <a
                 href="#projects"
@@ -131,7 +131,7 @@ export default function Hero() {
                   e.preventDefault();
                   smoothScrollTo("projects", 70);
                 }}
-                className="group inline-flex min-h-[44px] items-center justify-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
+                className="group inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#00c8ff] bg-[#00c8ff] px-3.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
               >
                 View Projects
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
@@ -145,17 +145,17 @@ export default function Hero() {
                   e.preventDefault();
                   smoothScrollTo("contact", 70);
                 }}
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-[#2a3a49] px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
+                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#2a3a49] bg-[#0d1117] px-3.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
               >
                 Get in Touch
               </a>
 
               {/* Quick Copy Email Button with Animated Tooltip */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="inline-flex min-h-[44px] items-center gap-2 border border-[#1e2d3d] bg-[#0d1117] px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#e6edf3]"
+                  className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#1e2d3d] bg-[#0d1117] px-3.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#e6edf3]"
                   aria-label="Copy email address"
                 >
                   <svg
@@ -173,24 +173,26 @@ export default function Hero() {
                 </button>
 
                 {copied && (
-                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 border border-[#00c8ff]/40 bg-[#080c10] px-2 py-0.5 font-mono text-[10px] text-[#00c8ff] shadow-md">
+                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 border border-[#00c8ff]/40 bg-[#080c10] px-2 py-0.5 font-mono text-[10px] text-[#00c8ff] shadow-md whitespace-nowrap">
                     ✓ Copied to clipboard!
                   </span>
                 )}
               </div>
 
+              {/* Resume Button with unified border & touch target */}
               <Link
                 href="/resume"
-                className="font-mono text-xs sm:text-sm text-[#8899a6] underline-offset-4 transition-colors hover:text-[#00c8ff] hover:underline"
+                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 border border-[#1e2d3d] bg-[#0d1117] px-3.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#00c8ff]"
               >
-                Resume ↗
+                <span>Resume</span>
+                <span>↗</span>
               </Link>
             </div>
 
             {/* Responsive Statistics Grid (Live Real-Time Database Counts) */}
             <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-6 border-t border-[#1e2d3d] pt-6 sm:grid-cols-4 sm:gap-0">
 
-              <div>
+              <div className="sm:border-r sm:border-[#1e2d3d] sm:pr-4 sm:first:pl-0 pl-0">
                 <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                   {projectCount === null ? (
                     <span className="text-[#5c6f7f] animate-pulse">--</span>
@@ -203,7 +205,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div>
+              <div className="sm:border-r sm:border-[#1e2d3d] sm:px-4">
                 <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                   {skillCount === null ? (
                     <span className="text-[#5c6f7f] animate-pulse">--</span>
@@ -216,7 +218,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div>
+              <div className="sm:border-r sm:border-[#1e2d3d] sm:px-4">
                 <div className="font-mono text-2xl font-bold text-[#e6edf3]">
                   03+
                 </div>
@@ -225,7 +227,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div>
+              <div className="sm:pl-4">
                 <div className="font-mono text-2xl font-bold text-[#00c8ff]">
                   ∞
                 </div>
@@ -238,18 +240,18 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Clean Circular Profile Picture */}
-          <div className="relative flex justify-center lg:justify-end mt-4 lg:mt-0">
+          <div className="relative flex justify-center lg:justify-end order-first lg:order-last mb-6 lg:mb-0">
             {/* Ambient background glow behind circular portrait */}
             <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#00c8ff]/25 via-[#00c8ff]/10 to-transparent blur-3xl -z-10 animate-subtle-glow pointer-events-none" />
 
             {/* Circular Profile Image Container */}
-            <div className="group relative h-64 w-64 sm:h-72 sm:w-72 md:h-80 md:h-80 lg:h-[340px] lg:w-[340px] aspect-square rounded-full p-2 border-2 border-[#1e2d3d] bg-[#0d1117]/80 backdrop-blur-md transition-all duration-500 hover:border-[#00c8ff] hover:shadow-[0_0_40px_rgba(0,200,255,0.25)]">
+            <div className="group relative h-48 w-48 sm:h-60 sm:w-60 md:h-72 md:w-72 lg:h-[320px] lg:w-[320px] xl:h-[340px] xl:w-[340px] aspect-square rounded-full p-2 border-2 border-[#1e2d3d] bg-[#0d1117]/80 backdrop-blur-md transition-all duration-500 hover:border-[#00c8ff] hover:shadow-[0_0_40px_rgba(0,200,255,0.25)]">
               <div className="relative h-full w-full overflow-hidden rounded-full border border-[#1e2d3d] bg-[#080c10]">
                 <Image
                   src="/profile.png"
                   alt="Tharusha Sangeeth - Software Engineer Profile Picture"
                   fill
-                  sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 340px"
+                  sizes="(max-width: 640px) 192px, (max-width: 768px) 240px, (max-width: 1024px) 288px, 340px"
                   priority
                   className="object-cover object-center transition-all duration-500 group-hover:scale-105"
                 />
