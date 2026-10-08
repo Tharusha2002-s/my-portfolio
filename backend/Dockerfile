@@ -14,6 +14,7 @@ RUN npm ci
 
 # Copy Prisma schema and generate Prisma Client
 COPY prisma ./prisma/
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 RUN npx prisma generate
 
 # Copy application source code and tsconfig
@@ -42,6 +43,7 @@ RUN npm ci --omit=dev
 
 # Copy Prisma schema and generate client for production runtime
 COPY prisma ./prisma/
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder?schema=public"
 RUN npx prisma generate
 
 # Copy compiled JavaScript output from the builder stage

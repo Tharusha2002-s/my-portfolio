@@ -18,6 +18,9 @@ jobs:
       run:
         working-directory: ./backend
 
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test_db?schema=public"
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
