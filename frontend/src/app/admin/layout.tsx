@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminAuthProvider, useAdminAuth } from "./AdminAuthContext";
 import { checkServerHealth, fetchAdminMessages } from "@/utils/api";
+import { LogoIcon } from "@/components/ui/Logo";
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, logout, isAuthenticated, isLoading } = useAdminAuth();
@@ -117,12 +118,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       >
         {/* Logo / Header */}
         <div className="flex h-16 items-center justify-between border-b border-[#1e2d3d] px-6">
-          <Link href="/admin" className="flex items-center gap-2 font-mono">
-            <span className="flex h-7 w-7 items-center justify-center rounded bg-[#00c8ff]/10 text-sm text-[#00c8ff] border border-[#00c8ff]/40">
-              ⚡
-            </span>
+          <Link href="/admin" className="flex items-center gap-2.5 font-mono select-none">
+            <LogoIcon size="sm" />
             <span className="text-sm font-bold tracking-wider text-[#e6edf3]">
-              DEV<span className="text-[#00c8ff]">ADMIN</span>
+              THARUSHA<span className="text-[#00c8ff]">/ADMIN</span>
             </span>
           </Link>
           <button

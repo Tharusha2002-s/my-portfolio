@@ -8,6 +8,7 @@ import {
   getCurrentAdmin,
   setAuthSession,
   clearAuthSession,
+  fetchCurrentAdminProfile,
   adminLogin as apiAdminLogin,
 } from "@/utils/api";
 
@@ -30,17 +31,44 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const savedToken = getAuthToken();
-    const savedUser = getCurrentAdmin();
+    let isMounted = true;
+    const verifyAuth = async () => {
+      const savedToken = getAuthToken();
+      const savedUser = getCurrentAdmin();
 
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(savedUser);
-    } else {
-      setToken(null);
-      setUser(null);
-    }
-    setIsLoading(false);
+      if (savedToken) {
+        try {
+          const profile = await fetchCurrentAdminProfile();
+          if (isMounted) {
+            setToken(savedToken);
+            setUser(profile || savedUser);
+          }
+        } catch {
+          // Token is invalid/expired - clear stale session
+          clearAuthSession();
+          if (isMounted) {
+            setToken(null);
+            setUser(null);
+          }
+        }
+      } else {
+        clearAuthSession();
+        if (isMounted) {
+          setToken(null);
+          setUser(null);
+        }
+      }
+
+      if (isMounted) {
+        setIsLoading(false);
+      }
+    };
+
+    verifyAuth();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {

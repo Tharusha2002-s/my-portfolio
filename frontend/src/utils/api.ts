@@ -72,34 +72,56 @@ export interface DashboardStats {
 }
 
 // -------------------------------------------------------------
-// Authentication Tokens & Local Storage Utilities
+// Authentication Tokens & Session Storage Utilities
 // -------------------------------------------------------------
-const TOKEN_KEY = "tharusha_admin_token";
-const USER_KEY = "tharusha_admin_user";
+const TOKEN_KEY = "tharusha_admin_session_token";
+const USER_KEY = "tharusha_admin_session_user";
 
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEY);
+  // Clear any legacy persistent tokens from localStorage to prevent auto-login
+  try {
+    localStorage.removeItem("tharusha_admin_token");
+    localStorage.removeItem("tharusha_admin_user");
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_user");
+  } catch {}
+
+  return sessionStorage.getItem(TOKEN_KEY);
 }
 
 export function setAuthSession(token: string, admin: AdminUser): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(TOKEN_KEY, token);
-  localStorage.setItem(USER_KEY, JSON.stringify(admin));
-  // Also store in cookie for SSR if needed
-  document.cookie = `admin_token=${token}; path=/; max-age=604800; SameSite=Lax`;
+  // Save in sessionStorage (cleared as soon as session/tab is closed)
+  sessionStorage.setItem(TOKEN_KEY, token);
+  sessionStorage.setItem(USER_KEY, JSON.stringify(admin));
+
+  // Clear any persistent localStorage entries
+  try {
+    localStorage.removeItem("tharusha_admin_token");
+    localStorage.removeItem("tharusha_admin_user");
+  } catch {}
+
+  // Session cookie (cleared when session ends)
+  document.cookie = `admin_token=${token}; path=/; SameSite=Lax`;
 }
 
 export function clearAuthSession(): void {
   if (typeof window === "undefined") return;
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-  document.cookie = "admin_token=; path=/; max-age=0";
+  try {
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
+    localStorage.removeItem("tharusha_admin_token");
+    localStorage.removeItem("tharusha_admin_user");
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_user");
+  } catch {}
+  document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; SameSite=Lax";
 }
 
 export function getCurrentAdmin(): AdminUser | null {
   if (typeof window === "undefined") return null;
-  const raw = localStorage.getItem(USER_KEY);
+  const raw = sessionStorage.getItem(USER_KEY);
   if (!raw) return null;
   try {
     return JSON.parse(raw);
@@ -197,6 +219,11 @@ export async function adminLogin(identifier: string, password: string): Promise<
     method: "POST",
     body: JSON.stringify({ identifier, password }),
   });
+}
+
+export async function fetchCurrentAdminProfile(): Promise<AdminUser> {
+  const res = await apiRequest<{ success: boolean; admin: AdminUser }>("/auth/me");
+  return res.admin;
 }
 
 export async function fetchDashboardMetrics(): Promise<DashboardStats> {

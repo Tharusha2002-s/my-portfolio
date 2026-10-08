@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollTo } from "@/utils/smoothScroll";
+import { LogoIcon } from "@/components/ui/Logo";
 
 const footerLinks = [
   { label: "About", href: "/#about" },
@@ -19,11 +20,9 @@ export default function Footer() {
   const [colomboTime, setColomboTime] = useState<string>("");
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
-
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) return;
+
     const updateTime = () => {
       try {
         const timeStr = new Intl.DateTimeFormat("en-US", {
@@ -41,7 +40,7 @@ export default function Footer() {
     updateTime();
     const interval = setInterval(updateTime, 1000 * 30);
     return () => clearInterval(interval);
-  }, []);
+  }, [pathname]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -61,6 +60,10 @@ export default function Footer() {
     }
   };
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <footer className="border-t border-[#1e2d3d] bg-[#080c10]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-12">
@@ -77,9 +80,17 @@ export default function Footer() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
-              className="font-mono text-sm tracking-widest text-[#00c8ff]"
+              className="group inline-flex items-center gap-2.5 font-mono text-sm tracking-wider font-semibold select-none"
             >
-              TS<span className="text-[#3d5166]">.dev</span>
+              <LogoIcon size="sm" />
+              <span className="flex items-baseline">
+                <span className="text-[#e6edf3] transition-colors group-hover:text-[#00c8ff]">
+                  THARUSHA
+                </span>
+                <span className="text-[#00c8ff] text-xs ml-1 font-mono">
+                  .dev
+                </span>
+              </span>
             </Link>
 
             <p className="mt-2 text-xs text-[#5c6f7f]">

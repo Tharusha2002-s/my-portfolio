@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollTo } from "@/utils/smoothScroll";
+import { LogoIcon } from "@/components/ui/Logo";
 
 const navLinks = [
   { label: "About", href: "/#about", sectionId: "about" },
@@ -21,11 +22,9 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState<string>("");
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
-
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) return;
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 30);
@@ -97,6 +96,10 @@ export default function Navbar() {
     setMenuOpen(false);
   };
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -116,13 +119,16 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
-          className="group flex items-center gap-2 font-mono text-sm tracking-widest font-medium"
+          className="group flex items-center gap-2.5 font-mono text-sm tracking-wider font-semibold select-none"
         >
-          <span className="text-[#00c8ff] transition-transform duration-200 group-hover:scale-105">
-            TS
-          </span>
-          <span className="text-[#3d5166] group-hover:text-[#8899a6] transition-colors">
-            .dev
+          <LogoIcon size="sm" />
+          <span className="flex items-baseline">
+            <span className="text-[#e6edf3] transition-colors group-hover:text-[#00c8ff]">
+              THARUSHA
+            </span>
+            <span className="text-[#00c8ff] text-xs ml-1 font-mono">
+              .dev
+            </span>
           </span>
         </Link>
 

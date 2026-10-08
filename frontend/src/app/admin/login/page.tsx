@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAdminAuth } from "../AdminAuthContext";
+import { LogoIcon } from "@/components/ui/Logo";
 
 export default function AdminLoginPage() {
-  const { login, user, isAuthenticated, logout } = useAdminAuth();
+  const { login } = useAdminAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -45,13 +46,13 @@ export default function AdminLoginPage() {
         {/* Glow Accent Top border */}
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#00c8ff] to-transparent" />
 
-        {/* Header */}
+        {/* Header with Tharusha's Logo */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg border border-[#00c8ff]/30 bg-[#00c8ff]/10 text-2xl shadow-[0_0_20px_rgba(0,200,255,0.15)]">
-            ⚡
+          <div className="mx-auto mb-4 flex items-center justify-center">
+            <LogoIcon size="lg" />
           </div>
           <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#00c8ff]">
-            Tharusha Portfolio
+            Tharusha Sangeeth
           </span>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#e6edf3]">
             Admin Control Center
@@ -60,34 +61,6 @@ export default function AdminLoginPage() {
             Secure database authentication for portfolio management
           </p>
         </div>
-
-        {/* Active Session Status Notification (if already authenticated) */}
-        {isAuthenticated && user && (
-          <div className="mb-6 border border-[#00c8ff]/40 bg-[#00c8ff]/10 p-4 font-mono text-xs text-[#e6edf3]">
-            <div className="flex items-center gap-2 text-[#00c8ff] font-semibold">
-              <span className="h-2 w-2 rounded-full bg-[#00c8ff] animate-pulse" />
-              <span>Active Session: {user.name || user.username}</span>
-            </div>
-            <p className="mt-1.5 text-[#8899a6] text-[11px]">
-              Logged in as <span className="text-[#e6edf3] font-medium">{user.email}</span>
-            </p>
-            <div className="mt-3 flex items-center gap-2">
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 border border-[#00c8ff] bg-[#00c8ff] px-3 py-1.5 text-xs font-bold text-[#080c10] hover:bg-[#00b5e6] transition-colors"
-              >
-                Go to Dashboard →
-              </Link>
-              <button
-                type="button"
-                onClick={logout}
-                className="border border-[#2a3a49] bg-[#080c10] px-3 py-1.5 text-xs text-rose-400 hover:border-rose-500/50 hover:bg-rose-950/20 transition-colors cursor-pointer"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Error Notification */}
         {error && (
