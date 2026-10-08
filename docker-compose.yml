@@ -1,0 +1,80 @@
+services:
+  # ==========================================
+  # 1. PostgreSQL Database Service
+  # ==========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-portfolio_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portfolio-network
+
+  # ==========================================
+  # 2. Express & Prisma API Service
+  # ==========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres_secure_password}@postgres:5432/${POSTGRES_DB:-portfolio_db}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-super-secure-production-jwt-secret-key-2026!}
+    ports:
+      - "5001:5001"
+    command: sh -c "npx prisma db push --skip-generate && node dist/server.js"
+    networks:
+      - portfolio-network
+
+  # ==========================================
+  # 3. Next.js Web Frontend Service
+  # ==========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5001/api}
+    container_name: portfolio-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5001/api}
+    ports:
+      - "3000:3000"
+    networks:
+      - portfolio-network
+
+# ==========================================
+# Persistent Volumes & Private Network
+# ==========================================
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  portfolio-network:
+    driver: bridge
