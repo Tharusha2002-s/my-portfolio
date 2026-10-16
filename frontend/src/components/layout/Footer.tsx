@@ -13,7 +13,7 @@ const footerLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/#contact" },
-  { label: "Admin", href: "/admin" },
+
 ];
 
 export default function Footer() {
@@ -122,7 +122,7 @@ export default function Footer() {
           {/* Social Links & Back to Top */}
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <a
-              href="https://github.com/Tharusha20-s"
+              href="https://github.com/Tharusha2002-s"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
@@ -131,7 +131,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/tharusha-sangeeth"
+              href="www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
@@ -152,13 +152,6 @@ export default function Footer() {
 
         {/* Bottom Technical Line */}
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[#1e2d3d] pt-6">
-          <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00c8ff]" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#5c6f7f]">
-              Built with Next.js 16 · TypeScript · Tailwind CSS
-            </span>
-          </div>
-
           <span className="font-mono text-[10px] text-[#3d5166]">
             Press <kbd className="border border-[#1e2d3d] px-1 py-0.5 text-[9px]">Ctrl+K</kbd> for commands
           </span>
