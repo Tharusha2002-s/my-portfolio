@@ -10,6 +10,8 @@ const categoryDescriptions: Record<string, string> = {
   Database: "Designing schemas and managing relational database engines.",
   "DevOps & Tools": "Containerization, automated pipelines, and cloud hosting.",
   "DevOps & Cloud": "Containerization, automated pipelines, and cloud hosting.",
+  "AI & Machine Learning": "Machine learning algorithms, Python data science, and neural networks.",
+  "AI & ML": "Machine learning algorithms, Python data science, and neural networks.",
 };
 
 export default function Skills() {
@@ -262,13 +264,19 @@ export default function Skills() {
             </span>
 
             <span className="font-mono text-xs text-[#00c8ff]">
-              Cloud Architecture
+              AI & Machine Learning (Python)
             </span>
 
             <span className="text-[#2a3a49]">/</span>
 
             <span className="font-mono text-xs text-[#00c8ff]">
-              Kubernetes & Microservices
+              Deep Learning & Neural Networks
+            </span>
+
+            <span className="text-[#2a3a49]">/</span>
+
+            <span className="font-mono text-xs text-[#00c8ff]">
+              Cloud Architecture & DevOps
             </span>
 
             <span className="text-[#2a3a49]">/</span>

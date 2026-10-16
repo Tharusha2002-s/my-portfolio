@@ -109,7 +109,8 @@ export default function Hero() {
                 words={[
                   "Software Engineer",
                   "Full-Stack Developer",
-                  "Cloud & DevOps Enthusiast",
+                  "Aspiring AI / ML Engineer",
+                  "Python & Cloud Enthusiast",
                   "Problem Solver",
                 ]}
                 className="text-[#e6edf3] font-semibold"
@@ -118,8 +119,9 @@ export default function Hero() {
 
             {/* Description */}
             <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-base leading-7 text-[#8899a6]">
-              I engineer modern, scalable web applications with a focus on
-              clean architecture, high performance, and reliable software engineering.
+              I engineer modern, scalable applications with clean architecture and
+              high performance, while actively exploring Artificial Intelligence, Machine Learning with Python,
+              and cloud systems.
             </p>
 
             {/* Action Buttons & Quick Copy */}

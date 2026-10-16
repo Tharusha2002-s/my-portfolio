@@ -6,9 +6,10 @@ import { fetchSkillsList, Skill } from "@/utils/api";
 const staticTerminalFiles = {
   "about.ts": `const developer = {
   name: "Tharusha Sangeeth",
-  role: "Software Engineer",
+  role: "Software Engineer & Aspiring AI/ML Engineer",
   education: "BSc (Hons) in Software Engineering",
   institution: "Sabaragamuwa University of Sri Lanka",
+  learning: ["Python", "Machine Learning", "Deep Learning", "Cloud Systems"],
   location: "Sri Lanka",
   status: "Available for internships & full-time roles"
 };
@@ -110,10 +111,9 @@ const techStack = ${JSON.stringify(grouped, null, 2)};`;
             </p>
 
             <p className="mt-5 sm:mt-6 leading-7 text-[#8899a6] text-sm sm:text-base">
-              My current focus is full-stack development with modern
-              JavaScript and TypeScript technologies, while continuously
-              expanding my knowledge in DevOps, cloud computing, and
-              software architecture.
+              Alongside full-stack TypeScript engineering, I am actively learning
+              and expanding into AI & Machine Learning with Python — exploring
+              data science, predictive modeling, and intelligent software systems.
             </p>
 
             {/* Interactive Terminal Card */}
@@ -218,12 +218,12 @@ const techStack = ${JSON.stringify(grouped, null, 2)};`;
               </div>
 
               <h3 className="text-base sm:text-lg font-semibold text-[#e6edf3]">
-                Full-Stack & Cloud
+                Full-Stack, Cloud & AI/ML
               </h3>
 
               <p className="mt-2 text-sm leading-6 text-[#8899a6]">
                 Building high-performance frontend interfaces, robust REST APIs,
-                database schemas, and containerized architectures.
+                containerized architectures, and exploring machine learning workflows with Python.
               </p>
             </div>
 
@@ -244,9 +244,10 @@ const techStack = ${JSON.stringify(grouped, null, 2)};`;
                   "Next.js",
                   "React",
                   "TypeScript",
+                  "Python",
                   "Node.js",
+                  "Machine Learning",
                   "PostgreSQL",
-                  "MySQL",
                   "Docker",
                   "AWS",
                 ].map((technology) => (

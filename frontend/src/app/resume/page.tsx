@@ -97,7 +97,8 @@ export default function ResumePage() {
               Passionate and detail-oriented Software Engineering undergraduate with hands-on experience
               in developing full-stack web applications using Next.js, React, Node.js, and TypeScript.
               Adept at building performant architectures, intuitive user interfaces, and robust backend APIs.
-              Actively exploring DevOps, cloud computing (AWS, Docker), and software design patterns.
+              Actively expanding into AI & Machine Learning engineering with Python, deep learning algorithms,
+              and cloud-native DevOps architectures.
             </p>
           </section>
 
