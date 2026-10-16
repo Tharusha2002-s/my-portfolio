@@ -1,10 +1,10 @@
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== "undefined"
-    ? window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? "http://localhost:5001/api"
-      : "/api"
-    : "http://localhost:5001/api");
+  typeof window !== "undefined" && window.location.protocol === "https:" && (!process.env.NEXT_PUBLIC_API_URL || !process.env.NEXT_PUBLIC_API_URL.startsWith("https://"))
+    ? "/api"
+    : process.env.NEXT_PUBLIC_API_URL ||
+      (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1"
+        ? "/api"
+        : "http://localhost:5001/api");
 
 export interface Project {
   id: string;
