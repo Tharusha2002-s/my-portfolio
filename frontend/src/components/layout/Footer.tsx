@@ -131,7 +131,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa"
+              href="https://www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs text-[#5c6f7f] transition-colors hover:text-[#00c8ff]"
