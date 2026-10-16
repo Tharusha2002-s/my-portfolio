@@ -38,11 +38,11 @@ services:
       NODE_ENV: production
       PORT: 5001
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres_secure_password}@postgres:5432/${POSTGRES_DB:-portfolio_db}?schema=public
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres_secure_password}@postgres:5432/${POSTGRES_DB:-portfolio_db}?schema=public}
       JWT_SECRET: ${JWT_SECRET:-super-secure-production-jwt-secret-key-2026!}
     ports:
       - "5001:5001"
-    command: sh -c "npx prisma db push --skip-generate && node dist/server.js"
+    command: ["node", "dist/server.js"]
     networks:
       - portfolio-network
 
