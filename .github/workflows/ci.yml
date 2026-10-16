@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -110,3 +110,47 @@ jobs:
           tags: portfolio-frontend:test
           build-args: |
             NEXT_PUBLIC_API_URL=http://localhost:5001/api
+
+  # ==========================================
+  # 4. Continuous Deployment to Hetzner VPS
+  # ==========================================
+  deploy:
+    name: Continuous Deployment (CD)
+    needs: [ backend-ci, frontend-ci, docker-build ]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Hetzner VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            echo "🚀 Starting automated deployment on VPS..."
+            cd /var/www/my-portfolio
+            
+            echo "📥 Pulling latest commits from main..."
+            git pull origin main
+            
+            echo "🔄 Building and recreating updated containers..."
+            docker compose up -d --build
+            
+            echo "🧹 Pruning unused dangling images to free disk..."
+            docker image prune -f
+            
+            echo "✅ Deployment completed successfully!"
+
+      - name: Verify Live Production Health
+        run: |
+          echo "🔍 Verifying live production site health..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tharushasangeeth.live)
+          if [ "$STATUS" -eq 200 ] || [ "$STATUS" -eq 301 ]; then
+            echo "✅ Live portfolio is up and running! (HTTP $STATUS)"
+          else
+            echo "⚠️ Warning: Live site returned HTTP $STATUS"
+            exit 1
+          fi
