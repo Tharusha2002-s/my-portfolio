@@ -537,7 +537,7 @@ export default function AdminProjectsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6 pt-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                 <label className="flex items-center gap-2 cursor-pointer text-[#e6edf3]">
                   <input
                     type="checkbox"
@@ -587,7 +587,7 @@ export default function AdminProjectsPage() {
       {/* Delete Confirmation Modal */}
       {deletingProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-md border border-rose-900/50 bg-[#0d1117] p-6 shadow-2xl">
+          <div className="relative w-full max-w-md border border-rose-900/50 bg-[#0d1117] p-5 sm:p-6 shadow-2xl">
             <span className="font-mono text-xs text-rose-400 uppercase tracking-wider">
               ⚠️ Permanent Action
             </span>

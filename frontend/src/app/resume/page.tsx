@@ -72,7 +72,7 @@ export default function ResumePage() {
               <span>•</span>
               <a
                 href="mailto:tharushasangeeth034@gmail.com"
-                className="text-[#8899a6] hover:text-[#00c8ff]"
+                className="text-[#8899a6] hover:text-[#00c8ff] break-all"
               >
                 tharushasangeeth034@gmail.com
               </a>
@@ -81,7 +81,7 @@ export default function ResumePage() {
                 href="https://github.com/Tharusha2002-s"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#8899a6] hover:text-[#00c8ff]"
+                className="text-[#8899a6] hover:text-[#00c8ff] break-all"
               >
                 github.com/Tharusha2002-s
               </a>

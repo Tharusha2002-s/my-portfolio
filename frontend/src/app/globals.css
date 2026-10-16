@@ -23,6 +23,7 @@ html {
   scroll-padding-top: 80px;
   background-color: #080c10;
   color-scheme: dark;
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {

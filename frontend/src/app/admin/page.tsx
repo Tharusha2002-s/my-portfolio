@@ -273,11 +273,11 @@ export default function AdminDashboardPage() {
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-semibold text-sm text-[#e6edf3]">
                         {msg.name}
                       </span>
-                      <span className="font-mono text-xs text-[#5c6f7f]">
+                      <span className="font-mono text-xs text-[#5c6f7f] break-all">
                         &lt;{msg.email}&gt;
                       </span>
                     </div>

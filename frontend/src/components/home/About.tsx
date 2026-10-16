@@ -117,7 +117,7 @@ const techStack = ${JSON.stringify(grouped, null, 2)};`;
             </p>
 
             {/* Interactive Terminal Card */}
-            <div className="mt-8 sm:mt-10 overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#0d1117] shadow-xl">
+            <div className="mt-8 sm:mt-10 max-w-full overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#0d1117] shadow-xl">
 
               {/* Terminal Header with Tabs & Copy Button */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] px-4 py-2.5 bg-[#080c10]">
@@ -169,7 +169,7 @@ const techStack = ${JSON.stringify(grouped, null, 2)};`;
               </div>
 
               {/* Terminal Content with Responsive Code Highlighting */}
-              <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-6 sm:leading-7 overflow-x-auto text-[#b6e3ff]">
+              <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-6 sm:leading-7 overflow-x-auto max-w-full text-[#b6e3ff]">
                 <pre className="whitespace-pre">
                   <code>{terminalFiles[activeTab]}</code>
                 </pre>

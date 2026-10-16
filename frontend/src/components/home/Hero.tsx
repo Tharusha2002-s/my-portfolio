@@ -123,7 +123,7 @@ export default function Hero() {
             </p>
 
             {/* Action Buttons & Quick Copy */}
-            <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 w-full sm:w-auto sm:flex sm:flex-wrap sm:items-center sm:gap-3">
+            <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-2.5 sm:gap-3 w-full sm:w-auto sm:flex sm:flex-wrap sm:items-center">
 
               <a
                 href="#projects"
@@ -131,9 +131,9 @@ export default function Hero() {
                   e.preventDefault();
                   smoothScrollTo("projects", 70);
                 }}
-                className="group inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#00c8ff] bg-[#00c8ff] px-3.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
+                className="group inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 sm:gap-2 border border-[#00c8ff] bg-[#00c8ff] px-2.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff]"
               >
-                View Projects
+                <span>View Projects</span>
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
                   →
                 </span>
@@ -145,7 +145,7 @@ export default function Hero() {
                   e.preventDefault();
                   smoothScrollTo("contact", 70);
                 }}
-                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#2a3a49] bg-[#0d1117] px-3.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
+                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 sm:gap-2 border border-[#2a3a49] bg-[#0d1117] px-2.5 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-medium text-[#e6edf3] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
               >
                 Get in Touch
               </a>
@@ -155,7 +155,7 @@ export default function Hero() {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 border border-[#1e2d3d] bg-[#0d1117] px-3.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#e6edf3]"
+                  className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 sm:gap-2 border border-[#1e2d3d] bg-[#0d1117] px-2.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#e6edf3]"
                   aria-label="Copy email address"
                 >
                   <svg
@@ -182,7 +182,7 @@ export default function Hero() {
               {/* Resume Button with unified border & touch target */}
               <Link
                 href="/resume"
-                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 border border-[#1e2d3d] bg-[#0d1117] px-3.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#00c8ff]"
+                className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-1.5 border border-[#1e2d3d] bg-[#0d1117] px-2.5 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm text-[#8899a6] transition-all hover:border-[#00c8ff]/60 hover:text-[#00c8ff]"
               >
                 <span>Resume</span>
                 <span>↗</span>

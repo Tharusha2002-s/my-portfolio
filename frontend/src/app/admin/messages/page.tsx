@@ -325,7 +325,7 @@ export default function AdminMessagesPage() {
                     {selectedMessage.name}
                   </span>
                 </p>
-                <p>
+                <p className="break-all">
                   Email:{" "}
                   <a
                     href={`mailto:${selectedMessage.email}`}
@@ -398,7 +398,7 @@ export default function AdminMessagesPage() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <a
                   href={`mailto:${selectedMessage.email}?subject=Re: ${encodeURIComponent(
                     selectedMessage.subject

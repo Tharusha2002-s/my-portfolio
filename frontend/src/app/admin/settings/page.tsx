@@ -201,25 +201,25 @@ export default function AdminSettingsPage() {
         </h2>
 
         <div className="mt-4 space-y-2 border border-[#1e2d3d] bg-[#080c10] p-4 font-mono text-xs text-[#8899a6]">
-          <div className="flex justify-between border-b border-[#1e2d3d] pb-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] pb-2 gap-1">
             <span>Frontend Engine:</span>
             <span className="text-[#e6edf3]">Next.js 16 (React 19)</span>
           </div>
-          <div className="flex justify-between border-b border-[#1e2d3d] py-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
             <span>Backend Service:</span>
             <span className="text-[#e6edf3]">Express 4 + TypeScript</span>
           </div>
-          <div className="flex justify-between border-b border-[#1e2d3d] py-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
             <span>Database Layer:</span>
             <span className="text-emerald-400">Prisma ORM (PostgreSQL)</span>
           </div>
-          <div className="flex justify-between border-b border-[#1e2d3d] py-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
             <span>Backend API Endpoint:</span>
-            <span className="text-[#00c8ff]">http://localhost:5001/api</span>
+            <span className="text-[#00c8ff] break-all">http://localhost:5001/api</span>
           </div>
-          <div className="flex justify-between pt-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between pt-2 gap-1">
             <span>Authentication:</span>
-            <span className="text-[#e6edf3]">JWT (HMAC-SHA256, 7-Day Session)</span>
+            <span className="text-[#e6edf3] break-all">JWT (HMAC-SHA256, 7-Day Session)</span>
           </div>
         </div>
       </div>
