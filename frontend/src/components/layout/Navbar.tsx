@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollTo } from "@/utils/smoothScroll";
-import { LogoIcon } from "@/components/ui/Logo";
 
 const navLinks = [
   { label: "About", href: "/#about", sectionId: "about" },
@@ -119,16 +118,10 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
-          className="group flex items-center gap-2.5 font-mono text-sm tracking-wider font-semibold select-none"
+          className="group flex items-center font-mono text-base tracking-wider font-bold select-none"
         >
-          <LogoIcon size="sm" />
-          <span className="flex items-baseline">
-            <span className="text-[#e6edf3] transition-colors group-hover:text-[#00c8ff]">
-              THARUSHA
-            </span>
-            <span className="text-[#00c8ff] text-xs ml-1 font-mono">
-              .dev
-            </span>
+          <span className="text-[#e6edf3] transition-colors group-hover:text-[#00c8ff]">
+            THARUSHA
           </span>
         </Link>
 
