@@ -136,11 +136,22 @@ jobs:
             echo "📥 Pulling latest commits from main..."
             git pull origin main
             
+            echo "🔧 Making maintenance scripts executable..."
+            chmod +x scripts/*.sh
+            
             echo "🔄 Building and recreating updated containers..."
             docker compose up -d --build
             
             echo "🧹 Pruning unused dangling images to free disk..."
             docker image prune -f
+            
+            echo "💾 Setting up automated nightly database backup cron job..."
+            mkdir -p /var/backups/portfolio-db
+            echo "0 2 * * * root /var/www/my-portfolio/scripts/backup-db.sh >> /var/log/portfolio-db-backup.log 2>&1" > /etc/cron.d/portfolio-backup
+            chmod 0644 /etc/cron.d/portfolio-backup
+            
+            echo "📦 Running initial database backup..."
+            /var/www/my-portfolio/scripts/backup-db.sh
             
             echo "✅ Deployment completed successfully!"
 

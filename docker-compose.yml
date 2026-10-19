@@ -21,6 +21,11 @@ services:
       retries: 5
     networks:
       - portfolio-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # ==========================================
   # 2. Express & Prisma API Service
@@ -45,6 +50,11 @@ services:
     command: ["node", "dist/server.js"]
     networks:
       - portfolio-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # ==========================================
   # 3. Next.js Web Frontend Service
@@ -67,6 +77,11 @@ services:
       - "3000:3000"
     networks:
       - portfolio-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 # ==========================================
 # Persistent Volumes & Private Network
