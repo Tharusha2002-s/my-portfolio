@@ -237,16 +237,16 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-label="Command Palette"
-      className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-20 sm:pt-28 backdrop-blur-md bg-black/60 transition-opacity"
+      className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-20 sm:pt-28 backdrop-blur-md bg-black/30 transition-opacity"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl overflow-hidden border border-[#1e2d3d] bg-[#0d1117] shadow-2xl transition-all"
+        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-[#e5e5ea] bg-white shadow-2xl transition-all"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDownList}
       >
         {/* Input Bar */}
-        <div className="flex items-center gap-3 border-b border-[#1e2d3d] px-4 py-3 sm:px-6">
+        <div className="flex items-center gap-3 border-b border-[#e5e5ea] px-4 py-3 sm:px-6">
           <svg
             width="18"
             height="18"
@@ -254,7 +254,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="text-[#00c8ff]"
+            className="text-[#18181b]"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="M21 21l-4.35-4.35" />
@@ -268,18 +268,18 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
               setSearch(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Type a command or search sections, actions, themes..."
-            className="w-full bg-transparent font-mono text-sm text-[#e6edf3] outline-none placeholder:text-[#5c6f7f]"
+            placeholder="Type a command or search sections, actions..."
+            className="w-full bg-transparent font-sans text-sm text-[#18181b] outline-none placeholder:text-[#a1a1aa]"
           />
 
-          <kbd className="hidden sm:inline-block border border-[#2a3a49] px-2 py-0.5 font-mono text-[10px] text-[#5c6f7f]">
+          <kbd className="hidden sm:inline-block border border-gray-200 bg-gray-50 px-2 py-0.5 rounded text-[10px] text-gray-500">
             ESC
           </kbd>
         </div>
 
         {/* Status notification */}
         {copiedNotification && (
-          <div className="bg-[#00c8ff]/10 border-b border-[#00c8ff]/30 px-4 py-2 font-mono text-xs text-[#00c8ff] text-center">
+          <div className="bg-emerald-50 border-b border-emerald-200 px-4 py-2 text-xs text-emerald-800 text-center font-medium">
             ✓ {copiedNotification}
           </div>
         )}
@@ -287,7 +287,7 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
         {/* Command List */}
         <div className="max-h-80 overflow-y-auto p-2">
           {filteredCommands.length === 0 ? (
-            <div className="py-8 text-center font-mono text-xs text-[#5c6f7f]">
+            <div className="py-8 text-center text-xs text-[#71717a]">
               No commands found for &quot;{search}&quot;
             </div>
           ) : (
@@ -298,10 +298,10 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
                   key={command.id}
                   onClick={command.action}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`flex cursor-pointer items-center justify-between px-4 py-3 font-mono transition-colors ${
+                  className={`flex cursor-pointer items-center justify-between px-4 py-3 rounded-xl transition-colors ${
                     isSelected
-                      ? "bg-[#1e2d3d]/80 text-[#e6edf3]"
-                      : "text-[#8899a6] hover:bg-[#1e2d3d]/40"
+                      ? "bg-gray-100 text-[#18181b]"
+                      : "text-[#52525b] hover:bg-gray-50"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -309,24 +309,24 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
                     <div>
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-sm ${
-                            isSelected ? "text-[#00c8ff] font-semibold" : "text-[#e6edf3]"
+                          className={`text-sm font-medium ${
+                            isSelected ? "text-[#18181b] font-semibold" : "text-[#27272a]"
                           }`}
                         >
                           {command.title}
                         </span>
-                        <span className="text-[10px] uppercase tracking-wider text-[#5c6f7f]">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-400">
                           [{command.category}]
                         </span>
                       </div>
                       {command.subtitle && (
-                        <p className="text-xs text-[#5c6f7f]">{command.subtitle}</p>
+                        <p className="text-xs text-[#71717a]">{command.subtitle}</p>
                       )}
                     </div>
                   </div>
 
                   {isSelected && (
-                    <span className="text-xs text-[#00c8ff]">↵ Execute</span>
+                    <span className="text-xs text-[#18181b] font-medium">↵ Open</span>
                   )}
                 </div>
               );
@@ -335,13 +335,13 @@ function CommandPaletteModal({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Footer info */}
-        <div className="flex flex-wrap items-center justify-between border-t border-[#1e2d3d] bg-[#080c10] px-4 py-2.5 font-mono text-[11px] text-[#5c6f7f]">
+        <div className="flex flex-wrap items-center justify-between border-t border-[#e5e5ea] bg-gray-50 px-4 py-2.5 text-[11px] text-[#71717a]">
           <div className="flex items-center gap-3">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
             <span>ESC Close</span>
           </div>
-          <span className="text-[#00c8ff]">TS.dev Command Bar</span>
+          <span className="text-[#18181b] font-medium">Command Bar</span>
         </div>
       </div>
     </div>

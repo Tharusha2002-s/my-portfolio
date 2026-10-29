@@ -49,10 +49,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className="light scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className="bg-[#080c10] text-[#e6edf3] font-sans antialiased min-h-screen selection:bg-[#00c8ff]/20 selection:text-[#00c8ff]"
+        className="bg-[#f4f4f6] text-[#18181b] font-sans antialiased min-h-screen selection:bg-black/10 selection:text-black"
       >
         <Navbar />
 

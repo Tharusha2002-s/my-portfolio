@@ -1,267 +1,109 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { fetchSkillsList, Skill } from "@/utils/api";
-
-const staticTerminalFiles = {
-  "about.ts": `const developer = {
-  name: "Tharusha Sangeeth",
-  role: "Software Engineer & Aspiring AI/ML Engineer",
-  education: "BSc (Hons) in Software Engineering",
-  institution: "Sabaragamuwa University of Sri Lanka",
-  learning: ["Python", "Machine Learning", "Deep Learning", "Cloud Systems"],
-  location: "Sri Lanka",
-  status: "Available for internships & full-time roles"
-};
-
-// Always learning. Always building.`,
-
-  "connect.ts": `const contactDetails = {
-  email: "tharushasangeeth034@gmail.com",
-  github: "https://github.com/Tharusha2002-s",
-  linkedin: "https://www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa/",
-  availability: "Open to discussions, collaboration & projects"
-};`
-};
-
-type TerminalFileName = "about.ts" | "stack.ts" | "connect.ts";
+import Link from "next/link";
 
 export default function About() {
-  const [activeTab, setActiveTab] = useState<TerminalFileName>("about.ts");
-  const [copied, setCopied] = useState(false);
-  const [skills, setSkills] = useState<Skill[]>([]);
-
-  useEffect(() => {
-    fetchSkillsList()
-      .then((data) => setSkills(data || []))
-      .catch(() => {});
-  }, []);
-
-  const terminalFiles: Record<TerminalFileName, string> = useMemo(() => {
-    let stackCode = "";
-    if (skills.length === 0) {
-      stackCode = `// Live technical skills synced via database
-const techStack = {
-  status: "Configure skills in Admin Dashboard to display here...",
-  technologies: []
-};`;
-    } else {
-      const grouped: Record<string, string[]> = {};
-      skills.forEach((s) => {
-        const cat = s.category || "General";
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(s.name);
-      });
-      stackCode = `// Live technical skills from PostgreSQL database
-const techStack = ${JSON.stringify(grouped, null, 2)};`;
-    }
-
-    return {
-      "about.ts": staticTerminalFiles["about.ts"],
-      "stack.ts": stackCode,
-      "connect.ts": staticTerminalFiles["connect.ts"],
-    };
-  }, [skills]);
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(terminalFiles[activeTab]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <section
-      id="about"
-      className="relative border-t border-[#1e2d3d] bg-[#080c10] py-20 sm:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-
-        {/* Section Heading */}
-        <div className="mb-12 sm:mb-14 flex items-end justify-between">
-          <div>
-            <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
-              01 / About
-            </p>
-
-            <h2 className="text-3xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
-              About Me
-            </h2>
-          </div>
-
-          <span className="hidden font-mono text-xs text-[#3d5166] sm:block">
-            who I am
-          </span>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-
-          {/* Left Side */}
-          <div>
-            <p className="text-lg sm:text-xl leading-8 text-[#c9d1d9]">
-              I&#39;m a Software Engineering undergraduate passionate about
-              building modern web applications and solving real-world
-              problems through reliable engineering.
-            </p>
-
-            <p className="mt-5 sm:mt-6 leading-7 text-[#8899a6] text-sm sm:text-base">
-              I enjoy working across the full development lifecycle — from
-              designing user interfaces and developing APIs to working with
-              databases, deployment, and cloud technologies.
-            </p>
-
-            <p className="mt-5 sm:mt-6 leading-7 text-[#8899a6] text-sm sm:text-base">
-              Alongside full-stack TypeScript engineering, I am actively learning
-              and expanding into AI & Machine Learning with Python — exploring
-              data science, predictive modeling, and intelligent software systems.
-            </p>
-
-            {/* Interactive Terminal Card */}
-            <div className="mt-8 sm:mt-10 max-w-full overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#0d1117] shadow-xl">
-
-              {/* Terminal Header with Tabs & Copy Button */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] px-4 py-2.5 bg-[#080c10]">
-                <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-full">
-                  <div className="flex items-center gap-1.5 mr-2 shrink-0">
-                    <span className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
-                  </div>
-
-                  {/* Tabs */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    {(Object.keys(terminalFiles) as TerminalFileName[]).map((fileName) => (
-                      <button
-                        key={fileName}
-                        type="button"
-                        onClick={() => setActiveTab(fileName)}
-                        className={`px-2.5 py-1 font-mono text-xs transition-colors rounded ${activeTab === fileName
-                          ? "bg-[#1e2d3d] text-[#00c8ff] font-medium"
-                          : "text-[#5c6f7f] hover:text-[#e6edf3]"
-                          }`}
-                      >
-                        {fileName}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Copy Button */}
-                <button
-                  type="button"
-                  onClick={handleCopyCode}
-                  className="flex items-center gap-1.5 font-mono text-[11px] text-[#5c6f7f] hover:text-[#00c8ff] transition-colors"
-                  aria-label="Copy terminal snippet"
-                >
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                  </svg>
-                  <span>{copied ? "Copied!" : "Copy"}</span>
-                </button>
+    <section id="about" className="py-16 sm:py-20 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-14 md:p-16">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-14 items-center">
+            
+            {/* Left Column: Bio & Journey */}
+            <div>
+              <div className="inline-flex items-center gap-2 bg-[#f4f4f6] border border-[#e5e5ea] rounded-full px-3.5 py-1 text-xs font-medium text-[#52525b] shadow-sm mb-4">
+                <span>About Me</span>
               </div>
 
-              {/* Terminal Content with Responsive Code Highlighting */}
-              <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-6 sm:leading-7 overflow-x-auto max-w-full text-[#b6e3ff]">
-                <pre className="whitespace-pre">
-                  <code>{terminalFiles[activeTab]}</code>
-                </pre>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#18181b] leading-tight">
+                Engineering reliable systems with curiosity and purpose.
+              </h2>
+
+              <div className="mt-6 space-y-4 text-sm sm:text-base text-[#71717a] leading-relaxed">
+                <p>
+                  I am a Software Engineering undergraduate at{" "}
+                  <strong className="text-[#18181b] font-semibold">
+                    Sabaragamuwa University of Sri Lanka
+                  </strong>
+                  . I specialize in building scalable web architectures with Next.js, TypeScript, and Docker, while actively diving deep into AI & Machine Learning with Python.
+                </p>
+                <p>
+                  My engineering journey is driven by practical problem-solving—from developing industrial ERP systems like{" "}
+                  <strong className="text-[#18181b] font-medium">TitanCore</strong> to building AI computer vision safety tools like{" "}
+                  <strong className="text-[#18181b] font-medium">RoadAware</strong>.
+                </p>
+                <p>
+                  When I&apos;m not coding, I&apos;m exploring cloud infrastructure, automated CI/CD workflows, and training neural models for computer vision and NLP tasks.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/resume"
+                  className="inline-flex items-center gap-2 bg-[#18181b] hover:bg-black text-white text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full shadow-sm transition-all"
+                >
+                  <span>View Resume</span>
+                  <span>↗</span>
+                </Link>
+
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-[#f4f4f6] hover:bg-[#e4e4e7] text-[#18181b] text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full transition-all"
+                >
+                  <span>Get in Touch</span>
+                </a>
               </div>
             </div>
-          </div>
 
-          {/* Right Side Cards */}
-          <div className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            {/* Right Column: Key Details & Quick Highlights */}
+            <div className="bg-[#f9f9fb] border border-[#e5e5ea] rounded-3xl p-6 sm:p-8 flex flex-col gap-6">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-wider text-[#a1a1aa]">
+                  Current Status
+                </span>
+                <p className="text-sm font-semibold text-[#18181b] mt-1 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Available for Internships & Projects
+                </p>
+              </div>
 
-            {/* Education */}
-            <div className="group border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_20px_rgba(0,200,255,0.08)]">
-              <div className="mb-4 sm:mb-5 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
+              <div className="border-t border-[#e5e5ea] pt-5">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#a1a1aa]">
                   Education
                 </span>
-
-                <span className="font-mono text-[#00c8ff] transition-transform group-hover:translate-x-0.5">
-                  01
-                </span>
+                <p className="text-sm font-semibold text-[#18181b] mt-1">
+                  BSc (Hons) in Software Engineering
+                </p>
+                <p className="text-xs text-[#71717a] mt-0.5">
+                  Sabaragamuwa University of Sri Lanka
+                </p>
               </div>
 
-              <h3 className="text-base sm:text-lg font-semibold text-[#e6edf3]">
-                BSc (Hons) Software Engineering
-              </h3>
-
-              <p className="mt-2 text-sm text-[#8899a6]">
-                Sabaragamuwa University of Sri Lanka
-              </p>
-
-              <p className="mt-4 font-mono text-xs text-[#5c6f7f]">
-                Faculty of Computing • Undergraduate
-              </p>
-            </div>
-
-            {/* Development */}
-            <div className="group border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_20px_rgba(0,200,255,0.08)]">
-              <div className="mb-4 sm:mb-5 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  Focus
+              <div className="border-t border-[#e5e5ea] pt-5">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#a1a1aa]">
+                  Core Focus
                 </span>
-
-                <span className="font-mono text-[#00c8ff] transition-transform group-hover:translate-x-0.5">
-                  02
-                </span>
+                <p className="text-sm font-semibold text-[#18181b] mt-1">
+                  Full-Stack Architecture & AI/ML
+                </p>
+                <p className="text-xs text-[#71717a] mt-0.5">
+                  Python, Next.js, PostgreSQL, Docker, PyTorch
+                </p>
               </div>
 
-              <h3 className="text-base sm:text-lg font-semibold text-[#e6edf3]">
-                Full-Stack, Cloud & AI/ML
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#8899a6]">
-                Building high-performance frontend interfaces, robust REST APIs,
-                containerized architectures, and exploring machine learning workflows with Python.
-              </p>
-            </div>
-
-            {/* Technologies */}
-            <div className="group border border-[#1e2d3d] bg-[#0d1117] p-6 transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_20px_rgba(0,200,255,0.08)]">
-              <div className="mb-4 sm:mb-5 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  Core Technologies
+              <div className="border-t border-[#e5e5ea] pt-5">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#a1a1aa]">
+                  Location
                 </span>
-
-                <span className="font-mono text-[#00c8ff] transition-transform group-hover:translate-x-0.5">
-                  03
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Next.js",
-                  "React",
-                  "TypeScript",
-                  "Python",
-                  "Node.js",
-                  "Machine Learning",
-                  "PostgreSQL",
-                  "Docker",
-                  "AWS",
-                ].map((technology) => (
-                  <span
-                    key={technology}
-                    className="border border-[#2a3a49] px-2.5 py-1 font-mono text-xs text-[#8899a6] transition-colors hover:border-[#00c8ff]/40 hover:text-[#e6edf3]"
-                  >
-                    {technology}
-                  </span>
-                ))}
+                <p className="text-sm font-semibold text-[#18181b] mt-1">
+                  Sri Lanka (GMT+5:30)
+                </p>
               </div>
             </div>
 
           </div>
+
         </div>
       </div>
     </section>

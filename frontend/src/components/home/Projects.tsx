@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import { fetchPublicProjects, Project } from "@/utils/api";
 
 export default function Projects() {
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -41,231 +41,143 @@ export default function Projects() {
 
   const filteredProjects = useMemo(() => {
     return projectList.filter((project) => {
-      const matchCategory =
-        selectedCategory === "All" || project.category === selectedCategory;
-      const matchTech =
-        !selectedTech || project.technologies?.includes(selectedTech);
-      return matchCategory && matchTech;
+      return (
+        selectedCategory === "All" || project.category === selectedCategory
+      );
     });
-  }, [projectList, selectedCategory, selectedTech]);
+  }, [projectList, selectedCategory]);
 
   return (
-    <section
-      id="projects"
-      className="relative border-t border-[#1e2d3d] bg-[#0a0f14] py-20 sm:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-
+    <section id="projects" className="py-16 sm:py-20 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        
         {/* Section Header */}
-        <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
-              02 / Projects
-            </p>
-
-            <h2 className="text-3xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
-              Selected Work
+            <div className="inline-flex items-center gap-2 bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-xs font-medium text-[#52525b] shadow-sm mb-3">
+              <span>Featured Work</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#18181b]">
+              Selected Projects
             </h2>
+            <p className="text-sm text-[#71717a] mt-1 max-w-lg">
+              Full-stack production platforms, enterprise ERP systems, and AI/ML computer vision applications.
+            </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {isLoading && (
-              <span className="font-mono text-xs text-[#00c8ff] animate-pulse">
-                Syncing with live API...
-              </span>
-            )}
-            <span className="font-mono text-xs text-[#5c6f7f]">
-              Showing {filteredProjects.length} of {projectList.length} projects
-            </span>
-          </div>
-        </div>
-
-        {/* Interactive Filter Pills */}
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
-                type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`border px-3.5 py-1.5 font-mono text-xs transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                   selectedCategory === category
-                    ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                    : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
+                    ? "bg-[#18181b] text-white shadow-sm"
+                    : "bg-white border border-[#e5e5ea] text-[#52525b] hover:bg-[#f4f4f6]"
                 }`}
               >
                 {category}
               </button>
             ))}
           </div>
-
-          {/* Active Tech Filter indicator */}
-          {selectedTech && (
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-[#5c6f7f]">Filtered by:</span>
-              <span className="border border-[#00c8ff] bg-[#00c8ff]/10 px-2 py-0.5 text-[#00c8ff]">
-                #{selectedTech}
-              </span>
-              <button
-                type="button"
-                onClick={() => setSelectedTech(null)}
-                className="text-xs text-[#8899a6] underline hover:text-[#e6edf3]"
-              >
-                Clear
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* Projects List */}
-        {!isLoading && projectList.length === 0 ? (
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#2a3a49] bg-[#080c10] text-[#00c8ff]">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                <line x1="8" y1="21" x2="16" y2="21" />
-                <line x1="12" y1="17" x2="12" y2="21" />
-              </svg>
-            </div>
-            <p className="text-sm font-semibold text-[#e6edf3]">No projects added yet</p>
-            <p className="mt-1 text-xs text-[#5c6f7f]">
-              Projects added in the Admin Dashboard will appear here dynamically.
-            </p>
+        {/* Project Cards Grid */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="bg-white rounded-[28px] border border-[#e5e5ea] p-6 h-80 animate-pulse flex flex-col justify-between"
+              >
+                <div className="h-6 w-1/3 bg-gray-100 rounded" />
+                <div className="h-4 w-3/4 bg-gray-100 rounded" />
+                <div className="h-10 w-full bg-gray-100 rounded" />
+              </div>
+            ))}
           </div>
         ) : filteredProjects.length === 0 ? (
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
-            <p className="text-[#8899a6] text-sm">
-              No projects match the selected filter criteria.
+          <div className="bg-white rounded-[28px] border border-[#e5e5ea] p-12 text-center">
+            <p className="text-[#71717a] text-sm">
+              No projects found in this category.
             </p>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedCategory("All");
-                setSelectedTech(null);
-              }}
-              className="mt-4 border border-[#00c8ff] px-4 py-2 text-xs text-[#00c8ff] hover:bg-[#00c8ff] hover:text-[#080c10] transition-colors"
-            >
-              Reset Filters
-            </button>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((project) => (
-              <article
-                key={project.id || project.number}
-                className="group relative overflow-hidden border border-[#1e2d3d] bg-[#0d1117] transition-all duration-300 hover:border-[#00c8ff]/60 hover:shadow-[0_0_30px_rgba(0,200,255,0.06)]"
+              <div
+                key={project.id}
+                className="group bg-white rounded-[28px] sm:rounded-[32px] border border-[#e5e5ea] p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#d4d4d8] transition-all flex flex-col justify-between"
               >
-                {/* Hover Glow */}
-                <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#00c8ff]/5 blur-3xl transition-opacity duration-300 group-hover:bg-[#00c8ff]/10" />
-
-                <div className="grid lg:grid-cols-[100px_1fr_auto]">
-
-                  {/* Number - visible on desktop */}
-                  <div className="hidden border-r border-[#1e2d3d] p-8 lg:flex items-center justify-center">
-                    <span className="font-mono text-sm text-[#00c8ff]">
-                      {project.number}
+                <div>
+                  {/* Category & Status */}
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-full bg-[#f4f4f6] text-[#52525b] border border-[#e5e5ea]">
+                      {project.category || "Full-Stack"}
                     </span>
+                    {project.featured && (
+                      <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
+                        ★ Featured
+                      </span>
+                    )}
                   </div>
 
-                  {/* Main Content */}
-                  <div className="p-6 sm:p-8">
+                  {/* Title */}
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#18181b] group-hover:text-black transition-colors">
+                    {project.title}
+                  </h3>
 
-                    <div className="mb-4 flex flex-wrap items-center gap-3">
-                      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#00c8ff]">
-                        {project.category}
-                      </span>
+                  {/* Description */}
+                  <p className="text-sm text-[#71717a] mt-3 leading-relaxed">
+                    {project.description}
+                  </p>
 
-                      <span className="h-px w-8 bg-[#2a3a49]" />
-
-                      <span className="font-mono text-[11px] text-[#5c6f7f]">
-                        PROJ-{project.number}
-                      </span>
-
-                      {project.featured && (
-                        <span className="border border-[#00c8ff]/40 bg-[#00c8ff]/10 px-2 py-0.5 font-mono text-[10px] text-[#00c8ff]">
-                          FEATURED
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-xl sm:text-2xl font-semibold text-[#e6edf3] transition-colors duration-200 group-hover:text-[#00c8ff]">
-                      {project.title}
-                    </h3>
-
-                    <p className="mt-3 max-w-2xl text-sm sm:text-base leading-7 text-[#8899a6]">
-                      {project.description}
-                    </p>
-
-                    {/* Interactive Technologies Chips */}
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.technologies?.map((technology) => (
-                        <button
-                          key={technology}
-                          type="button"
-                          onClick={() =>
-                            setSelectedTech(
-                              selectedTech === technology ? null : technology
-                            )
-                          }
-                          title={`Click to filter by ${technology}`}
-                          className={`border px-2.5 py-1 font-mono text-xs transition-all ${
-                            selectedTech === technology
-                              ? "border-[#00c8ff] bg-[#00c8ff]/20 text-[#00c8ff]"
-                              : "border-[#2a3a49] bg-[#080c10] text-[#6f8291] hover:border-[#00c8ff]/50 hover:text-[#e6edf3]"
-                          }`}
+                  {/* Tech Stack Chips */}
+                  {project.technologies && project.technologies.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-5">
+                      {project.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[#f4f4f6] text-[#52525b]"
                         >
-                          #{technology}
-                        </button>
+                          {tech}
+                        </span>
                       ))}
                     </div>
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex items-center gap-4 sm:gap-6 border-t border-[#1e2d3d] p-6 lg:flex-col lg:items-end lg:justify-center lg:border-l lg:border-t-0 lg:p-8 bg-[#0a0f14]/50">
-
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span>GitHub</span>
-                        <span>↗</span>
-                      </a>
-                    )}
-
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span>Live Demo</span>
-                        <span>↗</span>
-                      </a>
-                    )}
-
-                  </div>
+                  )}
                 </div>
-              </article>
+
+                {/* Project Links */}
+                <div className="flex items-center gap-3 pt-6 mt-6 border-t border-[#f4f4f6]">
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#18181b] text-white hover:bg-black px-4 py-2 rounded-full transition-all"
+                    >
+                      <span>Live Demo</span>
+                      <span>↗</span>
+                    </a>
+                  )}
+
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-[#52525b] hover:text-[#18181b] bg-[#f4f4f6] hover:bg-[#e4e4e7] px-4 py-2 rounded-full transition-all"
+                    >
+                      <span>Source Code</span>
+                      <span>↗</span>
+                    </a>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         )}
-
-        {/* View More on GitHub CTA */}
-        <div className="mt-10 sm:mt-12 text-center">
-          <a
-            href="https://github.com/Tharusha2002-s"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-[44px] items-center gap-3 border border-[#2a3a49] bg-[#0d1117] px-6 py-3 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:border-[#00c8ff] hover:text-[#00c8ff]"
-          >
-            <span>View More Repositories on GitHub</span>
-            <span>→</span>
-          </a>
-        </div>
 
       </div>
     </section>

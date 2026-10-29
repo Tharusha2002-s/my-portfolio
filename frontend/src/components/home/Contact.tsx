@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -62,264 +63,154 @@ export default function Contact() {
       });
     } catch {
       setStatus("error");
-      setFeedbackMessage("Network error. Please check your connection and try again.");
+      setFeedbackMessage("Network error. Please try again or email directly.");
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="relative border-t border-[#1e2d3d] bg-[#0a0f14] py-20 sm:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-
-        {/* Section Header */}
-        <div className="mb-10 sm:mb-14">
-          <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
-            04 / Contact
-          </p>
-
-          <h2 className="text-3xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
-            Let&#39;s Work Together
-          </h2>
-
-          <p className="mt-4 sm:mt-5 max-w-2xl text-sm sm:text-base leading-7 text-[#8899a6]">
-            Have a project idea, internship opportunity, or just want to
-            connect? Feel free to send me a message.
-          </p>
-        </div>
-
-        {/* Contact Grid */}
-        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-
-          {/* Contact Information Cards */}
-          <div className="space-y-4">
-
-            {/* Email Card with Copy Trigger */}
-            <div className="group border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  Direct Email
-                </span>
-
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="font-mono text-xs text-[#00c8ff] hover:underline"
-                >
-                  {copied ? "✓ Copied" : "Copy"}
-                </button>
-              </div>
-
-              <a
-                href="mailto:tharushasangeeth034@gmail.com"
-                className="break-all text-sm text-[#e6edf3] hover:text-[#00c8ff] transition-colors"
-              >
-                tharushasangeeth034@gmail.com
-              </a>
-            </div>
-
-            {/* GitHub Card */}
-            <a
-              href="https://github.com/Tharusha2002-s"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  GitHub
-                </span>
-
-                <span className="text-[#00c8ff] transition-transform duration-200 group-hover:translate-x-1">
-                  ↗
-                </span>
-              </div>
-
-              <p className="text-sm text-[#e6edf3]">
-                github.com/Tharusha20-s
-              </p>
-            </a>
-
-            {/* LinkedIn Card */}
-            <a
-              href="https://www.linkedin.com/in/tharusha-hettiarachchi-5b44782aa/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6 transition-all duration-300 hover:border-[#00c8ff]/50"
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  LinkedIn
-                </span>
-
-                <span className="text-[#00c8ff] transition-transform duration-200 group-hover:translate-x-1">
-                  ↗
-                </span>
-              </div>
-
-              <p className="text-sm text-[#e6edf3]">
-                linkedin.com/in/tharusha-sangeeth
-              </p>
-            </a>
-
-            {/* Location Card */}
-            <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6">
-              <div className="mb-3">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5c6f7f]">
-                  Location
-                </span>
-              </div>
-
-              <p className="text-sm text-[#e6edf3]">
-                🇱🇰 Sri Lanka (Open to Remote Worldwide)
-              </p>
-            </div>
-
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        
+        {/* Large Rounded Contact Card (Matches Bottom Section of Reference Image) */}
+        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-14 md:p-16 text-center">
+          
+          {/* Handshake Icon Circle (Exact from Reference Image) */}
+          <div className="w-14 h-14 rounded-full bg-[#f4f4f6] border border-[#e5e5ea] flex items-center justify-center mx-auto text-2xl shadow-sm">
+            🤝
           </div>
 
-          {/* Contact Form */}
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-8 shadow-xl">
+          {/* Heading */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#18181b] mt-5 mb-3 leading-tight">
+            Tell me about your next project
+          </h2>
 
-            <div className="mb-6 sm:mb-8 flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] pb-4 sm:pb-5">
-              <span className="font-mono text-xs text-[#5c6f7f]">
-                contact-form.ts
-              </span>
+          <p className="text-sm sm:text-base text-[#71717a] max-w-lg mx-auto">
+            Have an open software engineering role, a collaboration inquiry, or a question? Drop a message or reach out directly.
+          </p>
 
-              <span className="font-mono text-xs text-[#00c8ff]">
-                POST /api/contact
-              </span>
-            </div>
+          {/* Action Pill Buttons (Matches Reference Image) */}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="mailto:tharushasangeeth034@gmail.com"
+              className="inline-flex items-center gap-2 bg-[#18181b] hover:bg-black text-white text-xs sm:text-sm font-medium px-6 py-2.5 rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all"
+            >
+              <span>Email Me</span>
+              <span>✉</span>
+            </a>
 
-            {/* Feedback notification banner */}
-            {status === "success" && (
-              <div className="mb-6 border border-[#00c8ff]/40 bg-[#00c8ff]/10 p-4 font-mono text-xs text-[#00c8ff]">
-                ✓ {feedbackMessage}
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#18181b] border border-[#e5e5ea] text-xs sm:text-sm font-medium px-6 py-2.5 rounded-full shadow-sm hover:border-gray-300 transition-all"
+            >
+              <span>{copied ? "Copied!" : "Copy Email"}</span>
+            </button>
+
+            <Link
+              href="/resume"
+              className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-50 text-[#18181b] border border-[#e5e5ea] text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full shadow-sm hover:border-gray-300 transition-all"
+            >
+              <span>View Resume</span>
+              <span>↗</span>
+            </Link>
+          </div>
+
+          {/* Direct Interactive Message Form */}
+          <div className="mt-12 pt-10 border-t border-[#e5e5ea] text-left max-w-xl mx-auto">
+            <h3 className="text-base font-bold text-[#18181b] mb-4 text-center sm:text-left">
+              Send a Direct Message
+            </h3>
+
+            {feedbackMessage && (
+              <div
+                className={`mb-6 p-4 rounded-2xl text-xs sm:text-sm font-medium ${
+                  status === "success"
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }`}
+              >
+                {feedbackMessage}
               </div>
             )}
 
-            {status === "error" && (
-              <div className="mb-6 border border-red-500/40 bg-red-500/10 p-4 font-mono text-xs text-red-400">
-                ✕ {feedbackMessage}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
-
-              {/* Name */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="mb-2 block font-mono text-xs text-[#8899a6]"
-                >
-                  Name <span className="text-[#00c8ff]">*</span>
-                </label>
-
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block font-mono text-xs text-[#8899a6]"
-                >
-                  Email <span className="text-[#00c8ff]">*</span>
-                </label>
-
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
-                />
-              </div>
-
-              {/* Subject */}
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="mb-2 block font-mono text-xs text-[#8899a6]"
-                >
-                  Subject <span className="text-[#00c8ff]">*</span>
-                </label>
-
-                <input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Project / Opportunity"
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
-                />
-              </div>
-
-              {/* Message */}
-              <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <label
-                    htmlFor="message"
-                    className="font-mono text-xs text-[#8899a6]"
-                  >
-                    Message <span className="text-[#00c8ff]">*</span>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="name" className="block text-xs font-medium text-[#52525b] mb-1.5">
+                    Your Name *
                   </label>
-                  <span className="font-mono text-[10px] text-[#5c6f7f]">
-                    {formData.message.length} chars (min 10)
-                  </span>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Jane Doe"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] text-xs sm:text-sm placeholder:text-[#a1a1aa] focus:outline-none focus:border-[#18181b] focus:bg-white transition-all"
+                  />
                 </div>
 
+                <div>
+                  <label htmlFor="email" className="block text-xs font-medium text-[#52525b] mb-1.5">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="jane@example.com"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] text-xs sm:text-sm placeholder:text-[#a1a1aa] focus:outline-none focus:border-[#18181b] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="subject" className="block text-xs font-medium text-[#52525b] mb-1.5">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Project inquiry / Opportunity"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] text-xs sm:text-sm placeholder:text-[#a1a1aa] focus:outline-none focus:border-[#18181b] focus:bg-white transition-all"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-xs font-medium text-[#52525b] mb-1.5">
+                  Message *
+                </label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={5}
                   required
-                  minLength={10}
+                  rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Tell me about your project, idea, or inquiry..."
-                  className="w-full resize-none border border-[#2a3a49] bg-[#080c10] px-4 py-3 text-sm text-[#e6edf3] outline-none transition-colors placeholder:text-[#3d5166] focus:border-[#00c8ff]"
+                  placeholder="Tell me a bit about what you're working on..."
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] text-xs sm:text-sm placeholder:text-[#a1a1aa] focus:outline-none focus:border-[#18181b] focus:bg-white transition-all resize-none"
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="group inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-3 border border-[#00c8ff] bg-[#00c8ff] px-6 py-3 font-mono text-sm font-medium text-[#080c10] transition-all duration-200 hover:bg-transparent hover:text-[#00c8ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-[#18181b] hover:bg-black disabled:bg-gray-400 text-white font-medium text-xs sm:text-sm rounded-xl shadow-sm transition-all"
               >
-                {status === "submitting" ? (
-                  <>
-                    <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#080c10] border-t-transparent group-hover:border-[#00c8ff] group-hover:border-t-transparent" />
-                    Sending Message...
-                  </>
-                ) : (
-                  <>
-                    Send Message
-                    <span className="transition-transform duration-200 group-hover:translate-x-1">
-                      →
-                    </span>
-                  </>
-                )}
+                {status === "submitting" ? "Sending message..." : "Send Message ↗"}
               </button>
-
             </form>
           </div>
+
         </div>
+
       </div>
     </section>
   );

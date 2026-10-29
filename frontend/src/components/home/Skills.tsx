@@ -3,22 +3,58 @@
 import { useState, useMemo, useEffect } from "react";
 import { fetchSkillsList, Skill } from "@/utils/api";
 
-const categoryDescriptions: Record<string, string> = {
-  Frontend: "Building responsive, accessible, and interactive user interfaces.",
-  Backend: "Developing robust APIs and server-side business logic.",
-  Databases: "Designing schemas and managing relational database engines.",
-  Database: "Designing schemas and managing relational database engines.",
-  "DevOps & Tools": "Containerization, automated pipelines, and cloud hosting.",
-  "DevOps & Cloud": "Containerization, automated pipelines, and cloud hosting.",
-  "AI & Machine Learning": "Machine learning algorithms, Python data science, and neural networks.",
-  "AI & ML": "Machine learning algorithms, Python data science, and neural networks.",
-};
+const services = [
+  {
+    title: "AI & Machine Learning",
+    description:
+      "Developing predictive models, data science pipelines, and intelligent computer vision algorithms with Python.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Web & Full-Stack Apps",
+    description:
+      "Transforming complex requirements into seamless, interactive Next.js, React, and Express web applications.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+  },
+  {
+    title: "Cloud & DevOps",
+    description:
+      "Architecting resilient multi-stage Docker containers, automated CI/CD pipelines, and high-uptime VPS servers.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Database & Systems",
+    description:
+      "Designing clean relational database schemas with PostgreSQL, Prisma ORM, and high-concurrency RESTful APIs.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      </svg>
+    ),
+  },
+];
 
 export default function Skills() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     let isMounted = true;
@@ -31,7 +67,7 @@ export default function Skills() {
         }
       })
       .catch((err) => {
-        console.error("Could not fetch skills from API:", err);
+        console.error("Could not fetch skills:", err);
       })
       .finally(() => {
         if (isMounted) setIsLoading(false);
@@ -47,244 +83,100 @@ export default function Skills() {
     return ["All", ...cats];
   }, [skills]);
 
-  const filteredGroups = useMemo(() => {
-    const distinctCategories = Array.from(
-      new Set(skills.map((s) => s.category || "General"))
-    );
-
-    const groups: {
-      number: string;
-      title: string;
-      description: string;
-      skills: Skill[];
-    }[] = [];
-
-    distinctCategories.forEach((cat, index) => {
-      if (activeCategory !== "All" && activeCategory !== cat) return;
-
-      const groupSkills = skills
-        .filter((s) => (s.category || "General") === cat)
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
-      const matchingSkills = !searchQuery.trim()
-        ? groupSkills
-        : groupSkills.filter((s) =>
-            s.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-          );
-
-      if (matchingSkills.length > 0) {
-        groups.push({
-          number: String(index + 1).padStart(2, "0"),
-          title: cat,
-          description:
-            categoryDescriptions[cat] || "Technologies, tools, and libraries in this stack.",
-          skills: matchingSkills,
-        });
-      }
-    });
-
-    return groups;
-  }, [skills, activeCategory, searchQuery]);
-
-  const totalVisibleSkills = useMemo(() => {
-    return filteredGroups.reduce((acc, g) => acc + g.skills.length, 0);
-  }, [filteredGroups]);
+  const filteredSkills = useMemo(() => {
+    if (activeCategory === "All") return skills;
+    return skills.filter((s) => (s.category || "General") === activeCategory);
+  }, [skills, activeCategory]);
 
   return (
-    <section
-      id="skills"
-      className="relative border-t border-[#1e2d3d] bg-[#080c10] py-20 sm:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-
-        {/* Section Header */}
-        <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
-          <div>
-            <p className="mb-2 sm:mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
-              03 / Skills
-            </p>
-
-            <h2 className="text-3xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
-              Technologies
-            </h2>
+    <section id="services" className="py-16 sm:py-20 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        
+        {/* Services & Expertise Card (Matches Middle Section of Reference Image) */}
+        <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-14 md:p-16 text-center">
+          
+          {/* Centered Pill Tag */}
+          <div className="inline-flex items-center gap-2 bg-[#f4f4f6] border border-[#e5e5ea] rounded-full px-3.5 py-1 text-xs font-medium text-[#52525b] shadow-sm">
+            <span>Services & Expertise</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            {isLoading && (
-              <span className="font-mono text-xs text-[#00c8ff] animate-pulse">
-                Syncing with live API...
-              </span>
-            )}
-            <span className="font-mono text-xs text-[#5c6f7f]">
-              {totalVisibleSkills} technologies displayed
-            </span>
-          </div>
-        </div>
+          {/* Centered Heading */}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#18181b] max-w-xl mx-auto mt-4 mb-12 sm:mb-16 leading-tight">
+            Collaborate with brands and teams to create impactful results.
+          </h2>
 
-        {/* Interactive Controls: Search & Category Tabs */}
-        {skills.length > 0 && (
-          <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveCategory(tab)}
-                  className={`border px-3 py-1.5 font-mono text-xs transition-all ${
-                    activeCategory === tab
-                      ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                      : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:border-[#3d5166] hover:text-[#e6edf3]"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Box */}
-            <div className="relative w-full sm:w-64">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search skill (e.g. Docker)..."
-                className="w-full border border-[#2a3a49] bg-[#0d1117] pl-8 pr-3 py-1.5 font-mono text-xs text-[#e6edf3] placeholder:text-[#5c6f7f] outline-none focus:border-[#00c8ff] transition-colors"
-              />
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#5c6f7f]"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#5c6f7f] hover:text-[#e6edf3]"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Empty State when no skills exist in DB */}
-        {!isLoading && skills.length === 0 ? (
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#2a3a49] bg-[#080c10] text-[#00c8ff]">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <p className="text-sm font-semibold text-[#e6edf3]">No skills added yet</p>
-            <p className="mt-1 text-xs text-[#5c6f7f]">
-              Add technical skills in the Admin Dashboard to have them displayed here.
-            </p>
-          </div>
-        ) : filteredGroups.length === 0 ? (
-          <div className="border border-[#1e2d3d] bg-[#0d1117] p-10 text-center font-mono text-xs text-[#8899a6]">
-            No skills found matching &quot;{searchQuery}&quot;.
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchQuery("");
-                  setActiveCategory("All");
-                }}
-                className="text-[#00c8ff] underline hover:text-[#e6edf3]"
-              >
-                Reset Search
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="grid gap-5 md:grid-cols-2">
-            {filteredGroups.map((group) => (
+          {/* 4-Column Minimalist Service Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+            {services.map((service) => (
               <div
-                key={group.number}
-                className="group border border-[#1e2d3d] bg-[#0d1117] p-6 sm:p-7 transition-all duration-300 hover:border-[#00c8ff]/50 hover:shadow-[0_0_25px_rgba(0,200,255,0.05)]"
+                key={service.title}
+                className="flex flex-col gap-3 p-2 rounded-2xl hover:bg-gray-50/80 transition-colors"
               >
-                {/* Header */}
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs text-[#00c8ff]">
-                      {group.number}
-                    </span>
-
-                    <h3 className="text-lg sm:text-xl font-semibold text-[#e6edf3] transition-colors group-hover:text-[#00c8ff]">
-                      {group.title}
-                    </h3>
-                  </div>
-
-                  <span className="font-mono text-sm text-[#1e2d3d] transition-colors group-hover:text-[#3d5166]">
-                    {"</>"}
-                  </span>
+                <div className="w-10 h-10 rounded-xl bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] flex items-center justify-center">
+                  {service.icon}
                 </div>
-
-                {/* Description */}
-                <p className="mb-5 text-sm leading-6 text-[#8899a6]">
-                  {group.description}
+                <h3 className="font-semibold text-base text-[#18181b] mt-1">
+                  {service.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#71717a] leading-relaxed">
+                  {service.description}
                 </p>
-
-                {/* Interactive Skills Badges */}
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill.id || skill.name}
-                      className="group/badge inline-flex items-center gap-1.5 border border-[#2a3a49] bg-[#080c10] px-3 py-1.5 font-mono text-xs text-[#8899a6] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#00c8ff] hover:text-[#00c8ff] hover:shadow-[0_0_12px_rgba(0,200,255,0.2)]"
-                    >
-                      <span>{skill.name}</span>
-                      {skill.proficiency && skill.proficiency > 0 && (
-                        <span className="text-[10px] text-[#5c6f7f] group-hover/badge:text-[#00c8ff]/80">
-                          {skill.proficiency}%
-                        </span>
-                      )}
-                    </span>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
-        )}
 
-        {/* Bottom Continuous Learning Banner */}
-        <div className="mt-8 border border-[#1e2d3d] bg-[#0d1117] px-5 sm:px-6 py-4 sm:py-5">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span className="font-mono text-xs text-[#5c6f7f]">
-              CURRENTLY EXPANDING:
-            </span>
+          {/* Technical Skills Database Badges */}
+          <div id="skills" className="mt-16 sm:mt-20 pt-10 sm:pt-12 border-t border-[#e5e5ea] text-left">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 className="text-lg font-bold text-[#18181b]">
+                  Technical Stack & Tools
+                </h3>
+                <p className="text-xs text-[#71717a] mt-0.5">
+                  Live technologies synchronized with PostgreSQL database
+                </p>
+              </div>
 
-            <span className="font-mono text-xs text-[#00c8ff]">
-              AI & Machine Learning (Python)
-            </span>
+              {/* Category Filter Pills */}
+              <div className="flex flex-wrap gap-1.5">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      activeCategory === cat
+                        ? "bg-[#18181b] text-white shadow-sm"
+                        : "bg-[#f4f4f6] text-[#52525b] hover:bg-[#e4e4e7]"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            <span className="text-[#2a3a49]">/</span>
-
-            <span className="font-mono text-xs text-[#00c8ff]">
-              Deep Learning & Neural Networks
-            </span>
-
-            <span className="text-[#2a3a49]">/</span>
-
-            <span className="font-mono text-xs text-[#00c8ff]">
-              Cloud Architecture & DevOps
-            </span>
-
-            <span className="text-[#2a3a49]">/</span>
-
-            <span className="font-mono text-xs text-[#00c8ff]">
-              Full-Stack System Design
-            </span>
+            {/* Skills Chips */}
+            {isLoading ? (
+              <div className="flex flex-wrap gap-2">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                  <div key={n} className="h-8 w-24 bg-gray-100 animate-pulse rounded-full" />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {filteredSkills.map((skill) => (
+                  <span
+                    key={skill.id || skill.name}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#f4f4f6] border border-[#e5e5ea] text-[#18181b] hover:border-[#a1a1aa] transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#18181b]" />
+                    <span>{skill.name}</span>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
+
         </div>
 
       </div>
