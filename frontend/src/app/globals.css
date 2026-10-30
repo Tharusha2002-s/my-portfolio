@@ -78,3 +78,40 @@ body {
 .animate-subtle-glow {
   animation: subtle-pulse 6s ease-in-out infinite;
 }
+
+/* Infinite Marquee Cycle Animation for Tech Logos */
+@keyframes marquee-cycle {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-cycle {
+  display: flex;
+  width: max-content;
+  animation: marquee-cycle 26s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-cycle:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-cycle {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-cycle {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

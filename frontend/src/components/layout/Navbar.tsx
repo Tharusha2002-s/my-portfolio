@@ -17,7 +17,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
-  const [copied, setCopied] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -63,13 +62,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  const handleCopyEmail = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigator.clipboard.writeText("tharushasangeeth034@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     link: (typeof navLinks)[0]
@@ -96,36 +88,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        
-        {/* Left Side: Email Pill with Copy & CV buttons (Matches reference image) */}
-        <div className="flex items-center gap-2">
-          <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-[#e5e5ea] rounded-full px-3 py-1 shadow-[0_1px_3px_rgba(0,0,0,0.03)] text-xs text-[#52525b]">
-            <span className="font-mono text-[11px] sm:text-xs text-[#3f3f46] hidden sm:inline">
-              tharushasangeeth034@gmail.com
-            </span>
-            <span className="font-mono text-[11px] sm:hidden text-[#3f3f46]">
-              tharusha...
-            </span>
-
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="bg-[#f4f4f6] hover:bg-[#e4e4e7] text-[#18181b] rounded-full px-2 py-0.5 text-[11px] font-medium transition-colors"
-              title="Copy Email"
-            >
-              {copied ? "Copied!" : "Copy"}
-            </button>
-
-            <Link
-              href="/resume"
-              className="bg-[#18181b] hover:bg-black text-white rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors"
-            >
-              CV
-            </Link>
-          </div>
-        </div>
-
-        {/* Center: Brand */}
+        {/* Brand / Logo */}
         <Link
           href="/"
           onClick={(e) => {

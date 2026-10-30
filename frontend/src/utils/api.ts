@@ -42,6 +42,78 @@ export interface Skill {
   order: number;
 }
 
+export const FALLBACK_PROJECTS: Project[] = [
+  {
+    id: "proj-1",
+    number: "01",
+    title: "TitanCore ERP",
+    description:
+      "An industrial-grade enterprise resource planning platform managing construction workflows, inventory tracking, tasks, and production analytics.",
+    technologies: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "Docker", "Tailwind CSS"],
+    category: "Full-Stack",
+    github: "https://github.com/Tharusha2002-s",
+    demo: null,
+    featured: true,
+    order: 1,
+  },
+  {
+    id: "proj-2",
+    number: "02",
+    title: "RoadAware AI",
+    description:
+      "A community geospatial hazard tracking platform integrated with computer vision AI for road defect and driver safety detection.",
+    technologies: ["Python", "OpenCV", "TensorFlow", "Next.js", "Leaflet", "FastAPI"],
+    category: "AI & ML",
+    github: "https://github.com/Tharusha2002-s",
+    demo: null,
+    featured: true,
+    order: 2,
+  },
+  {
+    id: "proj-3",
+    number: "03",
+    title: "UnityHub",
+    description:
+      "A university event and community management platform designed for sports, student clubs, and campus organizations.",
+    technologies: ["React", "TypeScript", "PostgreSQL", "JWT", "Express"],
+    category: "Web Application",
+    github: "https://github.com/Tharusha2002-s",
+    demo: null,
+    featured: false,
+    order: 3,
+  },
+  {
+    id: "proj-4",
+    number: "04",
+    title: "Continuous Deployment VPS",
+    description:
+      "Automated CI/CD pipeline deploying Dockerized multi-stage containers to a Hetzner Cloud Linux VPS with reverse proxying and automated backups.",
+    technologies: ["Docker", "GitHub Actions", "Hetzner Cloud", "Nginx", "Linux"],
+    category: "Cloud & DevOps",
+    github: "https://github.com/Tharusha2002-s",
+    demo: "https://tharushasangeeth.live",
+    featured: true,
+    order: 4,
+  },
+];
+
+export const FALLBACK_SKILLS: Skill[] = [
+  { id: "s-1", name: "Python", category: "AI & ML", proficiency: 90, order: 1 },
+  { id: "s-2", name: "TensorFlow", category: "AI & ML", proficiency: 82, order: 2 },
+  { id: "s-3", name: "OpenCV", category: "AI & ML", proficiency: 85, order: 3 },
+  { id: "s-4", name: "Next.js", category: "Frontend", proficiency: 95, order: 4 },
+  { id: "s-5", name: "TypeScript", category: "Language", proficiency: 92, order: 5 },
+  { id: "s-6", name: "React", category: "Frontend", proficiency: 94, order: 6 },
+  { id: "s-7", name: "Tailwind CSS", category: "Frontend", proficiency: 90, order: 7 },
+  { id: "s-8", name: "Node.js", category: "Backend", proficiency: 90, order: 8 },
+  { id: "s-9", name: "Express.js", category: "Backend", proficiency: 88, order: 9 },
+  { id: "s-10", name: "PostgreSQL", category: "Database", proficiency: 88, order: 10 },
+  { id: "s-11", name: "Prisma ORM", category: "Database", proficiency: 86, order: 11 },
+  { id: "s-12", name: "Docker", category: "DevOps", proficiency: 85, order: 12 },
+  { id: "s-13", name: "Hetzner Cloud", category: "Cloud", proficiency: 84, order: 13 },
+  { id: "s-14", name: "GitHub Actions", category: "DevOps", proficiency: 86, order: 14 },
+];
+
 export interface AdminUser {
   id: string;
   name: string;
@@ -184,10 +256,17 @@ export async function fetchPublicProjects(category?: string): Promise<Project[]>
     const res = await apiRequest<{ success: boolean; data: Project[] }>(`/projects${query}`, {
       cache: "no-store",
     });
-    return res.data || [];
+    if (res.data && res.data.length > 0) {
+      return res.data;
+    }
+    return category && category !== "All"
+      ? FALLBACK_PROJECTS.filter((p) => p.category === category)
+      : FALLBACK_PROJECTS;
   } catch (err) {
     console.warn("[API Warning]: Could not fetch remote projects, falling back to local data.", err);
-    return [];
+    return category && category !== "All"
+      ? FALLBACK_PROJECTS.filter((p) => p.category === category)
+      : FALLBACK_PROJECTS;
   }
 }
 
@@ -300,9 +379,21 @@ export async function deleteMessageRecord(id: string): Promise<void> {
 }
 
 export async function fetchSkillsList(category?: string): Promise<Skill[]> {
-  const query = category ? `?category=${encodeURIComponent(category)}` : "";
-  const res = await apiRequest<{ success: boolean; data: Skill[] }>(`/skills${query}`);
-  return res.data || [];
+  try {
+    const query = category ? `?category=${encodeURIComponent(category)}` : "";
+    const res = await apiRequest<{ success: boolean; data: Skill[] }>(`/skills${query}`);
+    if (res.data && res.data.length > 0) {
+      return res.data;
+    }
+    return category && category !== "All"
+      ? FALLBACK_SKILLS.filter((s) => s.category === category)
+      : FALLBACK_SKILLS;
+  } catch (err) {
+    console.warn("[API Warning]: Could not fetch remote skills, falling back to local data.", err);
+    return category && category !== "All"
+      ? FALLBACK_SKILLS.filter((s) => s.category === category)
+      : FALLBACK_SKILLS;
+  }
 }
 
 export async function createSkillRecord(data: Partial<Skill>): Promise<Skill> {
