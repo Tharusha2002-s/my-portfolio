@@ -107,11 +107,3 @@ body {
     justify-content: center;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee-cycle {
-    animation: none;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}

@@ -15,13 +15,13 @@ export function PythonIcon({ className = "w-4 h-4 shrink-0" }: { className?: str
   );
 }
 
-export function NextjsIcon({ className = "w-4 h-4 shrink-0" }: { className?: string }) {
+export function NextjsIcon({ className = "w-8 h-8 shrink-0" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <circle cx="12" cy="12" r="11" fill="currentColor" />
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="11" fill="#000000" />
       <path
         d="M15.5 17.5L8.7 8.7h-.2v6.6h1.4v-4.8l5.6 7zM14.1 8.7h1.4v4.4l-1.4-1.8z"
-        fill="#fff"
+        fill="#ffffff"
       />
     </svg>
   );

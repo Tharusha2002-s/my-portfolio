@@ -41,28 +41,28 @@ const articles = [
 
 export default function BlogPage() {
   return (
-    <main className="min-h-screen bg-[#080c10] py-24 sm:py-28 px-4 sm:px-6">
+    <main className="min-h-screen bg-[#f4f4f6] py-24 sm:py-28 px-4 sm:px-6">
       <div className="mx-auto max-w-4xl">
 
         {/* Back Link */}
-        <div className="mb-10">
+        <div className="mb-8 sm:mb-10">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-mono text-xs text-[#8899a6] transition-colors hover:text-[#00c8ff]"
+            className="inline-flex items-center gap-2 bg-white border border-[#e5e5ea] rounded-full px-4 py-2 text-xs font-medium text-[#18181b] shadow-sm hover:bg-gray-50 transition-colors"
           >
             ← Back to Home
           </Link>
         </div>
 
-        {/* Page Header */}
-        <div className="mb-14">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+        {/* Page Header Container */}
+        <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#e5e5ea] p-8 sm:p-14 shadow-[0_8px_30px_rgb(0,0,0,0.03)] mb-8">
+          <span className="inline-block bg-[#f4f4f6] border border-[#e5e5ea] text-[11px] font-mono uppercase tracking-wider text-[#52525b] px-3 py-0.5 rounded-full">
             Articles & Notes
           </span>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#e6edf3] sm:text-5xl">
+          <h1 className="mt-4 text-3xl sm:text-5xl font-bold tracking-tight text-[#18181b]">
             Engineering Blog
           </h1>
-          <p className="mt-4 max-w-2xl text-base text-[#8899a6]">
+          <p className="mt-3 max-w-2xl text-sm sm:text-base text-[#71717a] leading-relaxed">
             Documenting my learnings, software engineering insights, and tutorials across web development, DevOps, and database architectures.
           </p>
         </div>
@@ -72,25 +72,25 @@ export default function BlogPage() {
           {articles.map((article) => (
             <article
               key={article.slug}
-              className="border border-[#1e2d3d] bg-[#0d1117] p-7 transition-all duration-300 hover:border-[#00c8ff]/50"
+              className="bg-white rounded-[24px] sm:rounded-[32px] border border-[#e5e5ea] p-7 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-[#d4d4d8] transition-all"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-3 font-mono text-xs text-[#5c6f7f]">
+                <div className="flex items-center gap-3 text-xs text-[#71717a]">
                   <span>{article.date}</span>
                   <span>•</span>
                   <span>{article.readTime}</span>
                 </div>
 
-                <span className="border border-[#00c8ff]/30 bg-[#00c8ff]/10 px-2 py-0.5 font-mono text-[10px] text-[#00c8ff]">
+                <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-2.5 py-0.5 rounded-full text-[11px] font-medium">
                   {article.status}
                 </span>
               </div>
 
-              <h2 className="mt-3 text-xl font-semibold text-[#e6edf3] hover:text-[#00c8ff] transition-colors">
+              <h2 className="mt-4 text-xl sm:text-2xl font-bold text-[#18181b] hover:text-black transition-colors">
                 {article.title}
               </h2>
 
-              <p className="mt-3 text-sm leading-6 text-[#8899a6]">
+              <p className="mt-3 text-sm leading-relaxed text-[#52525b]">
                 {article.summary}
               </p>
 
@@ -98,7 +98,7 @@ export default function BlogPage() {
                 {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="border border-[#2a3a49] px-2.5 py-1 font-mono text-[10px] text-[#6f8291]"
+                    className="bg-[#f4f4f6] border border-[#e5e5ea] px-3 py-1 rounded-full text-xs font-mono text-[#52525b]"
                   >
                     #{tag}
                   </span>

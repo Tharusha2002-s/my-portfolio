@@ -380,7 +380,7 @@ export async function deleteMessageRecord(id: string): Promise<void> {
 
 export async function fetchSkillsList(category?: string): Promise<Skill[]> {
   try {
-    const query = category ? `?category=${encodeURIComponent(category)}` : "";
+    const query = category && category !== "All" ? `?category=${encodeURIComponent(category)}` : "";
     const res = await apiRequest<{ success: boolean; data: Skill[] }>(`/skills${query}`);
     if (res.data && res.data.length > 0) {
       return res.data;

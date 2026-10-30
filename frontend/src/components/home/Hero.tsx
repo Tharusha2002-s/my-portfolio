@@ -90,25 +90,24 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* 2. Technologies / Brand Strip with Logos & Infinite Moving Marquee Circle */}
+      {/* 2. Technologies / Brand Logo Strip with Infinite Moving Cycle (Matches Reference Image) */}
       <div className="max-w-5xl mx-auto mt-12 sm:mt-16 pt-2 overflow-hidden relative">
         {/* Left & Right Edge Gradient Fade Masks */}
         <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#f4f4f6] to-transparent z-10" />
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#f4f4f6] to-transparent z-10" />
 
-        {/* Moving Marquee Track */}
-        <div className="animate-marquee-cycle flex items-center gap-3 sm:gap-4 py-2 select-none">
-          {[...technologies, ...technologies].map((tech, idx) => {
+        {/* Moving Marquee Track - Logos Only Infinite Cycle */}
+        <div className="animate-marquee-cycle flex items-center gap-10 sm:gap-14 md:gap-16 py-3 select-none">
+          {[...technologies, ...technologies, ...technologies, ...technologies].map((tech, idx) => {
             const TechIcon = tech.Icon;
             return (
               <div
                 key={`${tech.name}-${idx}`}
-                className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white border border-[#e5e5ea] shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-[#a1a1aa] hover:shadow-sm transition-all shrink-0 cursor-default"
+                title={tech.name}
+                aria-label={tech.name}
+                className="flex items-center justify-center p-2.5 sm:p-3 rounded-2xl hover:bg-white hover:shadow-md hover:border hover:border-[#e5e5ea] transition-all duration-300 shrink-0 cursor-pointer group"
               >
-                <TechIcon className="w-4 h-4 shrink-0" />
-                <span className="font-mono text-xs sm:text-sm font-semibold text-[#3f3f46]">
-                  {tech.name}
-                </span>
+                <TechIcon className="h-8 w-8 sm:h-9 sm:w-9 shrink-0 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
               </div>
             );
           })}
