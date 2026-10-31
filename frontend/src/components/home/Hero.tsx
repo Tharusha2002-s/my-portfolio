@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { smoothScrollTo } from "@/utils/smoothScroll";
 import {
   PythonIcon,
@@ -34,57 +35,85 @@ export default function Hero() {
 
   return (
     <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6">
-      {/* 1. Main Rounded Hero Card */}
-      <div className="max-w-5xl mx-auto bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] px-6 py-16 sm:py-24 text-center relative overflow-hidden">
+      {/* 1. Main Rounded Hero Card with Text Left & Photo Right */}
+      <div className="max-w-5xl mx-auto bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-12 lg:p-16 relative overflow-hidden">
         
         {/* Subtle decorative background gradient */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 bg-gradient-to-b from-gray-50 to-transparent pointer-events-none rounded-t-[44px]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-gray-50/80 to-transparent pointer-events-none rounded-tr-[44px]" />
 
-        <div className="relative z-10 flex flex-col items-center">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-12 items-center">
           
-          {/* Avatar with Floating Speech Bubble Badge */}
-          <div className="relative mb-6">
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-white shadow-md mx-auto ring-1 ring-black/5 bg-gray-100">
-              <Image
-                src="/profile.png"
-                alt="Tharusha Sangeeth"
-                width={96}
-                height={96}
-                priority
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Floating Speech Tag */}
-            <div className="absolute -top-1 -right-16 sm:-right-20 bg-white border border-[#e5e5ea] shadow-sm rounded-full px-2.5 py-1 text-[11px] font-medium text-[#18181b] flex items-center gap-1.5 whitespace-nowrap animate-bounce duration-1000">
+          {/* Left Side: Typography & CTA */}
+          <div className="flex flex-col items-start text-left">
+            
+            {/* Availability Pill */}
+            <div className="inline-flex items-center gap-2 bg-[#f4f4f6] border border-[#e5e5ea] rounded-full px-3.5 py-1 text-xs font-medium text-[#52525b] shadow-sm mb-5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span>Available 👋</span>
+              <span>Available for opportunities 👋</span>
             </div>
+
+            {/* Primary Headline */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-[#18181b] leading-[1.16]">
+              Building scalable systems, intelligent AI, and web experiences.
+            </h1>
+
+            {/* Subtitle Bio */}
+            <p className="mt-5 text-sm sm:text-base text-[#71717a] font-normal leading-relaxed max-w-xl">
+              Hi, I&apos;m Tharusha Sangeeth — Software Engineering undergraduate at Sabaragamuwa University of Sri Lanka, crafting resilient full-stack applications and advancing in AI/ML.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#projects"
+                onClick={handleScrollToProjects}
+                className="inline-flex items-center gap-2 bg-[#18181b] hover:bg-black text-white font-medium text-xs sm:text-sm rounded-full px-6 py-3 shadow-sm hover:scale-105 active:scale-95 transition-all"
+              >
+                <span>Latest Work</span>
+                <span>↗</span>
+              </a>
+
+              <Link
+                href="/resume"
+                className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#18181b] border border-[#e5e5ea] font-medium text-xs sm:text-sm rounded-full px-5 py-3 shadow-sm hover:border-gray-300 transition-all"
+              >
+                <span>View Resume</span>
+                <span>↗</span>
+              </Link>
+            </div>
+
           </div>
 
-          {/* Primary Centered Heading */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#18181b] max-w-2xl mx-auto leading-[1.18] sm:leading-[1.14]">
-            Building scalable systems, intelligent AI, and web experiences.
-          </h1>
+          {/* Right Side: Profile Photo */}
+          <div className="flex justify-center lg:justify-end order-first lg:order-last">
+            <div className="relative">
+              {/* Soft ambient background glow */}
+              <div className="absolute -inset-3 rounded-full bg-gradient-to-tr from-gray-200/60 via-gray-100/40 to-transparent blur-xl -z-10" />
 
-          {/* Subtitle */}
-          <p className="mt-5 max-w-xl mx-auto text-sm sm:text-base text-[#71717a] font-normal leading-relaxed">
-            Hi, I&apos;m Tharusha Sangeeth — Software Engineering undergraduate at Sabaragamuwa University of Sri Lanka, crafting resilient full-stack applications and advancing in AI/ML.
-          </p>
+              {/* Circular Avatar Container */}
+              <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/5 bg-gray-100 transition-transform duration-500 hover:scale-[1.02]">
+                <Image
+                  src="/profile.png"
+                  alt="Tharusha Sangeeth"
+                  width={320}
+                  height={320}
+                  priority
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-          {/* Center Dark Pill Button: Latest Work ↗ */}
-          <div className="mt-8 flex items-center gap-3">
-            <a
-              href="#projects"
-              onClick={handleScrollToProjects}
-              className="inline-flex items-center gap-2 bg-[#18181b] hover:bg-black text-white font-medium text-xs sm:text-sm rounded-full px-6 py-3 shadow-sm hover:scale-105 active:scale-95 transition-all"
-            >
-              <span>Latest Work</span>
-              <span>↗</span>
-            </a>
+              {/* Floating Badge Tag */}
+              <div className="absolute bottom-2 -left-2 sm:bottom-4 sm:-left-4 bg-white/95 backdrop-blur-sm border border-[#e5e5ea] shadow-md rounded-full px-3.5 py-1.5 text-xs font-semibold text-[#18181b] flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                <span>Tharusha Sangeeth</span>
+              </div>
+            </div>
           </div>
 
         </div>
