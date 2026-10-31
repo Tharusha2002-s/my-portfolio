@@ -68,16 +68,16 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
 
   // If on login page, just render children directly without sidebar
   if (isLoginPage) {
-    return <div className="min-h-screen bg-[#080c10] text-[#e6edf3]">{children}</div>;
+    return <div className="min-h-screen bg-[#f4f4f6] text-[#18181b]">{children}</div>;
   }
 
   // Loading state while checking authentication
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#080c10] text-[#00c8ff] font-mono">
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f4f6] text-[#18181b] font-mono">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00c8ff] border-t-transparent" />
-          <span className="text-xs tracking-widest uppercase">Initializing Admin Terminal...</span>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#18181b] border-t-transparent" />
+          <span className="text-xs tracking-widest uppercase text-[#71717a]">Initializing Admin Console...</span>
         </div>
       </div>
     );
@@ -101,33 +101,33 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#080c10] text-[#e6edf3]">
+    <div className="flex min-h-screen bg-[#f4f4f6] text-[#18181b]">
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* Sidebar Navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#1e2d3d] bg-[#0a0f14] transition-transform duration-200 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#e5e5ea] bg-white transition-transform duration-200 lg:static lg:translate-x-0 ${
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Logo / Header */}
-        <div className="flex h-16 items-center justify-between border-b border-[#1e2d3d] px-6">
+        {/* Logo / Header with White TS Logo */}
+        <div className="flex h-16 items-center justify-between border-b border-[#e5e5ea] px-6">
           <Link href="/admin" className="flex items-center gap-2.5 font-mono select-none">
             <LogoIcon size="sm" />
-            <span className="text-sm font-bold tracking-wider text-[#e6edf3]">
-              THARUSHA<span className="text-[#00c8ff]">/ADMIN</span>
+            <span className="text-sm font-bold tracking-wider text-[#18181b]">
+              THARUSHA<span className="text-[#71717a] font-normal text-xs ml-1">/ADMIN</span>
             </span>
           </Link>
           <button
             type="button"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-[#8899a6] hover:text-[#e6edf3] lg:hidden"
+            className="text-[#71717a] hover:text-[#18181b] lg:hidden"
             aria-label="Close menu"
           >
             ✕
@@ -135,26 +135,26 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Live Backend Connection Indicator */}
-        <div className="border-b border-[#1e2d3d] bg-[#0d1117] px-6 py-2.5">
+        <div className="border-b border-[#e5e5ea] bg-[#f9f9fb] px-6 py-2.5">
           <div className="flex items-center justify-between font-mono text-[11px]">
-            <span className="text-[#6c7d8f]">API Status:</span>
+            <span className="text-[#71717a]">API Status:</span>
             <div className="flex items-center gap-1.5">
               <span
                 className={`h-2 w-2 rounded-full ${
                   apiOnline === true
-                    ? "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                    ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
                     : apiOnline === false
-                    ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]"
+                    ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
                     : "bg-amber-400"
                 }`}
               />
               <span
                 className={
                   apiOnline === true
-                    ? "text-emerald-400"
+                    ? "text-emerald-700 font-medium"
                     : apiOnline === false
-                    ? "text-rose-400"
-                    : "text-amber-400"
+                    ? "text-rose-600 font-medium"
+                    : "text-amber-600 font-medium"
                 }
               >
                 {apiOnline === true ? "Online (5001)" : apiOnline === false ? "Offline" : "Checking..."}
@@ -164,7 +164,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 space-y-1.5 px-3 py-4">
+        <nav className="flex-1 space-y-1 px-3 py-4">
           {navLinks.map((item) => {
             const isActive =
               item.href === "/admin"
@@ -176,10 +176,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-3 py-2.5 rounded font-mono text-xs transition-all ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-xs transition-all ${
                   isActive
-                    ? "bg-[#00c8ff]/10 text-[#00c8ff] border border-[#00c8ff]/30 font-semibold"
-                    : "text-[#8899a6] hover:bg-[#161b22] hover:text-[#e6edf3]"
+                    ? "bg-[#18181b] text-white shadow-sm font-semibold"
+                    : "text-[#52525b] hover:bg-[#f4f4f6] hover:text-[#18181b]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -187,7 +187,11 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                   <span>{item.label}</span>
                 </div>
                 {item.badge !== undefined && (
-                  <span className="rounded-full bg-[#00c8ff] px-2 py-0.5 text-[10px] font-bold text-[#080c10]">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                      isActive ? "bg-white text-[#18181b]" : "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    }`}
+                  >
                     {item.badge}
                   </span>
                 )}
@@ -197,28 +201,28 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Sidebar Footer & User Profile */}
-        <div className="border-t border-[#1e2d3d] p-4 bg-[#0d1117]">
+        <div className="border-t border-[#e5e5ea] p-4 bg-[#f9f9fb]">
           <div className="mb-3 flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1e2d3d] font-mono text-xs font-bold text-[#00c8ff] border border-[#2a3a49]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white font-mono text-xs font-bold text-[#18181b] border border-[#e5e5ea] shadow-sm">
               {user?.name?.[0] || "T"}
             </div>
             <div className="overflow-hidden">
-              <p className="truncate text-xs font-semibold text-[#e6edf3]">{user?.name || "Admin"}</p>
-              <p className="truncate font-mono text-[10px] text-[#5c6f7f]">{user?.role || "SUPER_ADMIN"}</p>
+              <p className="truncate text-xs font-semibold text-[#18181b]">{user?.name || "Admin"}</p>
+              <p className="truncate font-mono text-[10px] text-[#71717a]">{user?.role || "SUPER_ADMIN"}</p>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 border border-[#2a3a49] bg-[#080c10] py-1.5 font-mono text-[11px] text-[#8899a6] transition-colors hover:border-[#00c8ff] hover:text-[#00c8ff]"
+              className="flex items-center justify-center gap-2 border border-[#e5e5ea] bg-white py-2 rounded-xl font-mono text-[11px] text-[#52525b] transition-colors hover:border-[#18181b] hover:text-[#18181b] shadow-sm"
             >
               <span>← View Portfolio</span>
             </Link>
             <button
               type="button"
               onClick={logout}
-              className="flex items-center justify-center gap-2 border border-rose-950/40 bg-rose-950/20 py-1.5 font-mono text-[11px] text-rose-400 transition-colors hover:bg-rose-950/40 hover:text-rose-300"
+              className="flex items-center justify-center gap-2 border border-rose-200 bg-rose-50 py-2 rounded-xl font-mono text-[11px] text-rose-700 transition-colors hover:bg-rose-100"
             >
               <span>🚪 Sign Out</span>
             </button>
@@ -229,20 +233,20 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-x-hidden">
         {/* Top Navbar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[#1e2d3d] bg-[#0a0f14]/90 px-4 sm:px-8 backdrop-blur-md">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[#e5e5ea] bg-white/90 px-4 sm:px-8 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded border border-[#2a3a49] text-base text-[#8899a6] hover:text-[#e6edf3] hover:border-[#00c8ff] transition-colors lg:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e5ea] bg-white text-base text-[#52525b] hover:text-[#18181b] hover:border-[#18181b] transition-colors lg:hidden shadow-sm"
               aria-label="Open sidebar"
             >
               ☰
             </button>
-            <div className="flex items-center gap-2 font-mono text-xs text-[#5c6f7f]">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#71717a]">
               <span>portal</span>
               <span>/</span>
-              <span className="text-[#00c8ff] uppercase">
+              <span className="text-[#18181b] font-semibold uppercase">
                 {pathname.replace("/admin", "").replace("/", "") || "overview"}
               </span>
             </div>
@@ -252,7 +256,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
             <Link
               href="/"
               target="_blank"
-              className="hidden sm:inline-flex items-center gap-1.5 border border-[#2a3a49] bg-[#0d1117] px-3 py-1.5 font-mono text-xs text-[#8899a6] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 border border-[#e5e5ea] bg-white px-3.5 py-1.5 rounded-full font-mono text-xs text-[#52525b] hover:border-[#18181b] hover:text-[#18181b] transition-colors shadow-sm"
             >
               <span>Live Site</span>
               <span>↗</span>
@@ -261,7 +265,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={logout}
               title="Logout"
-              className="flex h-9 w-9 items-center justify-center border border-[#2a3a49] bg-[#0d1117] font-mono text-xs text-[#8899a6] hover:text-rose-400 hover:border-rose-900 transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e5ea] bg-white font-mono text-xs text-[#52525b] hover:text-rose-600 hover:border-rose-300 transition-colors shadow-sm"
             >
               🚪
             </button>

@@ -75,50 +75,50 @@ export default function AdminSettingsPage() {
   return (
     <div className="max-w-4xl space-y-8">
       {/* Header */}
-      <div className="border-b border-[#1e2d3d] pb-6">
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+      <div className="border-b border-[#e5e5ea] pb-6">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#71717a]">
           Configuration & Credentials
         </span>
-        <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#e6edf3]">
+        <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#18181b]">
           Admin Settings & Security
         </h1>
-        <p className="mt-1 text-xs text-[#8899a6]">
+        <p className="mt-1 text-xs text-[#71717a]">
           Manage account security, review system environment variables, and verify database connectivity.
         </p>
       </div>
 
       {/* Profile Overview Card */}
-      <div className="border border-[#1e2d3d] bg-[#0d1117] p-6">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+      <div className="rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-sm">
+        <h2 className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
           01 // Administrator Profile
         </h2>
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div className="border border-[#1e2d3d] bg-[#080c10] p-4">
-            <span className="font-mono text-[11px] text-[#5c6f7f]">Full Name</span>
-            <p className="mt-1 font-bold text-sm text-[#e6edf3]">
+          <div className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4">
+            <span className="font-mono text-[11px] text-[#71717a]">Full Name</span>
+            <p className="mt-1 font-bold text-sm text-[#18181b]">
               {user?.name || "Tharusha Sangeeth"}
             </p>
           </div>
 
-          <div className="border border-[#1e2d3d] bg-[#080c10] p-4">
-            <span className="font-mono text-[11px] text-[#5c6f7f]">Email Address</span>
-            <p className="mt-1 font-bold text-sm text-[#e6edf3]">
+          <div className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4">
+            <span className="font-mono text-[11px] text-[#71717a]">Email Address</span>
+            <p className="mt-1 font-bold text-sm text-[#18181b]">
               {user?.email || "—"}
             </p>
           </div>
 
-          <div className="border border-[#1e2d3d] bg-[#080c10] p-4">
-            <span className="font-mono text-[11px] text-[#5c6f7f]">Username</span>
-            <p className="mt-1 font-mono text-sm text-[#00c8ff]">
+          <div className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4">
+            <span className="font-mono text-[11px] text-[#71717a]">Username</span>
+            <p className="mt-1 font-mono text-sm font-semibold text-[#18181b]">
               @{user?.username || "admin"}
             </p>
           </div>
 
-          <div className="border border-[#1e2d3d] bg-[#080c10] p-4">
-            <span className="font-mono text-[11px] text-[#5c6f7f]">Access Role</span>
+          <div className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4">
+            <span className="font-mono text-[11px] text-[#71717a]">Access Role</span>
             <div className="mt-1 flex items-center gap-2">
-              <span className="rounded bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 font-mono text-xs text-emerald-400">
+              <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 font-mono text-xs font-bold text-emerald-800">
                 {user?.role || "SUPER_ADMIN"}
               </span>
             </div>
@@ -127,20 +127,20 @@ export default function AdminSettingsPage() {
       </div>
 
       {/* Change Password Form */}
-      <div className="border border-[#1e2d3d] bg-[#0d1117] p-6">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+      <div className="rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-sm">
+        <h2 className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
           02 // Security & Authentication
         </h2>
-        <p className="mt-1 text-xs text-[#8899a6]">
+        <p className="mt-1 text-xs text-[#71717a]">
           Update your administrative master password. Passwords are encrypted with bcrypt salts.
         </p>
 
         {statusMessage && (
           <div
-            className={`mt-4 border p-3 font-mono text-xs ${
+            className={`mt-4 rounded-xl border p-3 font-mono text-xs ${
               statusMessage.type === "success"
-                ? "border-emerald-500/50 bg-emerald-950/30 text-emerald-300"
-                : "border-rose-500/50 bg-rose-950/30 text-rose-300"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                : "border-rose-200 bg-rose-50 text-rose-700"
             }`}
           >
             {statusMessage.text}
@@ -149,45 +149,45 @@ export default function AdminSettingsPage() {
 
         <form onSubmit={handlePasswordSubmit} className="mt-5 space-y-4 max-w-md font-mono text-xs">
           <div>
-            <label className="mb-1.5 block text-[#8899a6]">Current Password</label>
+            <label className="mb-1.5 block text-[#71717a]">Current Password</label>
             <input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="••••••••••••"
               required
-              className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+              className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[#8899a6]">New Password</label>
+            <label className="mb-1.5 block text-[#71717a]">New Password</label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 6 characters"
               required
-              className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+              className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[#8899a6]">Confirm New Password</label>
+            <label className="mb-1.5 block text-[#71717a]">Confirm New Password</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter new password"
               required
-              className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+              className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={updating}
-            className="border border-[#00c8ff] bg-[#00c8ff] px-5 py-2.5 font-bold text-[#080c10] hover:bg-[#00b5e6] disabled:opacity-50 cursor-pointer transition-colors"
+            className="rounded-xl bg-[#18181b] px-5 py-2.5 font-bold text-white hover:bg-black disabled:opacity-50 cursor-pointer transition-colors shadow-sm"
           >
             {updating ? "Updating..." : "Update Master Password"}
           </button>
@@ -195,31 +195,31 @@ export default function AdminSettingsPage() {
       </div>
 
       {/* System Environment Diagnostics */}
-      <div className="border border-[#1e2d3d] bg-[#0d1117] p-6">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+      <div className="rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-sm">
+        <h2 className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
           03 // System Architecture & Diagnostics
         </h2>
 
-        <div className="mt-4 space-y-2 border border-[#1e2d3d] bg-[#080c10] p-4 font-mono text-xs text-[#8899a6]">
-          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] pb-2 gap-1">
+        <div className="mt-4 space-y-2 rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4 font-mono text-xs text-[#71717a]">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#e5e5ea] pb-2 gap-1">
             <span>Frontend Engine:</span>
-            <span className="text-[#e6edf3]">Next.js 16 (React 19)</span>
+            <span className="text-[#18181b] font-medium">Next.js 16 (React 19)</span>
           </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#e5e5ea] py-2 gap-1">
             <span>Backend Service:</span>
-            <span className="text-[#e6edf3]">Express 4 + TypeScript</span>
+            <span className="text-[#18181b] font-medium">Express 4 + TypeScript</span>
           </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#e5e5ea] py-2 gap-1">
             <span>Database Layer:</span>
-            <span className="text-emerald-400">Prisma ORM (PostgreSQL)</span>
+            <span className="text-emerald-700 font-semibold">Prisma ORM (PostgreSQL)</span>
           </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#1e2d3d] py-2 gap-1">
+          <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#e5e5ea] py-2 gap-1">
             <span>Backend API Endpoint:</span>
-            <span className="text-[#00c8ff] break-all">http://localhost:5001/api</span>
+            <span className="text-[#18181b] font-medium break-all">http://localhost:5001/api</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:justify-between pt-2 gap-1">
             <span>Authentication:</span>
-            <span className="text-[#e6edf3] break-all">JWT (HMAC-SHA256, 7-Day Session)</span>
+            <span className="text-[#18181b] font-medium break-all">JWT (HMAC-SHA256, 7-Day Session)</span>
           </div>
         </div>
       </div>

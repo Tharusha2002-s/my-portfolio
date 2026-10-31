@@ -116,7 +116,7 @@ export default function AdminProjectsPage() {
       github: project.github || "",
       demo: project.demo || "",
       featured: project.featured,
-      order: project.order || 0,
+      order: project.order,
     });
     setFormError(null);
     setModalOpen(true);
@@ -124,8 +124,8 @@ export default function AdminProjectsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title.trim() || !formData.description.trim()) {
-      setFormError("Title and description are required.");
+    if (!formData.title.trim() || !formData.number.trim()) {
+      setFormError("Project title and number are required.");
       return;
     }
 
@@ -140,42 +140,39 @@ export default function AdminProjectsPage() {
     try {
       if (editingId) {
         const updated = await updateProjectRecord(editingId, {
-          number: formData.number,
-          title: formData.title,
-          description: formData.description,
-          category: formData.category,
+          number: formData.number.trim(),
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          category: formData.category.trim(),
           technologies: techArray,
-          github: formData.github || null,
-          demo: formData.demo || null,
+          github: formData.github.trim() || null,
+          demo: formData.demo.trim() || null,
           featured: formData.featured,
           order: Number(formData.order),
         });
-
         setProjects((prev) =>
           prev.map((p) => (p.id === editingId ? updated : p))
         );
       } else {
         const created = await createProjectRecord({
-          number: formData.number,
-          title: formData.title,
-          description: formData.description,
-          category: formData.category,
+          number: formData.number.trim(),
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          category: formData.category.trim(),
           technologies: techArray,
-          github: formData.github || null,
-          demo: formData.demo || null,
+          github: formData.github.trim() || null,
+          demo: formData.demo.trim() || null,
           featured: formData.featured,
           order: Number(formData.order),
         });
-
         setProjects((prev) => [...prev, created]);
       }
-
       setModalOpen(false);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setFormError(err.message || "Failed to save project.");
       } else {
-        setFormError("An unexpected error occurred while saving.");
+        setFormError("Unexpected error occurred while saving.");
       }
     } finally {
       setSaving(false);
@@ -211,10 +208,10 @@ export default function AdminProjectsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#00c8ff]">
+      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#18181b]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#00c8ff] border-t-transparent" />
-          <span>Loading project records...</span>
+          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#18181b] border-t-transparent" />
+          <span className="text-[#71717a]">Loading project records...</span>
         </div>
       </div>
     );
@@ -223,15 +220,15 @@ export default function AdminProjectsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1e2d3d] pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e5e5ea] pb-6">
         <div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#71717a]">
             Portfolio Content Management
           </span>
-          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#e6edf3]">
+          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#18181b]">
             Projects Directory
           </h1>
-          <p className="mt-1 text-xs text-[#8899a6]">
+          <p className="mt-1 text-xs text-[#71717a]">
             Add, update, or remove portfolio projects displayed on the public site.
           </p>
         </div>
@@ -239,23 +236,23 @@ export default function AdminProjectsPage() {
         <button
           type="button"
           onClick={handleOpenCreate}
-          className="flex items-center gap-2 border border-[#00c8ff] bg-[#00c8ff] px-4 py-2 font-mono text-xs font-bold text-[#080c10] hover:bg-[#00b5e6] transition-all cursor-pointer"
+          className="flex items-center gap-2 rounded-xl bg-[#18181b] px-4 py-2 font-mono text-xs font-bold text-white hover:bg-black transition-all cursor-pointer shadow-sm"
         >
           <span>+ Add New Project</span>
         </button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border border-[#1e2d3d] bg-[#0d1117] p-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-4 shadow-sm">
         <div className="flex flex-1 flex-wrap items-center gap-3 w-full">
           {/* Search Input */}
-          <div className="w-full sm:w-auto sm:min-w-[220px] flex-1">
+          <div className="w-full sm:w-auto sm:min-w-[240px] flex-1">
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects, categories, technologies..."
-              className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 font-mono text-xs text-[#e6edf3] placeholder-[#485b6a] focus:border-[#00c8ff] focus:outline-none"
+              className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2 font-mono text-xs text-[#18181b] placeholder-[#a1a1aa] focus:border-[#18181b] focus:bg-white focus:outline-none"
             />
           </div>
 
@@ -263,7 +260,7 @@ export default function AdminProjectsPage() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full sm:w-auto border border-[#2a3a49] bg-[#080c10] px-3 py-2 font-mono text-xs text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+            className="w-full sm:w-auto rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2 font-mono text-xs text-[#18181b] focus:border-[#18181b] focus:outline-none"
           >
             {categories.map((c) => (
               <option key={c} value={c}>
@@ -273,26 +270,26 @@ export default function AdminProjectsPage() {
           </select>
 
           {/* Featured Toggle Checkbox */}
-          <label className="flex items-center gap-2 font-mono text-xs text-[#8899a6] cursor-pointer">
+          <label className="flex items-center gap-2 font-mono text-xs text-[#71717a] cursor-pointer">
             <input
               type="checkbox"
               checked={featuredOnly}
               onChange={(e) => setFeaturedOnly(e.target.checked)}
-              className="accent-[#00c8ff]"
+              className="accent-[#18181b]"
             />
             <span>Featured Only</span>
           </label>
         </div>
 
-        <span className="font-mono text-xs text-[#5c6f7f]">
+        <span className="font-mono text-xs text-[#a1a1aa]">
           Showing {filteredProjects.length} of {projects.length}
         </span>
       </div>
 
       {/* Projects List / Table */}
       {filteredProjects.length === 0 ? (
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
-          <p className="text-sm text-[#8899a6]">No projects match your search criteria.</p>
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-12 text-center font-mono shadow-sm">
+          <p className="text-sm text-[#71717a]">No projects match your search criteria.</p>
           <button
             type="button"
             onClick={() => {
@@ -300,7 +297,7 @@ export default function AdminProjectsPage() {
               setSelectedCategory("All");
               setFeaturedOnly(false);
             }}
-            className="mt-3 border border-[#00c8ff] px-3.5 py-1.5 text-xs text-[#00c8ff] hover:bg-[#00c8ff]/10"
+            className="mt-3 rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-1.5 text-xs text-[#18181b] hover:bg-[#f4f4f6]"
           >
             Reset Filters
           </button>
@@ -310,29 +307,29 @@ export default function AdminProjectsPage() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="border border-[#1e2d3d] bg-[#0d1117] p-5 transition-all hover:border-[#00c8ff]/40"
+              className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all hover:border-[#d4d4d8]"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
-                    <span className="border border-[#00c8ff]/40 bg-[#00c8ff]/10 px-2 py-0.5 font-mono text-xs text-[#00c8ff] font-bold">
+                    <span className="rounded-md border border-[#e5e5ea] bg-[#f4f4f6] px-2 py-0.5 font-mono text-xs font-bold text-[#18181b]">
                       PROJ-{project.number}
                     </span>
-                    <span className="font-mono text-xs text-[#5c6f7f]">
+                    <span className="font-mono text-xs text-[#71717a]">
                       {project.category}
                     </span>
                     {project.featured && (
-                      <span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] px-2 py-0.5">
+                      <span className="rounded-md bg-amber-50 border border-amber-200 text-amber-800 font-mono text-[10px] px-2 py-0.5 font-bold">
                         ★ FEATURED
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#e6edf3]">
+                  <h3 className="text-lg font-bold text-[#18181b]">
                     {project.title}
                   </h3>
 
-                  <p className="max-w-3xl text-xs sm:text-sm text-[#8899a6] leading-relaxed">
+                  <p className="max-w-3xl text-xs sm:text-sm text-[#71717a] leading-relaxed">
                     {project.description}
                   </p>
                 </div>
@@ -342,10 +339,10 @@ export default function AdminProjectsPage() {
                   <button
                     type="button"
                     onClick={() => handleToggleFeatured(project)}
-                    className={`border px-3 py-1.5 transition-colors cursor-pointer ${
+                    className={`rounded-xl border px-3 py-1.5 transition-colors cursor-pointer ${
                       project.featured
-                        ? "border-amber-400/40 text-amber-300 hover:bg-amber-400/10"
-                        : "border-[#2a3a49] text-[#6c7d8f] hover:text-[#e6edf3]"
+                        ? "border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100"
+                        : "border-[#e5e5ea] bg-white text-[#71717a] hover:text-[#18181b] hover:bg-[#f4f4f6]"
                     }`}
                   >
                     {project.featured ? "★ Unfeature" : "☆ Feature"}
@@ -354,7 +351,7 @@ export default function AdminProjectsPage() {
                   <button
                     type="button"
                     onClick={() => handleOpenEdit(project)}
-                    className="border border-[#2a3a49] bg-[#161b22] px-3 py-1.5 text-[#e6edf3] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors cursor-pointer"
+                    className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3 py-1.5 text-[#18181b] hover:bg-[#f4f4f6] transition-colors cursor-pointer"
                   >
                     ✏️ Edit
                   </button>
@@ -362,7 +359,7 @@ export default function AdminProjectsPage() {
                   <button
                     type="button"
                     onClick={() => setDeletingProject(project)}
-                    className="border border-rose-950 bg-rose-950/20 px-3 py-1.5 text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition-colors cursor-pointer"
+                    className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-1.5 text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                   >
                     🗑️ Delete
                   </button>
@@ -370,25 +367,25 @@ export default function AdminProjectsPage() {
               </div>
 
               {/* Technologies & External links */}
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#1e2d3d] pt-3 font-mono text-xs">
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#f0f0f2] pt-3 font-mono text-xs">
                 <div className="flex flex-wrap gap-1.5">
                   {project.technologies?.map((tech) => (
                     <span
                       key={tech}
-                      className="border border-[#2a3a49] bg-[#080c10] px-2 py-0.5 text-[11px] text-[#6c7d8f]"
+                      className="rounded-md border border-[#e5e5ea] bg-[#f9f9fb] px-2 py-0.5 text-[11px] text-[#71717a]"
                     >
                       #{tech}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4 text-[#8899a6]">
+                <div className="flex items-center gap-4 text-[#71717a]">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-[#00c8ff] transition-colors"
+                      className="hover:text-[#18181b] transition-colors"
                     >
                       GitHub ↗
                     </a>
@@ -398,7 +395,7 @@ export default function AdminProjectsPage() {
                       href={project.demo}
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-[#00c8ff] transition-colors"
+                      className="text-[#18181b] font-medium hover:underline"
                     >
                       Live Demo ↗
                     </a>
@@ -412,25 +409,25 @@ export default function AdminProjectsPage() {
 
       {/* Add / Edit Project Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[#1e2d3d] bg-[#0d1117] p-4 sm:p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 sm:p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-7 shadow-2xl">
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-[#8899a6] hover:text-[#e6edf3]"
+              className="absolute top-4 right-4 text-[#71717a] hover:text-[#18181b]"
             >
               ✕
             </button>
 
-            <span className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+            <span className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
               {editingId ? "Modify Record" : "New Record"}
             </span>
-            <h2 className="mt-1 text-xl font-bold text-[#e6edf3]">
+            <h2 className="mt-1 text-xl font-bold text-[#18181b]">
               {editingId ? "Edit Project" : "Create New Project"}
             </h2>
 
             {formError && (
-              <div className="mt-4 border border-rose-800/60 bg-rose-950/30 p-3 font-mono text-xs text-rose-300">
+              <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 font-mono text-xs text-rose-700">
                 {formError}
               </div>
             )}
@@ -438,7 +435,7 @@ export default function AdminProjectsPage() {
             <form onSubmit={handleSave} className="mt-6 space-y-4 font-mono text-xs">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-[#8899a6]">Project Number</label>
+                  <label className="mb-1.5 block text-[#71717a]">Project Number</label>
                   <input
                     type="text"
                     value={formData.number}
@@ -447,12 +444,12 @@ export default function AdminProjectsPage() {
                     }
                     placeholder="01"
                     required
-                    className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-[#8899a6]">Category</label>
+                  <label className="mb-1.5 block text-[#71717a]">Category</label>
                   <input
                     type="text"
                     value={formData.category}
@@ -461,13 +458,13 @@ export default function AdminProjectsPage() {
                     }
                     placeholder="Full-Stack, Web Application, DevOps, etc."
                     required
-                    className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-1.5 block text-[#8899a6]">Project Title</label>
+                <label className="mb-1.5 block text-[#71717a]">Project Title</label>
                 <input
                   type="text"
                   value={formData.title}
@@ -476,12 +473,12 @@ export default function AdminProjectsPage() {
                   }
                   placeholder="e.g. RoadAware"
                   required
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                  className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1.5 block text-[#8899a6]">Description</label>
+                <label className="mb-1.5 block text-[#71717a]">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) =>
@@ -490,12 +487,12 @@ export default function AdminProjectsPage() {
                   placeholder="A detailed explanation of the project, features, and engineering architecture..."
                   rows={3}
                   required
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                  className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1.5 block text-[#8899a6]">
+                <label className="mb-1.5 block text-[#71717a]">
                   Technologies (comma separated)
                 </label>
                 <input
@@ -505,13 +502,13 @@ export default function AdminProjectsPage() {
                     setFormData({ ...formData, technologies: e.target.value })
                   }
                   placeholder="React, Next.js, Node.js, Leaflet, Docker"
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                  className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-[#8899a6]">GitHub URL</label>
+                  <label className="mb-1.5 block text-[#71717a]">GitHub URL</label>
                   <input
                     type="url"
                     value={formData.github}
@@ -519,12 +516,12 @@ export default function AdminProjectsPage() {
                       setFormData({ ...formData, github: e.target.value })
                     }
                     placeholder="https://github.com/..."
-                    className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-[#8899a6]">Live Demo URL</label>
+                  <label className="mb-1.5 block text-[#71717a]">Live Demo URL</label>
                   <input
                     type="url"
                     value={formData.demo}
@@ -532,49 +529,49 @@ export default function AdminProjectsPage() {
                       setFormData({ ...formData, demo: e.target.value })
                     }
                     placeholder="https://..."
-                    className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                <label className="flex items-center gap-2 cursor-pointer text-[#e6edf3]">
+                <label className="flex items-center gap-2 cursor-pointer text-[#18181b]">
                   <input
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) =>
                       setFormData({ ...formData, featured: e.target.checked })
                     }
-                    className="accent-[#00c8ff]"
+                    className="accent-[#18181b]"
                   />
                   <span>Feature on Portfolio Homepage</span>
                 </label>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-[#8899a6]">Display Order:</span>
+                  <span className="text-[#71717a]">Display Order:</span>
                   <input
                     type="number"
                     value={formData.order}
                     onChange={(e) =>
                       setFormData({ ...formData, order: Number(e.target.value) })
                     }
-                    className="w-16 border border-[#2a3a49] bg-[#080c10] px-2 py-1 text-center text-[#e6edf3]"
+                    className="w-16 rounded-lg border border-[#e5e5ea] bg-[#f9f9fb] px-2 py-1 text-center text-[#18181b]"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 border-t border-[#1e2d3d] pt-4">
+              <div className="flex items-center justify-end gap-3 border-t border-[#f0f0f2] pt-4">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="border border-[#2a3a49] bg-[#161b22] px-4 py-2 text-[#8899a6] hover:text-[#e6edf3]"
+                  className="rounded-xl border border-[#e5e5ea] bg-white px-4 py-2 text-[#71717a] hover:bg-[#f4f4f6] hover:text-[#18181b]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="border border-[#00c8ff] bg-[#00c8ff] px-5 py-2 font-bold text-[#080c10] hover:bg-[#00b5e6] disabled:opacity-50 cursor-pointer"
+                  className="rounded-xl bg-[#18181b] px-5 py-2 font-bold text-white hover:bg-black disabled:opacity-50 cursor-pointer shadow-sm"
                 >
                   {saving ? "Saving..." : editingId ? "Update Project" : "Create Project"}
                 </button>
@@ -586,23 +583,23 @@ export default function AdminProjectsPage() {
 
       {/* Delete Confirmation Modal */}
       {deletingProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-md border border-rose-900/50 bg-[#0d1117] p-5 sm:p-6 shadow-2xl">
-            <span className="font-mono text-xs text-rose-400 uppercase tracking-wider">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-md rounded-2xl border border-rose-200 bg-white p-6 shadow-2xl">
+            <span className="font-mono text-xs text-rose-600 uppercase tracking-wider font-bold">
               ⚠️ Permanent Action
             </span>
-            <h3 className="mt-2 text-lg font-bold text-[#e6edf3]">
+            <h3 className="mt-2 text-lg font-bold text-[#18181b]">
               Delete &quot;{deletingProject.title}&quot;?
             </h3>
-            <p className="mt-2 text-xs text-[#8899a6]">
-              This project record will be permanently deleted from the SQLite database and removed from the public portfolio.
+            <p className="mt-2 text-xs text-[#71717a]">
+              This project record will be permanently deleted from the database and removed from the public portfolio.
             </p>
 
             <div className="mt-6 flex items-center justify-end gap-3 font-mono text-xs">
               <button
                 type="button"
                 onClick={() => setDeletingProject(null)}
-                className="border border-[#2a3a49] bg-[#161b22] px-4 py-2 text-[#8899a6] hover:text-[#e6edf3]"
+                className="rounded-xl border border-[#e5e5ea] bg-white px-4 py-2 text-[#71717a] hover:bg-[#f4f4f6]"
               >
                 Cancel
               </button>
@@ -610,7 +607,7 @@ export default function AdminProjectsPage() {
                 type="button"
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="border border-rose-600 bg-rose-600 px-4 py-2 font-bold text-white hover:bg-rose-500 disabled:opacity-50 cursor-pointer"
+                className="rounded-xl border border-rose-600 bg-rose-600 px-4 py-2 font-bold text-white hover:bg-rose-700 disabled:opacity-50 cursor-pointer"
               >
                 {isDeleting ? "Deleting..." : "Confirm Delete"}
               </button>

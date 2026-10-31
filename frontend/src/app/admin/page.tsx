@@ -79,10 +79,10 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#00c8ff]">
+      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#18181b]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#00c8ff] border-t-transparent" />
-          <span>Loading telemetry & metrics...</span>
+          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#18181b] border-t-transparent" />
+          <span className="text-[#71717a]">Loading telemetry & metrics...</span>
         </div>
       </div>
     );
@@ -97,15 +97,15 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header section */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1e2d3d] pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e5e5ea] pb-6">
         <div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#71717a]">
             Control Center
           </span>
-          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#e6edf3]">
+          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#18181b]">
             System Telemetry & Overview
           </h1>
-          <p className="mt-1 text-xs text-[#8899a6]">
+          <p className="mt-1 text-xs text-[#71717a]">
             Real-time status of portfolio projects, visitor inquiries, and server health.
           </p>
         </div>
@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
             type="button"
             onClick={() => loadData(true)}
             disabled={refreshing}
-            className="flex items-center gap-2 border border-[#2a3a49] bg-[#0d1117] px-3.5 py-2 font-mono text-xs text-[#8899a6] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-all disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xl border border-[#e5e5ea] bg-white px-3.5 py-2 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] transition-all disabled:opacity-50 cursor-pointer shadow-sm"
           >
             <span className={refreshing ? "animate-spin" : ""}>🔄</span>
             <span>{refreshing ? "Refreshing..." : "Sync Telemetry"}</span>
@@ -123,7 +123,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/projects"
-            className="flex items-center gap-2 border border-[#00c8ff] bg-[#00c8ff] px-4 py-2 font-mono text-xs font-bold text-[#080c10] hover:bg-[#00b5e6] transition-colors"
+            className="flex items-center gap-2 rounded-xl bg-[#18181b] px-4 py-2 font-mono text-xs font-bold text-white hover:bg-black transition-colors shadow-sm"
           >
             <span>+ New Project</span>
           </Link>
@@ -133,42 +133,42 @@ export default function AdminDashboardPage() {
       {/* KPI Metrics Cards Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Projects KPI */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 transition-all hover:border-[#00c8ff]/40">
-          <div className="flex items-center justify-between text-[#8899a6]">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all hover:border-[#d4d4d8]">
+          <div className="flex items-center justify-between text-[#71717a]">
             <span className="font-mono text-xs uppercase tracking-wider">Projects</span>
             <span className="text-lg">📁</span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-[#e6edf3]">
+            <span className="text-3xl font-bold text-[#18181b]">
               {stats?.projects.total || 0}
             </span>
-            <span className="font-mono text-xs text-[#5c6f7f]">total</span>
+            <span className="font-mono text-xs text-[#a1a1aa]">total</span>
           </div>
-          <div className="mt-3 flex items-center justify-between border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
-            <span className="text-[#8899a6]">Featured on Site:</span>
-            <span className="text-[#00c8ff] font-bold">{stats?.projects.featured || 0}</span>
+          <div className="mt-3 flex items-center justify-between border-t border-[#f0f0f2] pt-2 font-mono text-[11px]">
+            <span className="text-[#71717a]">Featured on Site:</span>
+            <span className="text-[#18181b] font-bold">{stats?.projects.featured || 0}</span>
           </div>
         </div>
 
         {/* Inquiries KPI */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 transition-all hover:border-[#00c8ff]/40">
-          <div className="flex items-center justify-between text-[#8899a6]">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all hover:border-[#d4d4d8]">
+          <div className="flex items-center justify-between text-[#71717a]">
             <span className="font-mono text-xs uppercase tracking-wider">Inquiries</span>
             <span className="text-lg">📬</span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-[#e6edf3]">
+            <span className="text-3xl font-bold text-[#18181b]">
               {stats?.messages.total || 0}
             </span>
-            <span className="font-mono text-xs text-[#5c6f7f]">messages</span>
+            <span className="font-mono text-xs text-[#a1a1aa]">messages</span>
           </div>
-          <div className="mt-3 flex items-center justify-between border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
-            <span className="text-[#8899a6]">Unread Messages:</span>
+          <div className="mt-3 flex items-center justify-between border-t border-[#f0f0f2] pt-2 font-mono text-[11px]">
+            <span className="text-[#71717a]">Unread Messages:</span>
             <span
-              className={`rounded px-1.5 py-0.5 font-bold ${
+              className={`rounded-md px-2 py-0.5 font-bold ${
                 (stats?.messages.unread || 0) > 0
-                  ? "bg-amber-400/20 text-amber-300 border border-amber-400/40 animate-pulse"
-                  : "text-emerald-400"
+                  ? "bg-amber-50 text-amber-800 border border-amber-200"
+                  : "bg-emerald-50 text-emerald-800 border border-emerald-200"
               }`}
             >
               {stats?.messages.unread || 0} Unread
@@ -177,66 +177,66 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Skills KPI */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 transition-all hover:border-[#00c8ff]/40">
-          <div className="flex items-center justify-between text-[#8899a6]">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all hover:border-[#d4d4d8]">
+          <div className="flex items-center justify-between text-[#71717a]">
             <span className="font-mono text-xs uppercase tracking-wider">Tech Stack</span>
             <span className="text-lg">⚡</span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-[#e6edf3]">
+            <span className="text-3xl font-bold text-[#18181b]">
               {stats?.skills.total || 0}
             </span>
-            <span className="font-mono text-xs text-[#5c6f7f]">technologies</span>
+            <span className="font-mono text-xs text-[#a1a1aa]">technologies</span>
           </div>
-          <div className="mt-3 flex items-center justify-between border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
-            <span className="text-[#8899a6]">Categories:</span>
-            <span className="text-[#00c8ff]">Frontend, Backend, DB, DevOps</span>
+          <div className="mt-3 flex items-center justify-between border-t border-[#f0f0f2] pt-2 font-mono text-[11px]">
+            <span className="text-[#71717a]">Categories:</span>
+            <span className="text-[#18181b] font-medium">Frontend, Backend, DB, DevOps</span>
           </div>
         </div>
 
         {/* System & DB Health KPI */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 transition-all hover:border-[#00c8ff]/40">
-          <div className="flex items-center justify-between text-[#8899a6]">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all hover:border-[#d4d4d8]">
+          <div className="flex items-center justify-between text-[#71717a]">
             <span className="font-mono text-xs uppercase tracking-wider">Engine Status</span>
             <span className="text-lg">🩺</span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-xl font-bold text-emerald-400">ONLINE</span>
-            <span className="font-mono text-xs text-[#5c6f7f]">
+            <span className="text-xl font-bold text-emerald-600">ONLINE</span>
+            <span className="font-mono text-xs text-[#a1a1aa]">
               {formatUptime(stats?.system.uptimeSeconds || 0)}
             </span>
           </div>
-          <div className="mt-3 flex items-center justify-between border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
-            <span className="text-[#8899a6]">Database:</span>
-            <span className="text-emerald-400">PostgreSQL Connected</span>
+          <div className="mt-3 flex items-center justify-between border-t border-[#f0f0f2] pt-2 font-mono text-[11px]">
+            <span className="text-[#71717a]">Database:</span>
+            <span className="text-emerald-700 font-medium">PostgreSQL Connected</span>
           </div>
         </div>
       </div>
 
       {/* Quick Action Shortcuts */}
-      <div className="flex flex-wrap items-center gap-3 border border-[#1e2d3d] bg-[#0a0f14] p-4">
-        <span className="font-mono text-xs text-[#5c6f7f]">Quick Actions:</span>
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#e5e5ea] bg-white p-4 shadow-sm">
+        <span className="font-mono text-xs text-[#71717a]">Quick Actions:</span>
         <Link
           href="/admin/projects"
-          className="border border-[#2a3a49] bg-[#0d1117] px-3 py-1.5 font-mono text-xs text-[#e6edf3] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+          className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-1.5 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] hover:border-[#d4d4d8] transition-colors"
         >
           📁 Manage Projects
         </Link>
         <Link
           href="/admin/messages?status=UNREAD"
-          className="border border-[#2a3a49] bg-[#0d1117] px-3 py-1.5 font-mono text-xs text-[#e6edf3] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+          className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-1.5 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] hover:border-[#d4d4d8] transition-colors"
         >
           📬 View Unread Messages ({(stats?.messages.unread || 0)})
         </Link>
         <Link
           href="/admin/skills"
-          className="border border-[#2a3a49] bg-[#0d1117] px-3 py-1.5 font-mono text-xs text-[#e6edf3] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+          className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-1.5 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] hover:border-[#d4d4d8] transition-colors"
         >
           🛠️ Edit Skills
         </Link>
         <Link
           href="/admin/settings"
-          className="border border-[#2a3a49] bg-[#0d1117] px-3 py-1.5 font-mono text-xs text-[#e6edf3] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+          className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-1.5 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] hover:border-[#d4d4d8] transition-colors"
         >
           ⚙️ Security & Profile
         </Link>
@@ -245,17 +245,17 @@ export default function AdminDashboardPage() {
       {/* Main 2-column Dashboard Layout */}
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Left Column: Recent Inquiries */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6">
-          <div className="mb-5 flex items-center justify-between border-b border-[#1e2d3d] pb-3">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-6 shadow-sm">
+          <div className="mb-5 flex items-center justify-between border-b border-[#f0f0f2] pb-3">
             <div className="flex items-center gap-2">
               <span className="text-base">📬</span>
-              <h2 className="text-base font-semibold text-[#e6edf3]">
+              <h2 className="text-base font-semibold text-[#18181b]">
                 Recent Inquiries
               </h2>
             </div>
             <Link
               href="/admin/messages"
-              className="font-mono text-xs text-[#00c8ff] hover:underline"
+              className="font-mono text-xs text-[#18181b] font-semibold hover:underline"
             >
               View All ({stats?.messages.total || 0}) →
             </Link>
@@ -266,45 +266,45 @@ export default function AdminDashboardPage() {
               {stats.recentMessages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`border p-4 transition-all ${
+                  className={`rounded-xl border p-4 transition-all ${
                     msg.status === "UNREAD"
-                      ? "border-amber-400/40 bg-amber-400/5 hover:border-amber-400"
-                      : "border-[#1e2d3d] bg-[#0a0f14] hover:border-[#2a3a49]"
+                      ? "border-amber-200 bg-amber-50/50 hover:border-amber-300"
+                      : "border-[#e5e5ea] bg-[#f9f9fb] hover:border-[#d4d4d8]"
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-semibold text-sm text-[#e6edf3]">
+                      <span className="font-semibold text-sm text-[#18181b]">
                         {msg.name}
                       </span>
-                      <span className="font-mono text-xs text-[#5c6f7f] break-all">
+                      <span className="font-mono text-xs text-[#71717a] break-all">
                         &lt;{msg.email}&gt;
                       </span>
                     </div>
 
                     <span
-                      className={`font-mono text-[10px] px-2 py-0.5 rounded ${
+                      className={`font-mono text-[10px] px-2 py-0.5 rounded-md ${
                         msg.status === "UNREAD"
-                          ? "bg-amber-400/20 text-amber-300 font-bold border border-amber-400/30"
+                          ? "bg-amber-100 text-amber-800 font-bold border border-amber-300"
                           : msg.status === "REPLIED"
-                          ? "bg-emerald-400/20 text-emerald-300 border border-emerald-400/30"
-                          : "bg-blue-400/20 text-blue-300 border border-blue-400/30"
+                          ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                          : "bg-blue-100 text-blue-800 border border-blue-300"
                       }`}
                     >
                       {msg.status}
                     </span>
                   </div>
 
-                  <p className="mt-2 text-xs font-semibold text-[#00c8ff]">
+                  <p className="mt-2 text-xs font-semibold text-[#18181b]">
                     {msg.subject}
                   </p>
 
-                  <p className="mt-1 line-clamp-2 text-xs text-[#8899a6]">
+                  <p className="mt-1 line-clamp-2 text-xs text-[#71717a]">
                     {msg.message}
                   </p>
 
-                  <div className="mt-3 flex items-center justify-between border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
-                    <span className="text-[#5c6f7f]">
+                  <div className="mt-3 flex items-center justify-between border-t border-[#e5e5ea] pt-2 font-mono text-[11px]">
+                    <span className="text-[#a1a1aa]">
                       {new Date(msg.createdAt).toLocaleDateString()}
                     </span>
 
@@ -312,7 +312,7 @@ export default function AdminDashboardPage() {
                       <button
                         type="button"
                         onClick={() => setSelectedMessage(msg)}
-                        className="text-[#00c8ff] hover:underline cursor-pointer"
+                        className="text-[#18181b] font-medium hover:underline cursor-pointer"
                       >
                         Inspect
                       </button>
@@ -320,7 +320,7 @@ export default function AdminDashboardPage() {
                         href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(
                           msg.subject
                         )}&body=Hi ${encodeURIComponent(msg.name)},%0D%0A%0D%0AThank you for reaching out!`}
-                        className="text-[#8899a6] hover:text-[#e6edf3]"
+                        className="text-[#71717a] hover:text-[#18181b]"
                       >
                         Reply ↗
                       </a>
@@ -330,24 +330,24 @@ export default function AdminDashboardPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center font-mono text-xs text-[#5c6f7f]">
+            <p className="py-8 text-center font-mono text-xs text-[#a1a1aa]">
               No contact inquiries recorded yet.
             </p>
           )}
         </div>
 
         {/* Right Column: Recent Projects */}
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6">
-          <div className="mb-5 flex items-center justify-between border-b border-[#1e2d3d] pb-3">
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-6 shadow-sm">
+          <div className="mb-5 flex items-center justify-between border-b border-[#f0f0f2] pb-3">
             <div className="flex items-center gap-2">
               <span className="text-base">📁</span>
-              <h2 className="text-base font-semibold text-[#e6edf3]">
+              <h2 className="text-base font-semibold text-[#18181b]">
                 Portfolio Projects
               </h2>
             </div>
             <Link
               href="/admin/projects"
-              className="font-mono text-xs text-[#00c8ff] hover:underline"
+              className="font-mono text-xs text-[#18181b] font-semibold hover:underline"
             >
               Manage ({stats?.projects.total || 0}) →
             </Link>
@@ -358,16 +358,16 @@ export default function AdminDashboardPage() {
               {stats.recentProjects.map((proj) => (
                 <div
                   key={proj.id}
-                  className="border border-[#1e2d3d] bg-[#0a0f14] p-4 transition-all hover:border-[#2a3a49]"
+                  className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4 transition-all hover:border-[#d4d4d8]"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-[#00c8ff]">
-                        <span>PROJ-{proj.number}</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-[#71717a]">
+                        <span className="font-bold text-[#18181b]">PROJ-{proj.number}</span>
                         <span>•</span>
                         <span>{proj.category}</span>
                       </div>
-                      <h3 className="mt-1 text-sm font-semibold text-[#e6edf3]">
+                      <h3 className="mt-1 text-sm font-semibold text-[#18181b]">
                         {proj.title}
                       </h3>
                     </div>
@@ -376,34 +376,34 @@ export default function AdminDashboardPage() {
                       type="button"
                       onClick={() => handleToggleFeatured(proj.id, proj.featured)}
                       title="Toggle featured status"
-                      className={`font-mono text-[10px] px-2 py-0.5 border transition-all cursor-pointer ${
+                      className={`font-mono text-[10px] px-2 py-0.5 rounded-md border transition-all cursor-pointer ${
                         proj.featured
-                          ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff]"
-                          : "border-[#2a3a49] bg-[#0d1117] text-[#5c6f7f] hover:text-[#e6edf3]"
+                          ? "border-amber-300 bg-amber-50 text-amber-800 font-bold"
+                          : "border-[#e5e5ea] bg-white text-[#71717a] hover:text-[#18181b]"
                       }`}
                     >
                       {proj.featured ? "★ FEATURED" : "☆ STANDARD"}
                     </button>
                   </div>
 
-                  <p className="mt-1.5 line-clamp-2 text-xs text-[#8899a6]">
+                  <p className="mt-1.5 line-clamp-2 text-xs text-[#71717a]">
                     {proj.description}
                   </p>
 
-                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[#1e2d3d] pt-2 font-mono text-[11px]">
+                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[#e5e5ea] pt-2 font-mono text-[11px]">
                     <div className="flex flex-wrap gap-1">
                       {Array.isArray(proj.technologies)
                         ? proj.technologies.slice(0, 3).map((tech) => (
                             <span
                               key={tech}
-                              className="bg-[#161b22] px-1.5 py-0.5 text-[10px] text-[#6c7d8f]"
+                              className="rounded bg-white border border-[#e5e5ea] px-1.5 py-0.5 text-[10px] text-[#71717a]"
                             >
                               #{tech}
                             </span>
                           ))
                         : null}
                       {Array.isArray(proj.technologies) && proj.technologies.length > 3 && (
-                        <span className="text-[10px] text-[#5c6f7f]">
+                        <span className="text-[10px] text-[#a1a1aa]">
                           +{proj.technologies.length - 3} more
                         </span>
                       )}
@@ -415,7 +415,7 @@ export default function AdminDashboardPage() {
                           href={proj.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-[#8899a6] hover:text-[#00c8ff]"
+                          className="text-[#71717a] hover:text-[#18181b]"
                         >
                           GitHub ↗
                         </a>
@@ -425,7 +425,7 @@ export default function AdminDashboardPage() {
                           href={proj.demo}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-[#00c8ff] hover:underline"
+                          className="text-[#18181b] font-medium hover:underline"
                         >
                           Demo ↗
                         </a>
@@ -436,7 +436,7 @@ export default function AdminDashboardPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center font-mono text-xs text-[#5c6f7f]">
+            <p className="py-8 text-center font-mono text-xs text-[#a1a1aa]">
               No projects found in database.
             </p>
           )}
@@ -445,29 +445,29 @@ export default function AdminDashboardPage() {
 
       {/* Message Inspection Modal */}
       {selectedMessage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-lg border border-[#1e2d3d] bg-[#0d1117] p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-lg rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setSelectedMessage(null)}
-              className="absolute top-4 right-4 text-[#8899a6] hover:text-[#e6edf3]"
+              className="absolute top-4 right-4 text-[#71717a] hover:text-[#18181b]"
             >
               ✕
             </button>
 
-            <span className="font-mono text-xs text-[#00c8ff] uppercase tracking-wider">
+            <span className="font-mono text-xs text-[#71717a] uppercase tracking-wider">
               Inquiry Inspection
             </span>
-            <h3 className="mt-2 text-lg font-bold text-[#e6edf3]">
+            <h3 className="mt-2 text-lg font-bold text-[#18181b]">
               {selectedMessage.subject}
             </h3>
 
-            <div className="mt-3 space-y-1 font-mono text-xs text-[#8899a6]">
+            <div className="mt-3 space-y-1 font-mono text-xs text-[#71717a]">
               <p>
-                From: <span className="text-[#e6edf3]">{selectedMessage.name}</span> (
+                From: <span className="text-[#18181b] font-semibold">{selectedMessage.name}</span> (
                 <a
                   href={`mailto:${selectedMessage.email}`}
-                  className="text-[#00c8ff] hover:underline"
+                  className="text-[#18181b] underline"
                 >
                   {selectedMessage.email}
                 </a>
@@ -475,22 +475,22 @@ export default function AdminDashboardPage() {
               </p>
               <p>
                 Received:{" "}
-                <span className="text-[#e6edf3]">
+                <span className="text-[#18181b]">
                   {new Date(selectedMessage.createdAt).toLocaleString()}
                 </span>
               </p>
             </div>
 
-            <div className="mt-4 max-h-60 overflow-y-auto border border-[#1e2d3d] bg-[#080c10] p-4 text-xs leading-relaxed text-[#e6edf3] whitespace-pre-wrap">
+            <div className="mt-4 max-h-60 overflow-y-auto rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4 text-xs leading-relaxed text-[#18181b] whitespace-pre-wrap">
               {selectedMessage.message}
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#1e2d3d] pt-4 font-mono text-xs">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#f0f0f2] pt-4 font-mono text-xs">
               <a
                 href={`mailto:${selectedMessage.email}?subject=Re: ${encodeURIComponent(
                   selectedMessage.subject
                 )}&body=Hi ${encodeURIComponent(selectedMessage.name)},%0D%0A%0D%0A`}
-                className="border border-[#00c8ff] bg-[#00c8ff]/10 px-4 py-2 text-[#00c8ff] hover:bg-[#00c8ff] hover:text-[#080c10] transition-colors"
+                className="rounded-xl bg-[#18181b] px-4 py-2 text-white hover:bg-black transition-colors"
               >
                 Reply via Email ✉️
               </a>
@@ -499,7 +499,7 @@ export default function AdminDashboardPage() {
                 <button
                   type="button"
                   onClick={() => handleQuickMarkRead(selectedMessage)}
-                  className="border border-[#2a3a49] bg-[#161b22] px-4 py-2 text-[#e6edf3] hover:border-emerald-500 hover:text-emerald-400 transition-colors"
+                  className="rounded-xl border border-[#e5e5ea] bg-white px-4 py-2 text-[#18181b] hover:bg-[#f4f4f6] transition-colors"
                 >
                   Mark as Read ✓
                 </button>

@@ -137,10 +137,10 @@ export default function AdminMessagesPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#00c8ff]">
+      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#18181b]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#00c8ff] border-t-transparent" />
-          <span>Loading contact inquiries...</span>
+          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#18181b] border-t-transparent" />
+          <span className="text-[#71717a]">Loading contact inquiries...</span>
         </div>
       </div>
     );
@@ -157,15 +157,15 @@ export default function AdminMessagesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1e2d3d] pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e5e5ea] pb-6">
         <div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#71717a]">
             Visitor Communications
           </span>
-          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#e6edf3]">
+          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#18181b]">
             Inquiries Inbox
           </h1>
-          <p className="mt-1 text-xs text-[#8899a6]">
+          <p className="mt-1 text-xs text-[#71717a]">
             Review, reply to, and organize direct inquiries from portfolio visitors.
           </p>
         </div>
@@ -173,7 +173,7 @@ export default function AdminMessagesPage() {
         <button
           type="button"
           onClick={handleExportJSON}
-          className="flex items-center gap-2 border border-[#2a3a49] bg-[#0d1117] px-4 py-2 font-mono text-xs text-[#8899a6] hover:border-[#00c8ff] hover:text-[#00c8ff] transition-colors"
+          className="flex items-center gap-2 rounded-xl border border-[#e5e5ea] bg-white px-4 py-2 font-mono text-xs text-[#18181b] hover:bg-[#f4f4f6] transition-colors shadow-sm cursor-pointer"
         >
           <span>📥 Export Inquiries (JSON)</span>
         </button>
@@ -182,24 +182,26 @@ export default function AdminMessagesPage() {
       {/* Tabs and Search Bar */}
       <div className="space-y-4">
         {/* Status Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-[#1e2d3d] pb-3">
+        <div className="flex flex-wrap gap-2 border-b border-[#e5e5ea] pb-3">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 border px-3.5 py-1.5 font-mono text-xs transition-all cursor-pointer ${
+              className={`flex items-center gap-2 rounded-xl border px-3.5 py-1.5 font-mono text-xs transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff] font-bold"
-                  : "border-[#2a3a49] bg-[#0d1117] text-[#8899a6] hover:text-[#e6edf3]"
+                  ? "border-[#18181b] bg-[#18181b] text-white font-bold shadow-sm"
+                  : "border-[#e5e5ea] bg-white text-[#71717a] hover:bg-[#f4f4f6] hover:text-[#18181b]"
               }`}
             >
               <span>{tab.label}</span>
               <span
-                className={`rounded px-1.5 py-0.2 text-[10px] ${
-                  tab.id === "UNREAD" && tab.count > 0
-                    ? "bg-amber-400 text-black font-bold"
-                    : "bg-[#1e2d3d] text-[#8899a6]"
+                className={`rounded-md px-1.5 py-0.5 text-[10px] ${
+                  activeTab === tab.id
+                    ? "bg-white/20 text-white font-bold"
+                    : tab.id === "UNREAD" && tab.count > 0
+                    ? "bg-amber-100 text-amber-800 font-bold"
+                    : "bg-[#f4f4f6] text-[#71717a]"
                 }`}
               >
                 {tab.count}
@@ -209,15 +211,15 @@ export default function AdminMessagesPage() {
         </div>
 
         {/* Search */}
-        <div className="flex items-center justify-between gap-4 border border-[#1e2d3d] bg-[#0d1117] p-3">
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-3.5 shadow-sm">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search inquiries by sender, email, subject, or message content..."
-            className="w-full bg-transparent px-2 font-mono text-xs text-[#e6edf3] placeholder-[#485b6a] focus:outline-none"
+            className="w-full bg-transparent px-2 font-mono text-xs text-[#18181b] placeholder-[#a1a1aa] focus:outline-none"
           />
-          <span className="font-mono text-xs text-[#5c6f7f] shrink-0">
+          <span className="font-mono text-xs text-[#a1a1aa] shrink-0">
             {filteredMessages.length} found
           </span>
         </div>
@@ -225,8 +227,8 @@ export default function AdminMessagesPage() {
 
       {/* Messages List */}
       {filteredMessages.length === 0 ? (
-        <div className="border border-[#1e2d3d] bg-[#0d1117] p-12 text-center font-mono">
-          <p className="text-sm text-[#8899a6]">No messages in this folder or matching your search.</p>
+        <div className="rounded-2xl border border-[#e5e5ea] bg-white p-12 text-center font-mono shadow-sm">
+          <p className="text-sm text-[#71717a]">No messages in this folder or matching your search.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -234,37 +236,37 @@ export default function AdminMessagesPage() {
             <div
               key={msg.id}
               onClick={() => handleOpenDetail(msg)}
-              className={`border p-4 transition-all cursor-pointer ${
+              className={`rounded-2xl border p-4 transition-all cursor-pointer shadow-sm ${
                 msg.status === "UNREAD"
-                  ? "border-amber-400/50 bg-amber-400/5 hover:border-amber-400"
-                  : "border-[#1e2d3d] bg-[#0d1117] hover:border-[#00c8ff]/40"
+                  ? "border-amber-200 bg-amber-50/50 hover:border-amber-300"
+                  : "border-[#e5e5ea] bg-white hover:border-[#d4d4d8]"
               }`}
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
                   {msg.status === "UNREAD" && (
-                    <span className="h-2 w-2 rounded-full bg-amber-400 animate-ping" />
+                    <span className="h-2 w-2 rounded-full bg-amber-500 animate-ping" />
                   )}
-                  <span className="font-bold text-sm text-[#e6edf3]">{msg.name}</span>
-                  <span className="font-mono text-xs text-[#5c6f7f]">
+                  <span className="font-bold text-sm text-[#18181b]">{msg.name}</span>
+                  <span className="font-mono text-xs text-[#71717a]">
                     &lt;{msg.email}&gt;
                   </span>
                 </div>
 
                 <div className="flex items-center gap-3 font-mono text-xs">
-                  <span className="text-[#5c6f7f]">
+                  <span className="text-[#a1a1aa]">
                     {new Date(msg.createdAt).toLocaleDateString()}
                   </span>
 
                   <span
-                    className={`font-mono text-[10px] px-2 py-0.5 rounded ${
+                    className={`font-mono text-[10px] px-2 py-0.5 rounded-md ${
                       msg.status === "UNREAD"
-                        ? "bg-amber-400/20 text-amber-300 font-bold border border-amber-400/30"
+                        ? "bg-amber-100 text-amber-800 font-bold border border-amber-300"
                         : msg.status === "REPLIED"
-                        ? "bg-emerald-400/20 text-emerald-300 border border-emerald-400/30"
+                        ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
                         : msg.status === "ARCHIVED"
-                        ? "bg-gray-700 text-gray-300"
-                        : "bg-blue-400/20 text-blue-300 border border-blue-400/30"
+                        ? "bg-[#f4f4f6] text-[#71717a] border border-[#e5e5ea]"
+                        : "bg-blue-100 text-blue-800 border border-blue-300"
                     }`}
                   >
                     {msg.status}
@@ -272,16 +274,16 @@ export default function AdminMessagesPage() {
                 </div>
               </div>
 
-              <h4 className="mt-2 text-sm font-semibold text-[#00c8ff]">
+              <h4 className="mt-2 text-sm font-semibold text-[#18181b]">
                 {msg.subject}
               </h4>
 
-              <p className="mt-1 line-clamp-2 text-xs text-[#8899a6] leading-relaxed">
+              <p className="mt-1 line-clamp-2 text-xs text-[#71717a] leading-relaxed">
                 {msg.message}
               </p>
 
               {msg.adminNotes && (
-                <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-amber-300/80 bg-amber-400/5 px-2 py-1 border border-amber-400/20">
+                <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-amber-900 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
                   <span>📌 Note:</span>
                   <span className="truncate">{msg.adminNotes}</span>
                 </div>
@@ -293,35 +295,35 @@ export default function AdminMessagesPage() {
 
       {/* Message Detail & Reply Modal */}
       {selectedMessage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[#1e2d3d] bg-[#0d1117] p-4 sm:p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 sm:p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-7 shadow-2xl">
             <button
               type="button"
               onClick={() => setSelectedMessage(null)}
-              className="absolute top-4 right-4 text-[#8899a6] hover:text-[#e6edf3]"
+              className="absolute top-4 right-4 text-[#71717a] hover:text-[#18181b]"
             >
               ✕
             </button>
 
             {/* Header info */}
-            <div className="border-b border-[#1e2d3d] pb-4">
+            <div className="border-b border-[#f0f0f2] pb-4">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
                   Inquiry Detail
                 </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#1e2d3d] text-[#8899a6]">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[#f4f4f6] text-[#71717a] border border-[#e5e5ea]">
                   {selectedMessage.status}
                 </span>
               </div>
 
-              <h2 className="mt-2 text-xl font-bold text-[#e6edf3]">
+              <h2 className="mt-2 text-xl font-bold text-[#18181b]">
                 {selectedMessage.subject}
               </h2>
 
-              <div className="mt-3 grid gap-1 font-mono text-xs text-[#8899a6] sm:grid-cols-2">
+              <div className="mt-3 grid gap-1 font-mono text-xs text-[#71717a] sm:grid-cols-2">
                 <p>
                   From:{" "}
-                  <span className="font-bold text-[#e6edf3]">
+                  <span className="font-bold text-[#18181b]">
                     {selectedMessage.name}
                   </span>
                 </p>
@@ -329,29 +331,29 @@ export default function AdminMessagesPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${selectedMessage.email}`}
-                    className="text-[#00c8ff] hover:underline"
+                    className="text-[#18181b] underline"
                   >
                     {selectedMessage.email}
                   </a>
                 </p>
                 <p>
                   Received:{" "}
-                  <span className="text-[#e6edf3]">
+                  <span className="text-[#18181b]">
                     {new Date(selectedMessage.createdAt).toLocaleString()}
                   </span>
                 </p>
                 <p>
-                  ID: <span className="text-[#5c6f7f]">{selectedMessage.id.slice(0, 8)}...</span>
+                  ID: <span className="text-[#a1a1aa]">{selectedMessage.id.slice(0, 8)}...</span>
                 </p>
               </div>
             </div>
 
             {/* Full Message Body */}
             <div className="mt-4">
-              <label className="mb-2 block font-mono text-xs text-[#5c6f7f]">
+              <label className="mb-2 block font-mono text-xs text-[#71717a]">
                 Message Content:
               </label>
-              <div className="max-h-64 overflow-y-auto border border-[#1e2d3d] bg-[#080c10] p-4 text-xs leading-relaxed text-[#e6edf3] whitespace-pre-wrap font-sans">
+              <div className="max-h-64 overflow-y-auto rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-4 text-xs leading-relaxed text-[#18181b] whitespace-pre-wrap font-sans">
                 {selectedMessage.message}
               </div>
             </div>
@@ -359,12 +361,12 @@ export default function AdminMessagesPage() {
             {/* Admin Notes */}
             <div className="mt-4">
               <div className="mb-1.5 flex items-center justify-between font-mono text-xs">
-                <label className="text-[#8899a6]">Internal Notes (Admin Only):</label>
+                <label className="text-[#71717a]">Internal Notes (Admin Only):</label>
                 <button
                   type="button"
                   onClick={handleSaveNotes}
                   disabled={savingNotes}
-                  className="text-[#00c8ff] hover:underline cursor-pointer"
+                  className="text-[#18181b] font-semibold hover:underline cursor-pointer"
                 >
                   {savingNotes ? "Saving..." : "Save Notes"}
                 </button>
@@ -374,23 +376,23 @@ export default function AdminMessagesPage() {
                 onChange={(e) => setAdminNotes(e.target.value)}
                 placeholder="e.g. Sent response on LinkedIn; Follow up next Tuesday..."
                 rows={2}
-                className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 font-mono text-xs text-[#e6edf3] placeholder-[#485b6a] focus:border-[#00c8ff] focus:outline-none"
+                className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 font-mono text-xs text-[#18181b] placeholder-[#a1a1aa] focus:border-[#18181b] focus:bg-white focus:outline-none"
               />
             </div>
 
             {/* Status change and Action Buttons */}
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#1e2d3d] pt-4 font-mono text-xs">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#f0f0f2] pt-4 font-mono text-xs">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[#5c6f7f]">Status:</span>
+                <span className="text-[#71717a]">Status:</span>
                 {["UNREAD", "READ", "REPLIED", "ARCHIVED"].map((st) => (
                   <button
                     key={st}
                     type="button"
                     onClick={() => handleUpdateStatus(st)}
-                    className={`border px-2.5 py-1 text-[11px] transition-colors cursor-pointer ${
+                    className={`rounded-xl border px-3 py-1.5 text-[11px] transition-colors cursor-pointer ${
                       selectedMessage.status === st
-                        ? "border-[#00c8ff] bg-[#00c8ff]/10 text-[#00c8ff] font-bold"
-                        : "border-[#2a3a49] bg-[#161b22] text-[#8899a6] hover:text-[#e6edf3]"
+                        ? "border-[#18181b] bg-[#18181b] text-white font-bold"
+                        : "border-[#e5e5ea] bg-white text-[#71717a] hover:bg-[#f4f4f6] hover:text-[#18181b]"
                     }`}
                   >
                     {st}
@@ -404,7 +406,7 @@ export default function AdminMessagesPage() {
                     selectedMessage.subject
                   )}&body=Hi ${encodeURIComponent(selectedMessage.name)},%0D%0A%0D%0AThank you for reaching out!%0D%0A%0D%0ABest regards,%0D%0ATharusha Sangeeth`}
                   onClick={() => handleUpdateStatus("REPLIED")}
-                  className="border border-[#00c8ff] bg-[#00c8ff] px-4 py-2 font-bold text-[#080c10] hover:bg-[#00b5e6] transition-colors"
+                  className="rounded-xl bg-[#18181b] px-4 py-2 font-bold text-white hover:bg-black transition-colors"
                 >
                   ✉️ Reply via Email
                 </a>
@@ -412,7 +414,7 @@ export default function AdminMessagesPage() {
                 <button
                   type="button"
                   onClick={() => setDeletingId(selectedMessage.id)}
-                  className="border border-rose-950 bg-rose-950/20 px-3 py-2 text-rose-400 hover:bg-rose-950/40 transition-colors"
+                  className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                 >
                   🗑️
                 </button>
@@ -424,24 +426,24 @@ export default function AdminMessagesPage() {
 
       {/* Delete confirmation */}
       {deletingId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-sm border border-rose-900/50 bg-[#0d1117] p-6 shadow-2xl">
-            <h3 className="font-bold text-[#e6edf3]">Delete this inquiry?</h3>
-            <p className="mt-2 text-xs text-[#8899a6]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-sm rounded-2xl border border-rose-200 bg-white p-6 shadow-2xl">
+            <h3 className="font-bold text-[#18181b]">Delete this inquiry?</h3>
+            <p className="mt-2 text-xs text-[#71717a]">
               This inquiry message will be permanently deleted from the database.
             </p>
-            <div className="mt-4 flex justify-end gap-3 font-mono text-xs">
+            <div className="mt-5 flex justify-end gap-3 font-mono text-xs">
               <button
                 type="button"
                 onClick={() => setDeletingId(null)}
-                className="border border-[#2a3a49] bg-[#161b22] px-3 py-1.5 text-[#8899a6]"
+                className="rounded-xl border border-[#e5e5ea] bg-white px-3.5 py-2 text-[#71717a] hover:bg-[#f4f4f6]"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(deletingId)}
-                className="border border-rose-600 bg-rose-600 px-3 py-1.5 font-bold text-white hover:bg-rose-500"
+                className="rounded-xl border border-rose-600 bg-rose-600 px-4 py-2 font-bold text-white hover:bg-rose-700 cursor-pointer"
               >
                 Confirm Delete
               </button>

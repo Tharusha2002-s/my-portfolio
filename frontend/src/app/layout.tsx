@@ -41,6 +41,14 @@ export const metadata: Metadata = {
       "Software Engineering undergraduate and full-stack developer portfolio.",
     creator: "@Tharusha20-s",
   },
+  icons: {
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.png", type: "image/png" }
+    ],
+    shortcut: "/logo.svg",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

@@ -144,10 +144,10 @@ export default function AdminSkillsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#00c8ff]">
+      <div className="flex h-96 items-center justify-center font-mono text-sm text-[#18181b]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#00c8ff] border-t-transparent" />
-          <span>Loading technical skills inventory...</span>
+          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#18181b] border-t-transparent" />
+          <span className="text-[#71717a]">Loading technical skills inventory...</span>
         </div>
       </div>
     );
@@ -156,15 +156,15 @@ export default function AdminSkillsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1e2d3d] pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e5e5ea] pb-6">
         <div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#00c8ff]">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#71717a]">
             Technical Capabilities
           </span>
-          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#e6edf3]">
+          <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-[#18181b]">
             Skills & Competencies
           </h1>
-          <p className="mt-1 text-xs text-[#8899a6]">
+          <p className="mt-1 text-xs text-[#71717a]">
             Manage tech stacks, developer tools, and relative proficiency levels.
           </p>
         </div>
@@ -172,7 +172,7 @@ export default function AdminSkillsPage() {
         <button
           type="button"
           onClick={() => handleOpenCreate()}
-          className="flex items-center gap-2 border border-[#00c8ff] bg-[#00c8ff] px-4 py-2 font-mono text-xs font-bold text-[#080c10] hover:bg-[#00b5e6] transition-all cursor-pointer"
+          className="flex items-center gap-2 rounded-xl bg-[#18181b] px-4 py-2 font-mono text-xs font-bold text-white hover:bg-black transition-all cursor-pointer shadow-sm"
         >
           <span>+ Add Technical Skill</span>
         </button>
@@ -181,14 +181,14 @@ export default function AdminSkillsPage() {
       {/* Skills Grouped by Category */}
       <div className="space-y-8">
         {Object.entries(groupedSkills).map(([category, catSkills]) => (
-          <div key={category} className="border border-[#1e2d3d] bg-[#0d1117] p-5 sm:p-6">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#1e2d3d] pb-3">
+          <div key={category} className="rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-6 shadow-sm">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#f0f0f2] pb-3">
               <div className="flex items-center gap-2">
-                <span className="text-base text-[#00c8ff]">⚡</span>
-                <h2 className="font-mono text-sm uppercase tracking-wider text-[#e6edf3]">
+                <span className="text-base">⚡</span>
+                <h2 className="font-mono text-sm uppercase tracking-wider text-[#18181b] font-bold">
                   {category}
                 </h2>
-                <span className="font-mono text-xs text-[#5c6f7f]">
+                <span className="font-mono text-xs text-[#a1a1aa]">
                   ({catSkills.length} skills)
                 </span>
               </div>
@@ -196,7 +196,7 @@ export default function AdminSkillsPage() {
               <button
                 type="button"
                 onClick={() => handleOpenCreate(category)}
-                className="font-mono text-xs text-[#00c8ff] hover:underline cursor-pointer"
+                className="font-mono text-xs text-[#18181b] font-semibold hover:underline cursor-pointer"
               >
                 + Add to {category}
               </button>
@@ -206,31 +206,31 @@ export default function AdminSkillsPage() {
               {catSkills.map((skill) => (
                 <div
                   key={skill.id}
-                  className="flex items-center justify-between border border-[#1e2d3d] bg-[#0a0f14] p-3.5 transition-all hover:border-[#00c8ff]/40"
+                  className="flex items-center justify-between rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] p-3.5 transition-all hover:border-[#d4d4d8] hover:bg-white"
                 >
                   <div className="flex-1 pr-3">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-[#e6edf3]">{skill.name}</span>
-                      <span className="font-mono text-[11px] text-[#00c8ff]">
+                      <span className="font-bold text-[#18181b]">{skill.name}</span>
+                      <span className="font-mono text-[11px] text-[#71717a] font-semibold">
                         {skill.proficiency}%
                       </span>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-[#1e2d3d]">
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#e5e5ea]">
                       <div
-                        className="h-full bg-gradient-to-r from-[#00c8ff]/60 to-[#00c8ff] transition-all duration-500"
+                        className="h-full rounded-full bg-[#18181b] transition-all duration-500"
                         style={{ width: `${skill.proficiency}%` }}
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 border-l border-[#1e2d3d] pl-3">
+                  <div className="flex items-center gap-1.5 border-l border-[#e5e5ea] pl-3">
                     <button
                       type="button"
                       onClick={() => handleOpenEdit(skill)}
                       title="Edit Skill"
-                      className="p-1 text-[#8899a6] hover:text-[#00c8ff] transition-colors"
+                      className="p-1 text-[#71717a] hover:text-[#18181b] transition-colors cursor-pointer"
                     >
                       ✏️
                     </button>
@@ -238,7 +238,7 @@ export default function AdminSkillsPage() {
                       type="button"
                       onClick={() => setDeletingSkill(skill)}
                       title="Delete Skill"
-                      className="p-1 text-[#8899a6] hover:text-rose-400 transition-colors"
+                      className="p-1 text-[#71717a] hover:text-rose-600 transition-colors cursor-pointer"
                     >
                       🗑️
                     </button>
@@ -252,32 +252,32 @@ export default function AdminSkillsPage() {
 
       {/* Add / Edit Skill Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-md border border-[#1e2d3d] bg-[#0d1117] p-4 sm:p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 sm:p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-md rounded-2xl border border-[#e5e5ea] bg-white p-5 sm:p-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-[#8899a6] hover:text-[#e6edf3]"
+              className="absolute top-4 right-4 text-[#71717a] hover:text-[#18181b]"
             >
               ✕
             </button>
 
-            <span className="font-mono text-xs uppercase tracking-wider text-[#00c8ff]">
+            <span className="font-mono text-xs uppercase tracking-wider text-[#71717a]">
               {editingId ? "Edit Skill" : "New Skill"}
             </span>
-            <h2 className="mt-1 text-xl font-bold text-[#e6edf3]">
+            <h2 className="mt-1 text-xl font-bold text-[#18181b]">
               {editingId ? "Update Skill" : "Add Technical Skill"}
             </h2>
 
             {formError && (
-              <div className="mt-4 border border-rose-800/60 bg-rose-950/30 p-3 font-mono text-xs text-rose-300">
+              <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 font-mono text-xs text-rose-700">
                 {formError}
               </div>
             )}
 
             <form onSubmit={handleSave} className="mt-5 space-y-4 font-mono text-xs">
               <div>
-                <label className="mb-1 block text-[#8899a6]">Category</label>
+                <label className="mb-1.5 block text-[#71717a]">Category</label>
                 <div className="flex gap-2">
                   <select
                     value={
@@ -290,7 +290,7 @@ export default function AdminSkillsPage() {
                         setFormData({ ...formData, category: e.target.value });
                       }
                     }}
-                    className="border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   >
                     {defaultCategories.map((c) => (
                       <option key={c} value={c}>
@@ -307,13 +307,13 @@ export default function AdminSkillsPage() {
                       setFormData({ ...formData, category: e.target.value })
                     }
                     placeholder="Category name"
-                    className="flex-1 border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                    className="flex-1 rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-1 block text-[#8899a6]">Skill / Technology Name</label>
+                <label className="mb-1.5 block text-[#71717a]">Skill / Technology Name</label>
                 <input
                   type="text"
                   value={formData.name}
@@ -322,12 +322,12 @@ export default function AdminSkillsPage() {
                   }
                   placeholder="e.g. Next.js, PostgreSQL, Docker"
                   required
-                  className="w-full border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                  className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <div className="mb-1 flex items-center justify-between text-[#8899a6]">
+                <div className="mb-1.5 flex items-center justify-between text-[#71717a]">
                   <label>Proficiency: {formData.proficiency}%</label>
                 </div>
                 <input
@@ -341,34 +341,34 @@ export default function AdminSkillsPage() {
                       proficiency: Number(e.target.value),
                     })
                   }
-                  className="w-full accent-[#00c8ff] cursor-pointer"
+                  className="w-full accent-[#18181b] cursor-pointer"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-[#8899a6]">Order Sequence</label>
+                <label className="mb-1.5 block text-[#71717a]">Order Sequence</label>
                 <input
                   type="number"
                   value={formData.order}
                   onChange={(e) =>
                     setFormData({ ...formData, order: Number(e.target.value) })
                   }
-                  className="w-24 border border-[#2a3a49] bg-[#080c10] px-3 py-2 text-sm text-[#e6edf3] focus:border-[#00c8ff] focus:outline-none"
+                  className="w-24 rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 border-t border-[#1e2d3d] pt-4">
+              <div className="flex items-center justify-end gap-3 border-t border-[#f0f0f2] pt-4">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="border border-[#2a3a49] bg-[#161b22] px-4 py-2 text-[#8899a6] hover:text-[#e6edf3]"
+                  className="rounded-xl border border-[#e5e5ea] bg-white px-4 py-2 text-[#71717a] hover:bg-[#f4f4f6]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="border border-[#00c8ff] bg-[#00c8ff] px-5 py-2 font-bold text-[#080c10] hover:bg-[#00b5e6] disabled:opacity-50 cursor-pointer"
+                  className="rounded-xl bg-[#18181b] px-5 py-2 font-bold text-white hover:bg-black disabled:opacity-50 cursor-pointer shadow-sm"
                 >
                   {saving ? "Saving..." : editingId ? "Update Skill" : "Add Skill"}
                 </button>
@@ -380,26 +380,26 @@ export default function AdminSkillsPage() {
 
       {/* Delete Confirmation */}
       {deletingSkill && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-sm border border-rose-900/50 bg-[#0d1117] p-6 shadow-2xl">
-            <h3 className="font-bold text-[#e6edf3]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-sm rounded-2xl border border-rose-200 bg-white p-6 shadow-2xl">
+            <h3 className="font-bold text-[#18181b]">
               Delete &quot;{deletingSkill.name}&quot;?
             </h3>
-            <p className="mt-2 text-xs text-[#8899a6]">
+            <p className="mt-2 text-xs text-[#71717a]">
               This technical skill will be removed from your profile.
             </p>
-            <div className="mt-4 flex justify-end gap-3 font-mono text-xs">
+            <div className="mt-5 flex justify-end gap-3 font-mono text-xs">
               <button
                 type="button"
                 onClick={() => setDeletingSkill(null)}
-                className="border border-[#2a3a49] bg-[#161b22] px-3 py-1.5 text-[#8899a6]"
+                className="rounded-xl border border-[#e5e5ea] bg-white px-3.5 py-2 text-[#71717a] hover:bg-[#f4f4f6]"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleDelete}
-                className="border border-rose-600 bg-rose-600 px-3 py-1.5 font-bold text-white hover:bg-rose-500"
+                className="rounded-xl border border-rose-600 bg-rose-600 px-4 py-2 font-bold text-white hover:bg-rose-700 cursor-pointer"
               >
                 Confirm Delete
               </button>
