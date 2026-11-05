@@ -19,7 +19,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-[#e5e5ea] bg-[#f4f4f6] py-10 sm:py-12">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
         
         {/* Left: Copyright (Exact from reference image) */}
         <div>

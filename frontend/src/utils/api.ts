@@ -13,6 +13,7 @@ export interface Project {
   description: string;
   technologies: string[];
   category: string;
+  image?: string | null;
   github: string | null;
   demo: string | null;
   featured: boolean;
@@ -44,55 +45,59 @@ export interface Skill {
 
 export const FALLBACK_PROJECTS: Project[] = [
   {
-    id: "proj-1",
+    id: "proj-portfolio",
     number: "01",
-    title: "TitanCore ERP",
+    title: "Developer Portfolio & DevOps Platform",
     description:
-      "An industrial-grade enterprise resource planning platform managing construction workflows, inventory tracking, tasks, and production analytics.",
-    technologies: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "Docker", "Tailwind CSS"],
+      "A high-performance personal developer portfolio and containerized production cloud platform featuring Next.js 16, TypeScript, Tailwind CSS, Express API, PostgreSQL, and automated GitHub Actions CI/CD to Hetzner Cloud.",
+    technologies: ["Next.js 16", "TypeScript", "Tailwind CSS", "Node.js", "Express", "PostgreSQL", "Docker", "Hetzner Cloud"],
     category: "Full-Stack",
-    github: "https://github.com/Tharusha2002-s",
-    demo: null,
+    image: "/projects/portfolio.svg",
+    github: "https://github.com/Tharusha2002-s/my-portfolio",
+    demo: "https://tharushasangeeth.live",
     featured: true,
     order: 1,
   },
   {
-    id: "proj-2",
+    id: "proj-1",
     number: "02",
-    title: "RoadAware AI",
+    title: "TitanCore ERP",
     description:
-      "A community geospatial hazard tracking platform integrated with computer vision AI for road defect and driver safety detection.",
-    technologies: ["Python", "OpenCV", "TensorFlow", "Next.js", "Leaflet", "FastAPI"],
-    category: "AI & ML",
-    github: "https://github.com/Tharusha2002-s",
-    demo: null,
+      "TitanCore Construction is a full-stack MERN web application built for a luxury construction company. The project includes a modern public website and a secure admin dashboard for managing projects, galleries, and job applications.",
+    technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "JWT authentication"],
+    category: "Full-Stack",
+    image: "/projects/titancore.svg",
+    github: "https://github.com/Tharusha2002-s/TitanCore",
+    demo: "https://www.titancore.me/",
     featured: true,
     order: 2,
   },
   {
-    id: "proj-3",
+    id: "proj-2",
     number: "03",
+    title: "RoadAware AI",
+    description:
+      "RoadAware a real-time road safety and hazard management platform designed to empower citizens to report road hazards and assist authorities in tracking and resolving infrastructure issues efficiently.",
+    technologies: ["React 19", "Vite", "JavaScript", "Tailwind CSS", "Leaflet Maps", "Recharts", "Node.js", "Express.js REST API", "MySQL 8"],
+    category: "Full-Stack",
+    image: "/projects/roadaware.svg",
+    github: "https://github.com/Pathum-Piyumal/RoadAware",
+    demo: "https://www.titancore.me/",
+    featured: true,
+    order: 3,
+  },
+  {
+    id: "proj-3",
+    number: "04",
     title: "UnityHub",
     description:
       "A university event and community management platform designed for sports, student clubs, and campus organizations.",
     technologies: ["React", "TypeScript", "PostgreSQL", "JWT", "Express"],
     category: "Web Application",
+    image: "/projects/portfolio.svg",
     github: "https://github.com/Tharusha2002-s",
     demo: null,
     featured: false,
-    order: 3,
-  },
-  {
-    id: "proj-4",
-    number: "04",
-    title: "Continuous Deployment VPS",
-    description:
-      "Automated CI/CD pipeline deploying Dockerized multi-stage containers to a Hetzner Cloud Linux VPS with reverse proxying and automated backups.",
-    technologies: ["Docker", "GitHub Actions", "Hetzner Cloud", "Nginx", "Linux"],
-    category: "Cloud & DevOps",
-    github: "https://github.com/Tharusha2002-s",
-    demo: "https://tharushasangeeth.live",
-    featured: true,
     order: 4,
   },
 ];

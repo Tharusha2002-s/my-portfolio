@@ -89,7 +89,7 @@ export default function Skills() {
   }, [skills, activeCategory]);
 
   return (
-    <section id="services" className="py-16 sm:py-20 px-4 sm:px-6">
+    <section id="services" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         
         {/* Services & Expertise Card (Matches Middle Section of Reference Image) */}
@@ -126,7 +126,7 @@ export default function Skills() {
           </div>
 
           {/* Technical Skills Database Badges */}
-          <div id="skills" className="mt-16 sm:mt-20 pt-10 sm:pt-12 border-t border-[#e5e5ea] text-left">
+          <div id="skills" className="scroll-mt-24 sm:scroll-mt-28 mt-16 sm:mt-20 pt-10 sm:pt-12 border-t border-[#e5e5ea] text-left">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-lg font-bold text-[#18181b]">

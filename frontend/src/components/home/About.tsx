@@ -1,10 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 
 export default function About() {
+  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    smoothScrollTo("contact", 80);
+  };
+
   return (
-    <section id="about" className="py-16 sm:py-20 px-4 sm:px-6">
+    <section id="about" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-14 md:p-16">
           
@@ -49,6 +55,7 @@ export default function About() {
 
                 <a
                   href="#contact"
+                  onClick={handleContactClick}
                   className="inline-flex items-center gap-2 bg-[#f4f4f6] hover:bg-[#e4e4e7] text-[#18181b] text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full transition-all"
                 >
                   <span>Get in Touch</span>

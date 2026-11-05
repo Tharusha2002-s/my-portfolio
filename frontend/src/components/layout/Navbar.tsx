@@ -22,43 +22,57 @@ export default function Navbar() {
   useEffect(() => {
     if (pathname?.startsWith("/admin")) return;
 
+    let ticking = false;
+
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setScrolled(scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          setScrolled(scrollY > 20);
 
-      if (pathname === "/") {
-        const sections = ["about", "projects", "services", "skills", "contact"];
-        const isBottom =
-          window.innerHeight + scrollY >=
-          document.documentElement.scrollHeight - 70;
+          if (pathname === "/") {
+            const isBottom =
+              window.innerHeight + scrollY >=
+              document.documentElement.scrollHeight - 80;
 
-        if (isBottom) {
-          setActiveSection("contact");
-          return;
-        }
+            if (isBottom) {
+              setActiveSection("contact");
+              ticking = false;
+              return;
+            }
 
-        if (scrollY < 180) {
-          setActiveSection("");
-          return;
-        }
+            if (scrollY < 180) {
+              setActiveSection("");
+              ticking = false;
+              return;
+            }
 
-        let current = "";
-        for (const section of sections) {
-          const el = document.getElementById(section);
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= 120) {
-              current = section;
+            // In actual DOM sequence on the page:
+            const sections = ["services", "skills", "projects", "about", "contact"];
+            const threshold = window.innerHeight * 0.35;
+            let current = "";
+
+            for (const section of sections) {
+              const el = document.getElementById(section);
+              if (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top <= threshold && rect.bottom >= 100) {
+                  current = section;
+                }
+              }
+            }
+            if (current) {
+              setActiveSection(current);
             }
           }
-        }
-        if (current) {
-          setActiveSection(current);
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
@@ -68,8 +82,15 @@ export default function Navbar() {
   ) => {
     if (link.sectionId && pathname === "/") {
       e.preventDefault();
-      smoothScrollTo(link.sectionId, 80);
-      setMenuOpen(false);
+      setActiveSection(link.sectionId);
+      if (menuOpen) {
+        setMenuOpen(false);
+        setTimeout(() => {
+          smoothScrollTo(link.sectionId, 80);
+        }, 80);
+      } else {
+        smoothScrollTo(link.sectionId, 80);
+      }
     } else {
       setMenuOpen(false);
     }
@@ -87,14 +108,15 @@ export default function Navbar() {
           : "bg-transparent border-b border-transparent py-4 sm:py-5"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         {/* Brand / Logo */}
         <Link
           href="/"
           onClick={(e) => {
             if (pathname === "/") {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              setActiveSection("");
+              smoothScrollTo("hero", 0);
             }
           }}
           className="group flex items-center font-mono text-sm sm:text-base tracking-widest font-bold select-none text-[#18181b] transition-opacity hover:opacity-80"
@@ -171,16 +193,24 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden border-b border-[#e5e5ea] bg-white/98 backdrop-blur-xl px-6 py-6 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link)}
-                className="py-2 text-base font-medium text-[#52525b] hover:text-[#18181b] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === "/" && activeSection === link.sectionId;
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(e, link)}
+                  className={`py-2 text-base font-medium transition-colors ${
+                    isActive
+                      ? "text-[#18181b] font-semibold"
+                      : "text-[#52525b] hover:text-[#18181b]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             <div className="mt-4 pt-4 border-t border-[#e5e5ea] flex flex-col gap-3">
               <a

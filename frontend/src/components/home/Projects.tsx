@@ -47,9 +47,21 @@ export default function Projects() {
     });
   }, [projectList, selectedCategory]);
 
+  // Resolves the best preview image for each project
+  const getProjectImage = (project: Project): string => {
+    if (project.image && project.image.trim().length > 0) {
+      return project.image;
+    }
+    const title = project.title.toLowerCase();
+    if (title.includes("portfolio")) return "/projects/portfolio.svg";
+    if (title.includes("titancore") || title.includes("construction")) return "/projects/titancore.svg";
+    if (title.includes("roadaware") || title.includes("hazard") || title.includes("safety")) return "/projects/roadaware.svg";
+    return "/projects/portfolio.svg";
+  };
+
   return (
-    <section id="projects" className="py-16 sm:py-20 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="projects" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -85,15 +97,16 @@ export default function Projects() {
 
         {/* Project Cards Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[1, 2].map((i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-[28px] border border-[#e5e5ea] p-6 h-80 animate-pulse flex flex-col justify-between"
+                className="bg-white rounded-[28px] border border-[#e5e5ea] p-6 h-96 animate-pulse flex flex-col justify-between"
               >
-                <div className="h-6 w-1/3 bg-gray-100 rounded" />
+                <div className="aspect-[16/10] w-full bg-gray-100 rounded-2xl mb-4" />
+                <div className="h-6 w-1/3 bg-gray-100 rounded mb-2" />
                 <div className="h-4 w-3/4 bg-gray-100 rounded" />
-                <div className="h-10 w-full bg-gray-100 rounded" />
+                <div className="h-10 w-full bg-gray-100 rounded mt-4" />
               </div>
             ))}
           </div>
@@ -104,22 +117,41 @@ export default function Projects() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="group bg-white rounded-[28px] sm:rounded-[32px] border border-[#e5e5ea] p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#d4d4d8] transition-all flex flex-col justify-between"
+                className="group bg-white rounded-[28px] sm:rounded-[32px] border border-[#e5e5ea] p-5 sm:p-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.06)] hover:border-[#d4d4d8] transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  {/* Category & Status */}
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-full bg-[#f4f4f6] text-[#52525b] border border-[#e5e5ea]">
-                      {project.category || "Full-Stack"}
-                    </span>
-                    {project.featured && (
-                      <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
-                        ★ Featured
+                  {/* Visual Preview Image Card */}
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 bg-[#f4f4f6] border border-[#e5e5ea]/80 shadow-[inset_0_1px_3px_rgba(0,0,0,0.02)]">
+                    <Image
+                      src={getProjectImage(project)}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    
+                    {/* Subtle hover overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] transition-colors pointer-events-none" />
+
+                    {/* Floating Category Tag */}
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#18181b] border border-[#e5e5ea] shadow-sm">
+                        {project.category || "Full-Stack"}
                       </span>
+                    </div>
+
+                    {/* Floating Featured Badge */}
+                    {project.featured && (
+                      <div className="absolute top-3 right-3">
+                        <span className="text-[10.5px] font-semibold text-emerald-700 bg-white/95 backdrop-blur-md border border-emerald-200/80 px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          Featured
+                        </span>
+                      </div>
                     )}
                   </div>
 
@@ -129,17 +161,17 @@ export default function Projects() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-[#71717a] mt-3 leading-relaxed">
+                  <p className="text-sm text-[#71717a] mt-2.5 leading-relaxed line-clamp-3">
                     {project.description}
                   </p>
 
                   {/* Tech Stack Chips */}
                   {project.technologies && project.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-5">
+                    <div className="flex flex-wrap gap-1.5 mt-4">
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[#f4f4f6] text-[#52525b]"
+                          className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[#f4f4f6] text-[#52525b] border border-[#e5e5ea]/50"
                         >
                           {tech}
                         </span>
@@ -148,14 +180,14 @@ export default function Projects() {
                   )}
                 </div>
 
-                {/* Project Links */}
-                <div className="flex items-center gap-3 pt-6 mt-6 border-t border-[#f4f4f6]">
+                {/* Project Action Links */}
+                <div className="flex items-center gap-3 pt-5 mt-5 border-t border-[#f4f4f6]">
                   {project.demo && (
                     <a
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#18181b] text-white hover:bg-black px-4 py-2 rounded-full transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#18181b] text-white hover:bg-black px-4 py-2 rounded-full transition-all shadow-sm hover:scale-105 active:scale-95"
                     >
                       <span>Live Demo</span>
                       <span>↗</span>
@@ -167,7 +199,7 @@ export default function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-[#52525b] hover:text-[#18181b] bg-[#f4f4f6] hover:bg-[#e4e4e7] px-4 py-2 rounded-full transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-[#52525b] hover:text-[#18181b] bg-[#f4f4f6] hover:bg-[#e4e4e7] border border-[#e5e5ea]/60 px-4 py-2 rounded-full transition-all hover:scale-105 active:scale-95"
                     >
                       <span>Source Code</span>
                       <span>↗</span>

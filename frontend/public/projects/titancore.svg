@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="tcBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="tcShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Dark Enterprise Background -->
+  <rect width="800" height="500" rx="20" fill="url(#tcBg)"/>
+
+  <!-- Blueprint Subtle Grid Lines -->
+  <g opacity="0.08" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="50" x2="800" y2="50"/>
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="500" y1="0" x2="500" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+    <line x1="700" y1="0" x2="700" y2="500"/>
+  </g>
+
+  <!-- Browser Header Window -->
+  <rect x="24" y="20" width="752" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <circle cx="46" cy="41" r="5" fill="#ef4444"/>
+  <circle cx="62" cy="41" r="5" fill="#f59e0b"/>
+  <circle cx="78" cy="41" r="5" fill="#10b981"/>
+
+  <rect x="230" y="27" width="340" height="28" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="400" y="45" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="500">🔒 https://www.titancore.me</text>
+
+  <rect x="655" y="30" width="105" height="22" rx="11" fill="#78350f" stroke="#d97706" stroke-width="1"/>
+  <text x="707" y="45" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#fef3c7" text-anchor="middle" font-weight="700">ENTERPRISE ERP</text>
+
+  <!-- Main Dashboard Viewport -->
+  <g transform="translate(24, 74)">
+    <!-- App Body Background -->
+    <rect width="752" height="406" rx="16" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Top App Navigation -->
+    <g transform="translate(24, 18)">
+      <!-- Brand Logo -->
+      <polygon points="12,4 22,20 2,20" fill="url(#goldAccent)"/>
+      <text x="32" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#ffffff">TITANCORE</text>
+      <text x="145" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">CONSTRUCTION ERP</text>
+
+      <!-- Right stats -->
+      <text x="510" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#94a3b8">Active Sites: <tspan fill="#ffffff" font-weight="700">18</tspan>   |   Personnel: <tspan fill="#ffffff" font-weight="700">240+</tspan></text>
+    </g>
+
+    <!-- App Content Grid -->
+    <g transform="translate(24, 52)">
+      <!-- Left Column: Primary Project Showcase Card -->
+      <rect x="0" y="0" width="450" height="240" rx="16" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#tcShadow)"/>
+      
+      <!-- Architectural Graphic Mockup -->
+      <g transform="translate(24, 24)">
+        <rect x="0" y="0" width="402" height="110" rx="10" fill="#131c2e" stroke="#1e293b" stroke-width="1"/>
+        <!-- Building Silhouette / Architectural lines -->
+        <polygon points="40,95 40,30 90,30 90,95" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+        <polygon points="105,95 105,15 175,15 175,95" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
+        <polygon points="190,95 190,45 235,45 235,95" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+        <polygon points="250,95 250,25 330,25 330,95" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+        <polygon points="345,95 345,55 385,55 385,95" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+        <!-- Grid Windows -->
+        <rect x="120" y="25" width="12" height="12" fill="#fbbf24" opacity="0.6"/>
+        <rect x="145" y="25" width="12" height="12" fill="#fbbf24" opacity="0.6"/>
+        <rect x="120" y="45" width="12" height="12" fill="#38bdf8" opacity="0.6"/>
+        <rect x="145" y="45" width="12" height="12" fill="#fbbf24" opacity="0.6"/>
+        
+        <text x="14" y="22" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="700" fill="#94a3b8">PROJECT: SKYLINE TOWERS &amp; RESIDENCES</text>
+        <rect x="330" y="8" width="60" height="18" rx="9" fill="#047857"/>
+        <text x="360" y="20.5" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" text-anchor="middle">PHASE 3</text>
+      </g>
+
+      <!-- Progress Meter -->
+      <g transform="translate(24, 155)">
+        <text x="0" y="14" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#ffffff">Construction Completion</text>
+        <text x="402" y="14" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#fbbf24" text-anchor="end">84.6%</text>
+
+        <!-- Progress Bar Track -->
+        <rect x="0" y="24" width="402" height="8" rx="4" fill="#334155"/>
+        <rect x="0" y="24" width="340" height="8" rx="4" fill="url(#goldAccent)"/>
+
+        <text x="0" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#94a3b8">Budget Allocation: $4.2M / $5.0M   •   Next Inspection: Thursday 10:00 AM</text>
+      </g>
+
+      <!-- Right Column: Live Telemetry & Quick Modules -->
+      <g transform="translate(470, 0)">
+        <!-- Card 1: Inventory Tracking -->
+        <rect x="0" y="0" width="234" height="112" rx="14" fill="#131c2e" stroke="#334155" stroke-width="1"/>
+        <text x="18" y="28" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">📦 INVENTORY &amp; LOGISTICS</text>
+        <text x="18" y="58" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="800" fill="#ffffff">1,420 Tons</text>
+        <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#94a3b8">Structural Steel &amp; Concrete logged</text>
+        <rect x="18" y="90" width="70" height="12" rx="6" fill="#065f46"/>
+        <text x="53" y="99" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="7.5" font-weight="700" fill="#34d399" text-anchor="middle">SUPPLY SAFE</text>
+
+        <!-- Card 2: Workforce & Payroll -->
+        <rect x="0" y="128" width="234" height="112" rx="14" fill="#131c2e" stroke="#334155" stroke-width="1"/>
+        <text x="18" y="156" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">👷 WORKFORCE TELEMETRY</text>
+        <text x="18" y="186" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="800" fill="#ffffff">98.2% Present</text>
+        <text x="18" y="206" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#94a3b8">18 Engineers, 220 Site Specialists</text>
+        <rect x="18" y="218" width="75" height="12" rx="6" fill="#1e3a8a"/>
+        <text x="55" y="227" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="7.5" font-weight="700" fill="#60a5fa" text-anchor="middle">SHIFT ACTIVE</text>
+      </g>
+    </g>
+
+    <!-- Bottom Tech Stack Pills -->
+    <g transform="translate(24, 312)">
+      <rect x="0" y="0" width="704" height="68" rx="14" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+      <text x="24" y="26" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">ARCHITECTURAL TECH STACK</text>
+      <text x="24" y="46" font-family="monospace" font-size="11" fill="#fbbf24">React  •  Node.js  •  Express  •  MongoDB  •  Tailwind CSS  •  JWT Auth  •  RESTful APIs</text>
+    </g>
+  </g>
+</svg>

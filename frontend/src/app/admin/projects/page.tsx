@@ -14,6 +14,7 @@ interface ProjectFormData {
   title: string;
   description: string;
   category: string;
+  image: string;
   technologies: string;
   github: string;
   demo: string;
@@ -26,6 +27,7 @@ const emptyForm: ProjectFormData = {
   title: "",
   description: "",
   category: "Full-Stack",
+  image: "",
   technologies: "",
   github: "",
   demo: "",
@@ -110,6 +112,7 @@ export default function AdminProjectsPage() {
       title: project.title,
       description: project.description,
       category: project.category,
+      image: project.image || "",
       technologies: Array.isArray(project.technologies)
         ? project.technologies.join(", ")
         : "",
@@ -144,6 +147,7 @@ export default function AdminProjectsPage() {
           title: formData.title.trim(),
           description: formData.description.trim(),
           category: formData.category.trim(),
+          image: formData.image.trim() || null,
           technologies: techArray,
           github: formData.github.trim() || null,
           demo: formData.demo.trim() || null,
@@ -159,6 +163,7 @@ export default function AdminProjectsPage() {
           title: formData.title.trim(),
           description: formData.description.trim(),
           category: formData.category.trim(),
+          image: formData.image.trim() || null,
           technologies: techArray,
           github: formData.github.trim() || null,
           demo: formData.demo.trim() || null,
@@ -532,6 +537,21 @@ export default function AdminProjectsPage() {
                     className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-[#71717a]">
+                  Preview Image URL / Path (e.g. /projects/portfolio.svg)
+                </label>
+                <input
+                  type="text"
+                  value={formData.image}
+                  onChange={(e) =>
+                    setFormData({ ...formData, image: e.target.value })
+                  }
+                  placeholder="/projects/portfolio.svg or https://..."
+                  className="w-full rounded-xl border border-[#e5e5ea] bg-[#f9f9fb] px-3.5 py-2.5 text-sm text-[#18181b] focus:border-[#18181b] focus:bg-white focus:outline-none"
+                />
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">

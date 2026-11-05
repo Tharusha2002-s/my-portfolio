@@ -34,18 +34,18 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6">
+    <section id="hero" className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6">
       {/* 1. Main Rounded Hero Card with Text Left & Photo Right */}
-      <div className="max-w-5xl mx-auto bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-12 lg:p-16 relative overflow-hidden">
-        
+      <div className="max-w-6xl xl:max-w-7xl mx-auto bg-white rounded-[32px] sm:rounded-[44px] border border-[#e5e5ea] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 sm:p-12 lg:p-16 relative overflow-hidden">
+
         {/* Subtle decorative background gradient */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-gray-50/80 to-transparent pointer-events-none rounded-tr-[44px]" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-12 items-center">
-          
+
           {/* Left Side: Typography & CTA */}
           <div className="flex flex-col items-start text-left">
-            
+
             {/* Availability Pill */}
             <div className="inline-flex items-center gap-2 bg-[#f4f4f6] border border-[#e5e5ea] rounded-full px-3.5 py-1 text-xs font-medium text-[#52525b] shadow-sm mb-5">
               <span className="relative flex h-2 w-2">
@@ -94,7 +94,7 @@ export default function Hero() {
               <div className="absolute -inset-3 rounded-full bg-gradient-to-tr from-gray-200/60 via-gray-100/40 to-transparent blur-xl -z-10" />
 
               {/* Circular Avatar Container */}
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/5 bg-gray-100 transition-transform duration-500 hover:scale-[1.02]">
+              <div className="relative w-98 h-98 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/5 bg-gray-100 transition-transform duration-500 hover:scale-[1.02]">
                 <Image
                   src="/profile.png"
                   alt="Tharusha Sangeeth"
@@ -120,7 +120,7 @@ export default function Hero() {
       </div>
 
       {/* 2. Technologies / Brand Logo Strip with Infinite Moving Cycle (Matches Reference Image) */}
-      <div className="max-w-5xl mx-auto mt-12 sm:mt-16 pt-2 overflow-hidden relative">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto mt-12 sm:mt-16 pt-2 overflow-hidden relative">
         {/* Left & Right Edge Gradient Fade Masks */}
         <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#f4f4f6] to-transparent z-10" />
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#f4f4f6] to-transparent z-10" />

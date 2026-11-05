@@ -68,7 +68,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6">
+    <section id="contact" className="scroll-mt-20 sm:scroll-mt-24 py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         
         {/* Large Rounded Contact Card (Matches Bottom Section of Reference Image) */}
